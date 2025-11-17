@@ -41,6 +41,7 @@ function NavItem({ to, icon: Icon }) {
           className="flex items-center justify-center px-5 py-3"
         >
           <Icon
+            strokeWidth={2.5}
             className={`!size-6 transition-colors ${
               match ? "text-foreground" : "text-muted-foreground"
             }`}
@@ -63,7 +64,7 @@ function CreateButton({ icon: Icon }) {
         onClick={handleClick}
       >
         <div className="flex items-center justify-center px-5 py-3">
-          <Icon className="!size-6 transition-colors" />
+          <Icon strokeWidth={2.5} className="!size-6 transition-colors" />
         </div>
       </SidebarMenuButton>
     </SidebarMenuItem>
@@ -71,6 +72,9 @@ function CreateButton({ icon: Icon }) {
 }
 
 const Navbar = () => {
+  const handleMenuClick = () => {
+    console.log("Menu button clicked - Modal should open here");
+  };
   return (
     <Sidebar collapsible="offcanvas" className="flex flex-col justify-between">
       <SidebarHeader className="flex items-center justify-center">
@@ -92,12 +96,13 @@ const Navbar = () => {
       </SidebarContent>
       <SidebarFooter className="flex items-center justify-center">
         <Button
+          onClick={handleMenuClick}
           variant="ghost"
           size="icon"
           aria-label="Menu"
           className="flex items-center justify-center hover:bg-transparent active:bg-transparent cursor-pointer text-muted-foreground hover:text-foreground transition-all active:scale-90"
         >
-          <Menu className="!size-7" />
+          <Menu strokeWidth={2.5} className="!size-7" />
         </Button>
       </SidebarFooter>
     </Sidebar>

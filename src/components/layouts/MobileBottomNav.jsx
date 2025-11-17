@@ -1,65 +1,55 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { Home, Search, PlusCircle, Heart, User } from "lucide-react";
+import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
+import { Home, Search, Heart, User, Plus } from "lucide-react";
+import { Button } from "../ui/button";
+
+function MobileNavItem({ to, icon: Icon }) {
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname, end: to === "/" });
+
+  return (
+    <NavLink
+      to={to}
+      end={to === "/"}
+      className="flex flex-col items-center justify-center gap-1 transition-all active:scale-90 w-16 h-10 rounded-lg"
+    >
+      <Icon
+        strokeWidth={2.5}
+        className={`size-6 transition-colors ${
+          match ? "text-foreground" : "text-muted-foreground"
+        }`}
+      />
+    </NavLink>
+  );
+}
+
+function MobileCreateButton({ icon: Icon }) {
+  const handleClick = () => {
+    console.log("Create button clicked - Modal should open here");
+  };
+
+  return (
+    <Button
+      onClick={handleClick}
+      className="flex flex-col items-center justify-center transition-all active:scale-90 bg-sidebar-accent cursor-pointer text-muted-foreground w-16 h-10 rounded-md"
+    >
+      <Icon strokeWidth={2.5} className="size-6" />
+    </Button>
+  );
+}
 
 const MobileBottomNav = () => {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:hidden"
       aria-label="Mobile navigation"
     >
-      <div className="flex items-center justify-around px-4 py-3">
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 ${
-              isActive ? "text-foreground" : "text-muted-foreground"
-            }`
-          }
-        >
-          <Home className="size-6" />
-        </NavLink>
-        <NavLink
-          to="/search"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 ${
-              isActive ? "text-foreground" : "text-muted-foreground"
-            }`
-          }
-        >
-          <Search className="size-6" />
-        </NavLink>
-        <NavLink
-          to="/create"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 ${
-              isActive ? "text-foreground" : "text-muted-foreground"
-            }`
-          }
-        >
-          <PlusCircle className="size-6" />
-        </NavLink>
-        <NavLink
-          to="/activity"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 ${
-              isActive ? "text-foreground" : "text-muted-foreground"
-            }`
-          }
-        >
-          <Heart className="size-6" />
-        </NavLink>
-        <NavLink
-          to="/profile"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 ${
-              isActive ? "text-foreground" : "text-muted-foreground"
-            }`
-          }
-        >
-          <User className="size-6" />
-        </NavLink>
+      <div className="flex items-center justify-around px-1 py-1">
+        <MobileNavItem to="/" icon={Home} />
+        <MobileNavItem to="/search" icon={Search} />
+        <MobileCreateButton icon={Plus} />
+        <MobileNavItem to="/activity" icon={Heart} />
+        <MobileNavItem to="/profile" icon={User} />
       </div>
     </nav>
   );
