@@ -8,8 +8,12 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarSeparator,
 } from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Home, Search, Heart, User, Menu, Plus } from "lucide-react";
 
@@ -24,50 +28,64 @@ const ThreadsLogo = () => (
   </svg>
 );
 
-function NavItem({ to, icon: Icon }) {
+function NavItem({ to, icon: Icon, toolTipContent = "" }) {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: to === "/" });
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton
-        asChild
-        isActive={!!match}
-        className="flex items-center justify-center w-16 h-12 rounded-lg transition-transform active:scale-90"
-      >
-        <NavLink
-          to={to}
-          end={to === "/"}
-          aria-current={match ? "page" : undefined}
-          className="flex items-center justify-center px-5 py-3"
-        >
-          <Icon
-            strokeWidth={2.5}
-            className={`!size-6 transition-colors ${
-              match ? "text-foreground" : "text-muted-foreground"
-            }`}
-          />
-        </NavLink>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            asChild
+            isActive={!!match}
+            className="flex items-center justify-center w-16 h-12 rounded-lg transition-transform active:scale-90"
+          >
+            <NavLink
+              to={to}
+              end={to === "/"}
+              aria-current={match ? "page" : undefined}
+              className="flex items-center justify-center px-5 py-3"
+            >
+              <Icon
+                strokeWidth={2.5}
+                className={`!size-6 transition-colors ${
+                  match ? "text-foreground" : "text-muted-foreground"
+                }`}
+              />
+            </NavLink>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </TooltipTrigger>
+      <TooltipContent side="right">
+        <p>{toolTipContent}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
-function CreateButton({ icon: Icon }) {
+function CreateButton({ icon: Icon, toolTipContent = "" }) {
   const handleClick = () => {
     console.log("Create button clicked - Modal should open here");
   };
 
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton
-        className="flex items-center justify-center w-16 h-12 rounded-lg bg-sidebar-accent cursor-pointer text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/80 transition-all active:scale-90"
-        onClick={handleClick}
-      >
-        <div className="flex items-center justify-center px-5 py-3">
-          <Icon strokeWidth={2.5} className="!size-6 transition-colors" />
-        </div>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            className="flex items-center justify-center w-16 h-12 rounded-lg bg-sidebar-accent cursor-pointer text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/80 transition-all active:scale-90"
+            onClick={handleClick}
+          >
+            <div className="flex items-center justify-center px-5 py-3">
+              <Icon strokeWidth={2.5} className="!size-6 transition-colors" />
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </TooltipTrigger>
+      <TooltipContent side="right">
+        <p>{toolTipContent}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -87,23 +105,30 @@ const Navbar = () => {
       </SidebarHeader>
       <SidebarContent className="flex items-center">
         <SidebarMenu className="flex-1 flex flex-col justify-center items-center gap-4 w-full">
-          <NavItem to="/" icon={Home} />
-          <NavItem to="/search" icon={Search} />
-          <CreateButton icon={Plus} />
-          <NavItem to="/activity" icon={Heart} />
-          <NavItem to="/profile" icon={User} />
+          <NavItem to="/" icon={Home} toolTipContent="Home" />
+          <NavItem to="/search" icon={Search} toolTipContent="Search" />
+          <CreateButton icon={Plus} toolTipContent="Create" />
+          <NavItem to="/activity" icon={Heart} toolTipContent="Activity" />
+          <NavItem to="/profile" icon={User} toolTipContent="Profile" />
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="flex items-center justify-center">
-        <Button
-          onClick={handleMenuClick}
-          variant="ghost"
-          size="icon"
-          aria-label="Menu"
-          className="flex items-center justify-center hover:bg-transparent active:bg-transparent cursor-pointer text-muted-foreground hover:text-foreground transition-all active:scale-90"
-        >
-          <Menu strokeWidth={2.5} className="!size-7" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={handleMenuClick}
+              variant="ghost"
+              size="icon"
+              aria-label="Menu"
+              className="flex items-center justify-center hover:bg-transparent active:bg-transparent cursor-pointer text-muted-foreground hover:text-foreground transition-all active:scale-90"
+            >
+              <Menu strokeWidth={2.5} className="!size-7" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            <p>Menu</p>
+          </TooltipContent>
+        </Tooltip>
       </SidebarFooter>
     </Sidebar>
   );
