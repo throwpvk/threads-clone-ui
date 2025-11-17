@@ -1,0 +1,12 @@
+{
+  "home": "Trang chủ",
+  "create": "Tạo",
+  "samplePost": {
+    "user": "Tên người dùng",
+    "handle": "@username · 2 giờ",
+    "content": "Đây là nội dung mẫu cho bài viết. Sử dụng các biến màu để giữ nhất quán giữa light và dark theme.",
+    "like": "Thích",
+    "reply": "Phản hồi",
+    "share": "Chia sẻ"
+  }
+}

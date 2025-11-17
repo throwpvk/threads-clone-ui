@@ -1,0 +1,12 @@
+{
+  "home": "Home",
+  "create": "Create",
+  "samplePost": {
+    "user": "User Name",
+    "handle": "@username · 2h",
+    "content": "This is a sample post content. Use colors from the design tokens to stay consistent between light and dark themes.",
+    "like": "Like",
+    "reply": "Reply",
+    "share": "Share"
+  }
+}
