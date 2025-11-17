@@ -28,11 +28,23 @@ module.exports = {
         "sidebar-primary-foreground": "var(--color-sidebar-primary-foreground)",
         "sidebar-accent": "var(--color-sidebar-accent)",
         "sidebar-accent-foreground": "var(--color-sidebar-accent-foreground)",
+        /* Chart colors referenced from CSS variables */
+        "chart-1": "var(--color-chart-1)",
+        "chart-2": "var(--color-chart-2)",
+        "chart-3": "var(--color-chart-3)",
+        "chart-4": "var(--color-chart-4)",
+        "chart-5": "var(--color-chart-5)",
+        /* Sidebar extras */
+        "sidebar-border": "var(--color-sidebar-border)",
+        "sidebar-ring": "var(--color-sidebar-ring)",
       },
       borderRadius: {
         lg: "var(--radius-lg)",
         md: "var(--radius-md)",
         sm: "var(--radius-sm)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)"],
       },
     },
   },

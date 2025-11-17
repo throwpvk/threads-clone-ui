@@ -43,6 +43,13 @@
 
 :root {
   --radius: 0.625rem;
+  /* System font stack used across the app */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  /* Standard transition duration for UI interactions */
+  --transition-duration: 200ms;
+  /* Small elevation shadow (can be referenced by components) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -116,5 +123,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 }
