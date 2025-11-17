@@ -26,7 +26,7 @@ export default function AppRoutes() {
           <Route path="ghost" element={<GhostPostsPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="activity" element={<ActivityPage />} />
-          <Route path="profile/:username" element={<ProfilePage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="profile/:username/insights" element={<InsightsPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="saved" element={<SavedPage />} />
