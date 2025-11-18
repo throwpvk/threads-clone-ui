@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 import {
@@ -94,7 +95,10 @@ const Navbar = () => {
     console.log("Menu button clicked - Modal should open here");
   };
   return (
-    <Sidebar collapsible="offcanvas" className="flex flex-col justify-between">
+    <Sidebar
+      collapsible="offcanvas"
+      className="flex flex-col justify-between bg-sidebar backdrop-blur supports-[backdrop-filter]:bg-sidebar/80 py-2"
+    >
       <SidebarHeader className="flex items-center justify-center">
         <NavLink
           to="/"
