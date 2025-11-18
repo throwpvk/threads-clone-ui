@@ -1,9 +1,9 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import Navbar from "./Navbar.jsx";
-import MobileHeader from "./MobileHeader.jsx";
-import MobileBottomNav from "./MobileBottomNav.jsx";
+import Navbar from "./components/Navbar.jsx";
+import MobileHeader from "./components/MobileHeader.jsx";
+import MobileBottomNav from "./components/MobileBottomNav.jsx";
 
 export default function DefaultLayout() {
   return (
