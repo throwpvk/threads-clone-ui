@@ -2,6 +2,7 @@ import React from "react";
 import Column from "./Column";
 import { Columns } from "lucide-react";
 import clsx from "clsx";
+import { Button } from "../ui/button";
 
 export default function ColumnsManager({ columns = [] }) {
   return (
@@ -20,16 +21,13 @@ export default function ColumnsManager({ columns = [] }) {
           </div>
         ))}
 
-        {/* Desktop-only add-column rail */}
-        <div className="hidden md:flex w-[50px] items-center justify-start pl-2">
-          <button
-            type="button"
-            aria-label="Add column"
-            className="flex items-center justify-center p-1 rounded-md hover:bg-accent"
+        <div className="hidden md:flex flex-col w-[50px] h-[100vh] items-center justify-center">
+          <Button
+            className="flex items-center justify-center bg-transparent text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent"
             onClick={() => console.log("Add column (desktop) clicked")}
           >
-            <Columns className="h-5 w-5 text-sidebar-foreground" />
-          </button>
+            <Columns strokeWidth={2} className="!size-6" />
+          </Button>
         </div>
       </div>
     </div>
