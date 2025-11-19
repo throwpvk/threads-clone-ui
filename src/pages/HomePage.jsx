@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ColumnsManager from "@/components/layouts/components/ColumnsManager";
+import ColumnsManager from "@/components/columns/ColumnsManager";
 
 export default function HomePage() {
   const [columns, setColumns] = useState([
