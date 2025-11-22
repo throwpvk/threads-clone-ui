@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ThreadsLogo({ className = "size-8" }) {
+export default function ThreadsLogo({ className = "size-[34px]" }) {
   return (
     <svg
       viewBox="0 0 192 192"

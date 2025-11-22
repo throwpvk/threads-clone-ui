@@ -10,7 +10,7 @@ export default function MobileCreateButton({ icon }) {
   return (
     <Button
       onClick={handleClick}
-      className="flex flex-col items-center justify-center transition-all active:scale-90 bg-sidebar-accent cursor-pointer text-muted-foreground w-16 h-10 rounded-md"
+      className="flex flex-col items-center justify-center transition-all active:scale-90 bg-sidebar-accent cursor-pointer text-muted-foreground w-16 h-10 rounded-xl"
       aria-label="Create post"
     >
       <Icon className="size-6" />

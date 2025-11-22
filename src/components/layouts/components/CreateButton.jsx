@@ -17,7 +17,7 @@ export default function CreateButton({ icon, toolTipContent = "" }) {
       <TooltipTrigger asChild>
         <SidebarMenuItem>
           <SidebarMenuButton
-            className="flex items-center justify-center w-16 h-12 rounded-lg bg-sidebar-accent cursor-pointer text-muted-foreground/50 hover:text-foreground hover:bg-sidebar-accent/80 transition-all active:scale-90"
+            className="flex items-center justify-center w-15 h-12 rounded-xl bg-sidebar-accent cursor-pointer text-muted-foreground/50 hover:text-foreground hover:bg-sidebar-accent/80 transition-all active:scale-90"
             onClick={handleClick}
             aria-label={toolTipContent}
           >

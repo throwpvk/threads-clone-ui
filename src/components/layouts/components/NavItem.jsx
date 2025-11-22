@@ -19,7 +19,7 @@ export default function NavItem({ to, icon, toolTipContent = "" }) {
           <SidebarMenuButton
             asChild
             isActive={!!match}
-            className="flex items-center justify-center w-16 h-12 rounded-lg transition-transform active:scale-90"
+            className="flex items-center justify-center w-15 h-12 rounded-xl transition-transform active:scale-90"
           >
             <NavLink
               to={to}
