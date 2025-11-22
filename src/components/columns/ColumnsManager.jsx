@@ -22,13 +22,21 @@ export default function ColumnsManager({
 
   useEffect(() => {
     if (isMultiColumn) {
-      document.body.style.overflow = "hidden";
+      // Lưu scroll position hiện tại
+      const scrollY = window.scrollY;
+      document.body.style.top = `-${scrollY}px`;
+      document.body.classList.add("lock-scroll");
     } else {
-      document.body.style.overflow = "";
+      document.body.classList.remove("lock-scroll");
+      // Restore scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.top = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("lock-scroll");
+      document.body.style.top = "";
     };
   }, [isMultiColumn]);
 
@@ -56,7 +64,7 @@ export default function ColumnsManager({
         ref={scrollContainerRef}
         className={clsx("flex items-start", {
           "justify-center": isSingleColumn,
-          "h-full w-full pl-20 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
+          "h-full w-full pl-24 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
             isMultiColumn,
         })}
       >
@@ -71,7 +79,7 @@ export default function ColumnsManager({
               key={col.id ?? i}
               className={clsx("shrink-0", {
                 "hidden md:block": i > 0,
-                "w-[100vw] md:w-[560px] lg:w-auto lg:max-w-[640px] lg:min-w-[420px]":
+                "w-screen md:w-[560px] lg:w-auto lg:max-w-[640px] lg:min-w-[420px]":
                   isSingleColumn,
                 [getColumnWidthClass()]: isMultiColumn,
               })}

@@ -1,7 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { Navbar, MobileHeader, MobileBottomNav } from "./components";
+import {
+  Navbar,
+  MobileHeader,
+  MobileBottomNav,
+  CreateButtonFixed,
+} from "./components";
 
 export default function DefaultLayout() {
   return (
@@ -14,6 +19,7 @@ export default function DefaultLayout() {
             <Outlet />
           </div>
         </SidebarInset>
+        <CreateButtonFixed />
         <MobileBottomNav />
       </div>
     </SidebarProvider>
