@@ -7,12 +7,8 @@ import {
   SidebarHeader,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { DropMenu, NavMenuContent } from "@/components/dropMenuContent";
 import {
   HomeIcon,
   SearchIcon,
@@ -26,10 +22,6 @@ import NavItem from "./NavItem";
 import CreateButton from "./CreateButton";
 
 const Navbar = () => {
-  const handleMenuClick = () => {
-    // TODO
-  };
-
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -54,22 +46,16 @@ const Navbar = () => {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="flex items-center justify-center">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              onClick={handleMenuClick}
-              variant="ghost"
-              size="icon"
-              aria-label="Menu"
-              className="flex items-center justify-center hover:bg-transparent active:bg-transparent cursor-pointer text-muted-foreground hover:text-foreground transition-all active:scale-90"
-            >
-              <MenuIcon className="size-7!" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right">
-            <p>Menu</p>
-          </TooltipContent>
-        </Tooltip>
+        <DropMenu content={<NavMenuContent />}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Menu"
+            className="flex items-center justify-center hover:bg-transparent active:bg-transparent cursor-pointer text-muted-foreground hover:text-foreground transition-all active:scale-90"
+          >
+            <MenuIcon className="size-7!" />
+          </Button>
+        </DropMenu>
       </SidebarFooter>
     </Sidebar>
   );
