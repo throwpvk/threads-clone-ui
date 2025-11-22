@@ -1,7 +1,6 @@
 import React from "react";
-import { Menu } from "lucide-react";
+import { MenuIcon, ThreadsLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import ThreadsLogo from "@/components/common/ThreadsLogo";
 
 const MobileHeader = () => {
   const handleMenuClick = () => {
@@ -18,7 +17,7 @@ const MobileHeader = () => {
           className="text-muted-foreground active:text-foreground hover:bg-transparent active:bg-transparent transition-transform active:scale-90"
           aria-label="Menu"
         >
-          <Menu strokeWidth={2.5} className="size-6" />
+          <MenuIcon className="size-6" />
         </Button>
         <div className="absolute left-1/2 -translate-x-1/2">
           <ThreadsLogo className="size-8" />
