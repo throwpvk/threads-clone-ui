@@ -17,14 +17,10 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground font-sans">
-      <div className="mx-auto p-4">
-        <ColumnsManager
-          columns={columns}
-          hasAddColumnBtn={true}
-          onAddColumn={handleAddColumn}
-        />
-      </div>
-    </main>
+    <ColumnsManager
+      columns={columns}
+      hasAddColumnBtn={true}
+      onAddColumn={handleAddColumn}
+    />
   );
 }

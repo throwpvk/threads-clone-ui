@@ -10,11 +10,12 @@ export default function ColumnsManager({
 }) {
   const isSingleColumn = columns.length === 1;
   const isMultiColumn = columns.length >= 2;
+  const scrollContainerRef = React.useRef(null);
 
   // Tính width cho multiple columns
   const getColumnWidthClass = () => {
     const colCount = columns.length;
-    if (colCount === 2) return "w-[45%] min-w-[420px]";
+    if (colCount === 2) return "w-[45%] min-w-[420px] max-w-[640px]";
     if (colCount === 3) return "w-[30%] min-w-[420px]";
     return "w-[420px]"; // 4+ columns
   };
@@ -33,6 +34,15 @@ export default function ColumnsManager({
 
   const handleAddColumn = () => {
     onAddColumn?.();
+    // Scroll sang phải sau khi add column
+    setTimeout(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTo({
+          left: scrollContainerRef.current.scrollWidth,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
   return (
@@ -43,16 +53,17 @@ export default function ColumnsManager({
       })}
     >
       <div
-        className={clsx("", {
-          "": isSingleColumn,
-          "overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
+        ref={scrollContainerRef}
+        className={clsx("flex items-start py-4", {
+          "justify-center": isSingleColumn,
+          "h-full w-full pl-20 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
             isMultiColumn,
         })}
       >
         <div
-          className={clsx("flex items-start py-4", {
-            "justify-center": isSingleColumn,
-            "justify-around h-full px-20": isMultiColumn,
+          className={clsx("flex items-start", {
+            "mx-auto": isMultiColumn,
+            "h-full": isMultiColumn,
           })}
         >
           {columns.map((col, i) => (

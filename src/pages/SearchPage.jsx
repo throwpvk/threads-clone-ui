@@ -13,7 +13,7 @@ export default function SearchPage() {
   return (
     <main className="min-h-screen bg-background text-foreground font-sans">
       <div className="mx-auto p-4">
-        <ColumnsManager columns={columns} />
+        <ColumnsManager columns={columns} hasAddColumnBtn={true} />
       </div>
     </main>
   );

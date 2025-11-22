@@ -1,4 +1,4 @@
-import { Columns } from "lucide-react";
+import AddColumnIcon from "@/components/icons/AddColumnIcon";
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,10 +18,10 @@ const AddColumnButton = ({
           variant="ghost"
           size="icon"
           onClick={handleAddColumn}
-          className="w-12 h-12 rounded-full text-muted-foreground/60 hover:text-foreground hover:bg-muted/50"
+          className="m-6 w-10 h-10 flex items-center justify-center rounded-full text-muted-foreground/40 hover:text-foreground bg-muted/50 over:bg-muted/50"
           aria-label="Add column"
         >
-          <Columns strokeWidth={2} className="size-6" />
+          <AddColumnIcon className="size-5" width={20} height={20} />
         </Button>
       </TooltipTrigger>
       <TooltipContent side="right">
