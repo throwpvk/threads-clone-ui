@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <Sidebar
       collapsible="offcanvas"
-      className="flex flex-col justify-between bg-sidebar backdrop-blur supports-backdrop-filter:bg-sidebar/80 py-2"
+      className="flex flex-col justify-between bg-sidebar backdrop-blur supports-backdrop-filter:bg-sidebar/80 pb-4"
     >
       <SidebarHeader className="flex items-center justify-center">
         <NavLink
@@ -51,7 +51,7 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             aria-label="Menu"
-            className="flex items-center justify-center hover:bg-transparent active:bg-transparent cursor-pointer text-muted-foreground hover:text-foreground transition-all active:scale-90"
+            className="flex items-center justify-center text-muted-foreground/50 hover:bg-transparent! active:bg-transparent cursor-pointer hover:text-foreground transition-all active:scale-90"
           >
             <MenuIcon className="size-7!" />
           </Button>
