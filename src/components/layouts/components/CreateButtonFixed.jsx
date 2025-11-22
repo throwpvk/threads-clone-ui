@@ -20,7 +20,7 @@ export default function CreateButtonFixed({
             size="icon"
             onClick={handleCreate}
             aria-label={tooltipContent}
-            className="w-20 h-17 rounded-2xl flex items-center justify-center text-foreground hover:scale-110 bg-popover border-2 hover:bg-popover transition-all ease-out"
+            className="w-[82px] h-[68px] rounded-2xl flex items-center justify-center text-foreground hover:scale-110 bg-popover border border-border shadow-lg hover:bg-popover transition-all ease-out"
             style={{ transitionDuration: "var(--transition-duration)" }}
           >
             <PlusIcon className="size-7" />
