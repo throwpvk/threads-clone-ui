@@ -54,14 +54,14 @@ export default function ColumnsManager({
     >
       <div
         ref={scrollContainerRef}
-        className={clsx("flex items-start py-4", {
+        className={clsx("flex items-start", {
           "justify-center": isSingleColumn,
           "h-full w-full pl-20 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
             isMultiColumn,
         })}
       >
         <div
-          className={clsx("flex items-start", {
+          className={clsx("flex items-start gap-4", {
             "mx-auto": isMultiColumn,
             "h-full": isMultiColumn,
           })}
@@ -69,9 +69,9 @@ export default function ColumnsManager({
           {columns.map((col, i) => (
             <div
               key={col.id ?? i}
-              className={clsx("shrink-0 ml-4", {
+              className={clsx("shrink-0", {
                 "hidden md:block": i > 0,
-                "w-[90vw] md:w-[560px] lg:w-auto lg:max-w-[640px] lg:min-w-[420px]":
+                "w-[100vw] md:w-[560px] lg:w-auto lg:max-w-[640px] lg:min-w-[420px]":
                   isSingleColumn,
                 [getColumnWidthClass()]: isMultiColumn,
               })}
