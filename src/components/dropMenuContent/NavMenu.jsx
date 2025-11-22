@@ -9,11 +9,11 @@ import { ChevronRight } from "lucide-react";
 export const NavMenuContent = () => {
   return (
     <DropdownMenuContent
-      className="w-60 ml-4 p-3 mb-2 rounded-2xl bg-ring border-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-0 data-[state=closed]:zoom-out-95 origin-bottom-left ease-out"
+      className="w-60 ml-4 py-2 mb-2 rounded-2xl bg-ring border-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-0 data-[state=closed]:zoom-out-95 origin-bottom-left ease-out"
       style={{ animationDuration: "var(--transition-duration)" }}
       align="end"
     >
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Appearance
         <DropdownMenuShortcut>
           <ChevronRight
@@ -22,14 +22,14 @@ export const NavMenuContent = () => {
           />
         </DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Insights
       </DropdownMenuItem>
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Settings
       </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuSeparator className="my-2" />
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Feeds
         <DropdownMenuShortcut>
           <ChevronRight
@@ -38,17 +38,17 @@ export const NavMenuContent = () => {
           />
         </DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Saved
       </DropdownMenuItem>
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Liked
       </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem className="pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuSeparator className="my-2" />
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
         Report a problem
       </DropdownMenuItem>
-      <DropdownMenuItem className="pl-3 py-3 text-base text-red-500 font-bold focus:bg-input/30 focus:text-red-500 rounded-lg">
+      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base text-red-500 font-bold focus:bg-input/30 focus:text-red-500 rounded-lg">
         Log out
       </DropdownMenuItem>
     </DropdownMenuContent>
