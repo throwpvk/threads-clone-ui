@@ -1,6 +1,4 @@
 import { useState } from "react";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { NavMenuItems } from "./NavMenuItems";
 import { AppearanceMenuItems } from "./AppearanceMenuItems";
@@ -57,33 +55,27 @@ export const MenuNavigator = () => {
         setIsForward(true);
       }}
     >
-      <motion.div
-        animate={{ width: currentMenu === "appearance" ? 314 : 240 }}
-        transition={{
-          duration: 0.1,
-          ease: "easeInOut",
-        }}
+      <MotionWrapper
+        motionKey={currentMenu}
+        direction={getMotionDirection()}
+        duration={0.15}
+        ease="easeInOut"
+        mode="wait"
+        initial={false}
+        wrapperAnimate={{ width: currentMenu === "appearance" ? 314 : 240 }}
+        wrapperTransition={{ duration: 0.1, ease: "easeInOut" }}
       >
-        <MotionWrapper
-          motionKey={currentMenu}
-          direction={getMotionDirection()}
-          duration={0.15}
-          ease="easeInOut"
-          mode="wait"
-          initial={false}
-        >
-          {currentMenu === "appearance" ? (
-            <AppearanceMenuItems onBack={handleBackToNav} />
-          ) : currentMenu === "feeds" ? (
-            <FeedMenuItems onBack={handleBackToNav} />
-          ) : (
-            <NavMenuItems
-              onNavigateToAppearance={handleNavigateToAppearance}
-              onNavigateToFeeds={handleNavigateToFeeds}
-            />
-          )}
-        </MotionWrapper>
-      </motion.div>
+        {currentMenu === "appearance" ? (
+          <AppearanceMenuItems onBack={handleBackToNav} />
+        ) : currentMenu === "feeds" ? (
+          <FeedMenuItems onBack={handleBackToNav} />
+        ) : (
+          <NavMenuItems
+            onNavigateToAppearance={handleNavigateToAppearance}
+            onNavigateToFeeds={handleNavigateToFeeds}
+          />
+        )}
+      </MotionWrapper>
     </DropdownMenuContent>
   );
 };

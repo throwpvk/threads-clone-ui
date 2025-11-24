@@ -1,6 +1,10 @@
 export { default as NavItem } from "./NavItem";
 export { default as CreateButton } from "./CreateButton";
 export { default as CreateButtonFixed } from "./CreateButtonFixed";
+export { CreateCardFixed } from "./CreateCardFixed";
+export { CreateThreadHeader } from "./CreateThreadHeader";
+export { CreateThreadContent } from "./CreateThreadContent";
+export { CreateThreadFooter } from "./CreateThreadFooter";
 export { default as MobileNavItem } from "./MobileNavItem";
 export { default as MobileCreateButton } from "./MobileCreateButton";
 export { default as Navbar } from "./Navbar";

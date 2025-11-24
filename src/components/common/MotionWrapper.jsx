@@ -15,8 +15,12 @@ import {
  * @param {string|Array} props.ease - Easing function (default: "easeInOut")
  * @param {string} props.mode - AnimatePresence mode: "wait" | "sync" | "popLayout" (default: "wait")
  * @param {boolean} props.initial - Enable initial animation (default: false)
- * @param {Object} props.style - Additional inline styles
- * @param {string} props.className - CSS classes
+ * @param {Object} props.style - Additional inline styles cho content
+ * @param {string} props.className - CSS classes cho content
+ * @param {Object} props.wrapperAnimate - Motion animate props cho wrapper (e.g., {width: 300})
+ * @param {Object} props.wrapperTransition - Transition config cho wrapper animation
+ * @param {Object} props.wrapperStyle - Inline styles cho wrapper
+ * @param {string} props.wrapperClassName - CSS classes cho wrapper
  *
  * @example
  * // Basic usage
@@ -25,11 +29,13 @@ import {
  * </MotionWrapper>
  *
  * @example
- * // Menu navigation với preset
+ * // Menu navigation với wrapper animation
  * <MotionWrapper
  *   motionKey={currentMenu}
  *   direction={isForward ? MOTION_PRESETS.MENU_FORWARD : MOTION_PRESETS.MENU_BACKWARD}
  *   duration={0.2}
+ *   wrapperAnimate={{ width: currentMenu === "appearance" ? 314 : 240 }}
+ *   wrapperTransition={{ duration: 0.1, ease: "easeInOut" }}
  * >
  *   <MenuItems />
  * </MotionWrapper>
@@ -44,9 +50,13 @@ export const MotionWrapper = ({
   initial = false,
   style,
   className,
+  wrapperAnimate,
+  wrapperTransition,
+  wrapperStyle,
+  wrapperClassName,
   ...props
 }) => {
-  return (
+  const content = (
     <AnimatePresence mode={mode} initial={initial}>
       <motion.div
         key={motionKey}
@@ -66,4 +76,20 @@ export const MotionWrapper = ({
       </motion.div>
     </AnimatePresence>
   );
+
+  // Nếu có wrapper animation, bọc thêm một layer motion.div
+  if (wrapperAnimate) {
+    return (
+      <motion.div
+        animate={wrapperAnimate}
+        transition={wrapperTransition}
+        style={wrapperStyle}
+        className={wrapperClassName}
+      >
+        {content}
+      </motion.div>
+    );
+  }
+
+  return content;
 };

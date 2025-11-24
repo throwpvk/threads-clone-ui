@@ -52,6 +52,18 @@ export const MOTION_DIRECTIONS = {
     exit: { opacity: 0, x: 0, y: 0 },
   },
 
+  // Scale animations (zoom in/out from center)
+  SCALE_UP: {
+    initial: { opacity: 0, scale: 0.9 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.9 },
+  },
+  SCALE_DOWN: {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 1.1 },
+  },
+
   // No animation
   NONE: {
     initial: { opacity: 1, x: 0, y: 0 },
@@ -68,7 +80,8 @@ export const DEFAULT_MOTION_CONFIG = {
 export const MOTION_PRESETS = {
   MENU_FORWARD: MOTION_DIRECTIONS.BOTTOM_LEFT_TO_TOP_RIGHT,
   MENU_BACKWARD: MOTION_DIRECTIONS.TOP_RIGHT_TO_BOTTOM_LEFT,
-  MODAL: MOTION_DIRECTIONS.FADE,
+  MODAL: MOTION_DIRECTIONS.SCALE_UP,
+  FADE_ONLY: MOTION_DIRECTIONS.FADE,
   SLIDE_IN_RIGHT: MOTION_DIRECTIONS.RIGHT_TO_LEFT,
   SLIDE_IN_LEFT: MOTION_DIRECTIONS.LEFT_TO_RIGHT,
 };
