@@ -1,50 +1,45 @@
 import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { NavMenuItems } from "./NavMenuItems";
 import { AppearanceMenuItems } from "./AppearanceMenuItems";
 import { FeedMenuItems } from "./FeedMenuItems";
+import { MotionWrapper } from "@/components/common/MotionWrapper";
+import { MOTION_DIRECTIONS, MOTION_PRESETS } from "@/constants/motionConfig";
+import { useIsMobile } from "@/hooks/use-mobile";
 import clsx from "clsx";
 
 export const MenuNavigator = () => {
   const [currentMenu, setCurrentMenu] = useState("nav");
-  const [direction, setDirection] = useState("none");
+  const [isForward, setIsForward] = useState(true);
+  const isMobile = useIsMobile();
 
   const handleNavigateToAppearance = () => {
-    setDirection("forward");
+    setIsForward(true);
     setCurrentMenu("appearance");
   };
 
   const handleNavigateToFeeds = () => {
-    setDirection("forward");
+    setIsForward(true);
     setCurrentMenu("feeds");
   };
 
   const handleBackToNav = () => {
-    setDirection("backward");
+    setIsForward(false);
     setCurrentMenu("nav");
   };
 
-  const getVariants = () => {
-    if (direction === "backward") {
-      return {
-        initial: { opacity: 0, x: -40, y: 40 },
-        animate: { opacity: 1, x: 0, y: 0 },
-        exit: { opacity: 0, x: 40, y: -40 },
-      };
-    } else if (direction === "forward") {
-      return {
-        initial: { opacity: 0, x: 40, y: -40 },
-        animate: { opacity: 1, x: 0, y: 0 },
-        exit: { opacity: 0, x: -40, y: 40 },
-      };
+  const getMotionDirection = () => {
+    if (isMobile) {
+      return isForward
+        ? MOTION_DIRECTIONS.RIGHT_TO_LEFT
+        : MOTION_DIRECTIONS.LEFT_TO_RIGHT;
+    } else {
+      return isForward
+        ? MOTION_DIRECTIONS.BOTTOM_LEFT_TO_TOP_RIGHT
+        : MOTION_DIRECTIONS.TOP_RIGHT_TO_BOTTOM_LEFT;
     }
-    return {
-      initial: { opacity: 1, x: 0, y: 0 },
-      animate: { opacity: 1, x: 0, y: 0 },
-      exit: { opacity: 0, x: 0, y: 0 },
-    };
   };
 
   return (
@@ -59,7 +54,7 @@ export const MenuNavigator = () => {
       align="end"
       onCloseAutoFocus={() => {
         setCurrentMenu("nav");
-        setDirection("none");
+        setIsForward(true);
       }}
     >
       <motion.div
@@ -69,30 +64,25 @@ export const MenuNavigator = () => {
           ease: "easeInOut",
         }}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={currentMenu}
-            variants={getVariants()}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{
-              duration: 0.15,
-              ease: "easeInOut",
-            }}
-          >
-            {currentMenu === "appearance" ? (
-              <AppearanceMenuItems onBack={handleBackToNav} />
-            ) : currentMenu === "feeds" ? (
-              <FeedMenuItems onBack={handleBackToNav} />
-            ) : (
-              <NavMenuItems
-                onNavigateToAppearance={handleNavigateToAppearance}
-                onNavigateToFeeds={handleNavigateToFeeds}
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
+        <MotionWrapper
+          motionKey={currentMenu}
+          direction={getMotionDirection()}
+          duration={0.15}
+          ease="easeInOut"
+          mode="wait"
+          initial={false}
+        >
+          {currentMenu === "appearance" ? (
+            <AppearanceMenuItems onBack={handleBackToNav} />
+          ) : currentMenu === "feeds" ? (
+            <FeedMenuItems onBack={handleBackToNav} />
+          ) : (
+            <NavMenuItems
+              onNavigateToAppearance={handleNavigateToAppearance}
+              onNavigateToFeeds={handleNavigateToFeeds}
+            />
+          )}
+        </MotionWrapper>
       </motion.div>
     </DropdownMenuContent>
   );
