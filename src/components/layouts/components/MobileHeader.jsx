@@ -2,6 +2,7 @@ import React from "react";
 import { ThreadsLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import MobileMenuIcon from "@/components/icons/MobileMenuIcon";
+import { DropMenu, MenuNavigator } from "@/components/dropMenuContent";
 
 const MobileHeader = () => {
   const handleMenuClick = () => {
@@ -15,15 +16,17 @@ const MobileHeader = () => {
         <div className="absolute left-1/2 -translate-x-1/2">
           <ThreadsLogo className="size-8" />
         </div>{" "}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleMenuClick}
-          className="text-muted-foreground/50 active:text-foreground hover:bg-transparent active:bg-transparent transition-transform active:scale-90"
-          aria-label="Menu"
-        >
-          <MobileMenuIcon className="size-6" />
-        </Button>
+        <DropMenu content={<MenuNavigator />}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleMenuClick}
+            className="text-muted-foreground/50 active:text-foreground hover:bg-transparent active:bg-transparent transition-transform active:scale-90"
+            aria-label="Menu"
+          >
+            <MobileMenuIcon className="size-6" />
+          </Button>
+        </DropMenu>
       </div>
     </header>
   );
