@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { NavMenuItems } from "./NavMenuItems";
 import { AppearanceMenuItems } from "./AppearanceMenuItems";
+import { FeedMenuItems } from "./FeedMenuItems";
 import clsx from "clsx";
 
 export const MenuNavigator = () => {
@@ -11,6 +12,10 @@ export const MenuNavigator = () => {
 
   const handleNavigateToAppearance = () => {
     setCurrentMenu("appearance");
+  };
+
+  const handleNavigateToFeeds = () => {
+    setCurrentMenu("feeds");
   };
 
   const handleBackToNav = () => {
@@ -51,9 +56,12 @@ export const MenuNavigator = () => {
           >
             {currentMenu === "appearance" ? (
               <AppearanceMenuItems onBack={handleBackToNav} />
+            ) : currentMenu === "feeds" ? (
+              <FeedMenuItems onBack={handleBackToNav} />
             ) : (
               <NavMenuItems
                 onNavigateToAppearance={handleNavigateToAppearance}
+                onNavigateToFeeds={handleNavigateToFeeds}
               />
             )}
           </motion.div>

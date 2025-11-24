@@ -6,7 +6,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronRight } from "lucide-react";
 
-export const NavMenuContent = ({ onNavigateToAppearance }) => {
+export const NavMenuContent = ({
+  onNavigateToAppearance,
+  onNavigateToFeeds,
+}) => {
   return (
     <DropdownMenuContent
       className="w-61 ml-4 py-2 mb-0 rounded-2xl bg-ring border-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-0 data-[state=closed]:zoom-out-95 origin-bottom-left ease-out"
@@ -35,7 +38,13 @@ export const NavMenuContent = ({ onNavigateToAppearance }) => {
         Settings
       </DropdownMenuItem>
       <DropdownMenuSeparator className="my-2" />
-      <DropdownMenuItem className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
+      <DropdownMenuItem
+        className="mx-1 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg"
+        onSelect={(e) => {
+          e.preventDefault();
+          onNavigateToFeeds?.();
+        }}
+      >
         Feeds
         <DropdownMenuShortcut>
           <ChevronRight

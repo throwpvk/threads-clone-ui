@@ -42,7 +42,7 @@ export const AppearanceMenuItems = ({ onBack }) => {
         >
           <ArrowLeft />
         </button>
-        Appearance
+        <span className="flex items-center justify-center">Appearance</span>
         <div className="h-12 w-12"></div>
       </DropdownMenuLabel>
       <DropdownMenuRadioGroup
