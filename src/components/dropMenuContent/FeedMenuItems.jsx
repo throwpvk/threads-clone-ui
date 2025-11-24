@@ -3,7 +3,8 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { ArrowLeft, CirclePlus, HatGlasses } from "lucide-react";
+import { ArrowLeft, CirclePlus } from "lucide-react";
+import { GhostIcon } from "@/components/icons";
 
 export const FeedMenuItems = ({ onBack }) => {
   return (
@@ -21,15 +22,15 @@ export const FeedMenuItems = ({ onBack }) => {
         </DropdownMenuShortcut>
       </DropdownMenuLabel>
       <DropdownMenuItem className="mx-2 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
-        Insights
+        For you
       </DropdownMenuItem>
       <DropdownMenuItem className="mx-2 pl-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
-        Insights
+        Following
       </DropdownMenuItem>
       <DropdownMenuItem className="flex cursor-pointer mx-2 mb-2 pl-3 pr-3 py-3 text-base font-semibold focus:bg-input/30 rounded-lg">
-        Feeds
+        Ghost posts
         <DropdownMenuShortcut>
-          <HatGlasses className="size-5 text-foreground" strokeWidth="1.5" />
+          <GhostIcon className="text-foreground" />
         </DropdownMenuShortcut>
       </DropdownMenuItem>
     </>

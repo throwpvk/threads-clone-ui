@@ -10,3 +10,4 @@ export { default as XIcon } from "./XIcon";
 export { default as AddColumnIcon } from "./AddColumnIcon";
 export { default as ThreadsLogo } from "./ThreadsLogo";
 export { default as MobileMenuIcon } from "./MobileMenuIcon";
+export { default as GhostIcon } from "./GhostIcon";

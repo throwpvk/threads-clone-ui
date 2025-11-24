@@ -4,7 +4,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 export const DropMenu = ({ children, content }) => {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       {content}
     </DropdownMenu>
