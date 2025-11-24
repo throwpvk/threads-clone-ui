@@ -8,7 +8,7 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { DropMenu, NavMenuContent } from "@/components/dropMenuContent";
+import { DropMenu, NavigableMenu } from "@/components/dropMenuContent";
 import {
   HomeIcon,
   SearchIcon,
@@ -46,7 +46,7 @@ const Navbar = () => {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="flex items-center justify-center">
-        <DropMenu content={<NavMenuContent />}>
+        <DropMenu content={<MenuNavigator />}>
           <Button
             variant="ghost"
             size="icon"
