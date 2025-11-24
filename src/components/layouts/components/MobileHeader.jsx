@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuIcon, ThreadsLogo } from "@/components/icons";
+import { ThreadsLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import MobileMenuIcon from "@/components/icons/MobileMenuIcon";
 

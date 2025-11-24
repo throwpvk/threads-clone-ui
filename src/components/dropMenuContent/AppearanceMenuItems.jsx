@@ -35,20 +35,20 @@ export const AppearanceMenuItems = ({ onBack }) => {
 
   return (
     <>
-      <DropdownMenuLabel className="p-0 mb-3 text-base font-semibold flex justify-between items-center">
+      <DropdownMenuLabel className="p-0text-base font-semibold flex justify-between items-center">
         <button
-          className="cursor-pointer h-12 w-12 flex items-center justify-center hover:bg-transparent rounded-lg transition-colors"
+          className="cursor-pointer h-10 w-10 flex items-center justify-center hover:bg-transparent rounded-lg transition-colors"
           onClick={onBack}
         >
           <ArrowLeft />
         </button>
         <span className="flex items-center justify-center">Appearance</span>
-        <div className="h-12 w-12"></div>
+        <div className="h-10 w-10"></div>
       </DropdownMenuLabel>
       <DropdownMenuRadioGroup
         value={theme}
         onValueChange={handleThemeChange}
-        className="flex mb-4 mx-3 justify-center items-center gap-0 bg-background p-0 rounded-xl"
+        className="flex mb-4 mt-3 mx-4 justify-center items-center gap-0 bg-background p-0 rounded-xl"
       >
         <DropdownMenuRadioItem
           value="light"

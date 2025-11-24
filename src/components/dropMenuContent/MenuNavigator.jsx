@@ -9,23 +9,48 @@ import clsx from "clsx";
 
 export const MenuNavigator = () => {
   const [currentMenu, setCurrentMenu] = useState("nav");
+  const [direction, setDirection] = useState("none");
 
   const handleNavigateToAppearance = () => {
+    setDirection("forward");
     setCurrentMenu("appearance");
   };
 
   const handleNavigateToFeeds = () => {
+    setDirection("forward");
     setCurrentMenu("feeds");
   };
 
   const handleBackToNav = () => {
+    setDirection("backward");
     setCurrentMenu("nav");
+  };
+
+  const getVariants = () => {
+    if (direction === "backward") {
+      return {
+        initial: { opacity: 0, x: -40, y: 40 },
+        animate: { opacity: 1, x: 0, y: 0 },
+        exit: { opacity: 0, x: 40, y: -40 },
+      };
+    } else if (direction === "forward") {
+      return {
+        initial: { opacity: 0, x: 40, y: -40 },
+        animate: { opacity: 1, x: 0, y: 0 },
+        exit: { opacity: 0, x: -40, y: 40 },
+      };
+    }
+    return {
+      initial: { opacity: 1, x: 0, y: 0 },
+      animate: { opacity: 1, x: 0, y: 0 },
+      exit: { opacity: 0, x: 0, y: 0 },
+    };
   };
 
   return (
     <DropdownMenuContent
       className={clsx(
-        "ml-4 mb-0 py-2 rounded-2xl bg-card border border-border data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-0 data-[state=closed]:zoom-out-95 origin-bottom-left ease-out overflow-hidden",
+        "ml-4 mb-0 py-2 px-0 rounded-2xl bg-ring border border-border data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-0 data-[state=closed]:zoom-out-95 origin-bottom-left ease-out overflow-hidden",
         currentMenu === "nav" ? "py-2" : "py-0"
       )}
       style={{
@@ -34,24 +59,26 @@ export const MenuNavigator = () => {
       align="end"
       onCloseAutoFocus={() => {
         setCurrentMenu("nav");
+        setDirection("none");
       }}
     >
       <motion.div
-        animate={{ width: currentMenu === "appearance" ? 314 : 234 }}
+        animate={{ width: currentMenu === "appearance" ? 314 : 240 }}
         transition={{
           duration: 0.1,
-          ease: "easeOut",
+          ease: "easeInOut",
         }}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentMenu}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={getVariants()}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             transition={{
               duration: 0.15,
-              ease: "easeOut",
+              ease: "easeInOut",
             }}
           >
             {currentMenu === "appearance" ? (
