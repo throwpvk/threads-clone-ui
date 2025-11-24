@@ -8,7 +8,7 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { DropMenu, NavigableMenu } from "@/components/dropMenuContent";
+import { DropMenu, MenuNavigator } from "@/components/dropMenuContent";
 import {
   HomeIcon,
   SearchIcon,
