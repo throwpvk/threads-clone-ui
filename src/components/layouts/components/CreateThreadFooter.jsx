@@ -4,7 +4,7 @@ import { OptionIcon } from "@/components/icons";
 
 export const CreateThreadFooter = () => {
   return (
-    <CardFooter className="border-t border-border">
+    <CardFooter className="border-0 border-border p-6!">
       <div className="flex items-center justify-between w-full">
         <Button
           variant="ghost"
@@ -14,13 +14,12 @@ export const CreateThreadFooter = () => {
           <OptionIcon className="h-4 w-4 mr-2" />
           Reply options
         </Button>
-        <Button
-          size="sm"
-          className="rounded-full px-6 bg-foreground text-background hover:bg-foreground/90"
+        <button
+          className="rounded-lg px-4 h-9 border border-border cursor-pointer bg-transparent text-muted-foreground hover:bg-transparent active:scale-95"
           disabled
         >
           Post
-        </Button>
+        </button>
       </div>
     </CardFooter>
   );

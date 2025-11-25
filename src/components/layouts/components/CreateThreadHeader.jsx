@@ -5,8 +5,8 @@ import { DraftIcon, MoreIcon } from "@/components/icons";
 
 export const CreateThreadHeader = ({ onClose }) => {
   return (
-    <CardHeader className="border-b border-border">
-      <div className="flex items-center justify-between">
+    <CardHeader className="border-b border-border h-14 px-6! flex items-center justify-between">
+      <div className="flex items-center justify-between flex-1">
         <Button
           variant="ghost"
           size="sm"

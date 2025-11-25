@@ -45,14 +45,12 @@ export const CreateThreadItem = ({
             )}
           </div>
           {showRemoveButton && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6 rounded-full hover:bg-accent shrink-0"
+            <button
+              className="h-4 w-4 rounded-full hover:bg-transparent text-muted-foreground shrink-0"
               onClick={onRemove}
             >
               <XIcon className="h-4 w-4" />
-            </Button>
+            </button>
           )}
         </div>
 
@@ -68,49 +66,25 @@ export const CreateThreadItem = ({
 
         <p className="text-xs text-muted-foreground">AI info</p>
 
-        <div className="flex items-center gap-0.5">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg hover:bg-accent"
-          >
-            <AttachMediaIcon className="h-[18px] w-[18px]" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg hover:bg-accent"
-          >
-            <GifIcon className="h-[18px] w-[18px]" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg hover:bg-accent"
-          >
-            <SmileIcon className="h-[18px] w-[18px]" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg hover:bg-accent"
-          >
-            <AddPollIcon className="h-[18px] w-[18px]" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg hover:bg-accent"
-          >
-            <AttachTextIcon className="h-[18px] w-[18px]" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg hover:bg-accent"
-          >
-            <AddLocationIcon className="h-[18px] w-[18px]" />
-          </Button>
+        <div className="-translate-x-2 flex items-center gap-0.5 mt-1">
+          <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
+            <AttachMediaIcon className="shrink-0" />
+          </button>
+          <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
+            <GifIcon className="shrink-0" />
+          </button>
+          <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
+            <SmileIcon className="shrink-0" />
+          </button>
+          <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
+            <AddPollIcon className="shrink-0" />
+          </button>
+          <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
+            <AttachTextIcon className="shrink-0" />
+          </button>
+          <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
+            <AddLocationIcon className="shrink-0" />
+          </button>
         </div>
       </div>
     </div>

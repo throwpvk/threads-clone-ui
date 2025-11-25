@@ -28,7 +28,7 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
   }, [onClose]);
 
   const cardContent = (
-    <Card className="w-[90vw] md:max-w-[620px] shadow-none border-border bg-card flex flex-col p-0">
+    <Card className="w-[90vw] md:max-w-[620px] shadow-none border-border bg-card flex flex-col p-0 rounded-2xl">
       <CreateThreadHeader onClose={onClose} />
       <CreateThreadContent />
       <CreateThreadFooter />

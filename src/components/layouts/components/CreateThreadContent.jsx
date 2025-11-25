@@ -19,7 +19,7 @@ export const CreateThreadContent = () => {
 
   return (
     <CardContent className="p-0">
-      <div className="max-h-[60vh] overflow-y-auto">
+      <div className="max-h-[60vh] overflow-y-auto px-6 pt-4 pb-1">
         {threads.map((thread, index) => (
           <div key={thread.id} className={index > 0 ? "mt-4" : ""}>
             <CreateThreadItem
@@ -32,16 +32,17 @@ export const CreateThreadContent = () => {
         ))}
 
         <div className="flex gap-3 mt-3">
-          <div className="w-9 flex justify-center">
+          <div className="w-9 flex justify-center items-center">
             <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
           </div>
-          <Button
-            variant="ghost"
-            className="flex-1 justify-start h-auto py-1 px-0 hover:bg-transparent disabled:opacity-50 text-muted-foreground"
+          <button
+            className="justify-start h-auto py-1 px-0 hover:bg-transparent text-muted-foreground"
             onClick={handleAddThread}
           >
-            <span className="text-sm">Add to thread</span>
-          </Button>
+            <span className="hover:bg-transparent text-muted-foreground cursor-pointer text-sm">
+              Add to thread
+            </span>
+          </button>
         </div>
       </div>
     </CardContent>
