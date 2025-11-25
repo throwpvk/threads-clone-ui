@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import avt from "@/assets/avt-placeholder.png";
 import {
   AddLocationIcon,
   AddPollIcon,
@@ -10,9 +11,11 @@ import {
   SmileIcon,
   XIcon,
 } from "@/components/icons";
+import { ChevronRight } from "lucide-react";
 
 export const CreateThreadItem = ({
   index,
+  totalThreads,
   showRemoveButton = false,
   onRemove,
   isFirst = false,
@@ -20,27 +23,33 @@ export const CreateThreadItem = ({
   return (
     <div className="flex gap-3">
       <div className="flex flex-col items-center">
-        <div className="w-9 h-9 rounded-full bg-muted shrink-0" />
-        <div className="w-0.5 flex-1 bg-border" />
+        <img
+          src={avt}
+          className="mt-2 w-9 h-9 rounded-full shrink-0"
+          alt="Avatar"
+        />
+        <div className="mt-3 w-0.5 flex-1 bg-border" />
       </div>
 
       <div className="flex-1 min-w-0 pt-0.5">
-        <div className="flex items-center justify-between gap-2 mb-1.5">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            <span className="font-semibold text-sm">pvkhaii</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1 flex-1 min-w-0">
+            <span className="font-semibold text-base">pvkhaii</span>
             {isFirst && (
               <>
-                <span className="text-muted-foreground text-xs">›</span>
+                <span className="text-muted-foreground text-base pt-1 pb-0.5">
+                  <ChevronRight className="size-3.5" />
+                </span>
                 <input
                   type="text"
                   placeholder="Add a topic"
-                  className="flex-1 h-auto px-0 py-0 border-none bg-transparent text-xs text-muted-foreground placeholder:text-muted-foreground outline-none"
+                  className="flex-1 h-auto px-0 py-0 border-none bg-transparent text-sm text-muted-foreground placeholder:text-muted-foreground outline-none"
                 />
               </>
             )}
             {!isFirst && (
-              <span className="text-muted-foreground text-xs">
-                {index + 1}/3
+              <span className="text-muted-foreground bg-ring/50 px-2 py-1 rounded-2xl text-xs">
+                {index + 1}/{totalThreads}
               </span>
             )}
           </div>
@@ -66,7 +75,7 @@ export const CreateThreadItem = ({
 
         <p className="text-xs text-muted-foreground">AI info</p>
 
-        <div className="-translate-x-2 flex items-center gap-0.5 mt-1">
+        <div className="-translate-x-2 flex items-center gap-1 mt-1">
           <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
             <AttachMediaIcon className="shrink-0" />
           </button>

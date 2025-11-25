@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { CreateThreadItem } from "./CreateThreadItem";
+import avt from "@/assets/avt-placeholder.png";
+import clsx from "clsx";
 
-export const CreateThreadContent = () => {
+export const CreateThreadContent = ({ isMobile = false }) => {
   // eslint-disable-next-line react-hooks/purity
   const [threads, setThreads] = useState([{ id: Date.now() }]);
 
@@ -18,12 +19,13 @@ export const CreateThreadContent = () => {
   };
 
   return (
-    <CardContent className="p-0">
-      <div className="max-h-[60vh] overflow-y-auto px-6 pt-4 pb-1">
+    <CardContent className={clsx("p-0", isMobile ? "flex-1" : "max-h-[60vh]")}>
+      <div className="overflow-y-auto px-6 pt-4 pb-1">
         {threads.map((thread, index) => (
           <div key={thread.id} className={index > 0 ? "mt-4" : ""}>
             <CreateThreadItem
               index={index}
+              totalThreads={threads.length}
               isFirst={index === 0}
               showRemoveButton={index > 0}
               onRemove={() => handleRemoveThread(thread.id)}
@@ -31,12 +33,16 @@ export const CreateThreadContent = () => {
           </div>
         ))}
 
-        <div className="flex gap-3 mt-3">
+        <div className="flex gap-3 pt-2.5">
           <div className="w-9 flex justify-center items-center">
-            <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
+            <img
+              src={avt}
+              className="w-4 h-4 rounded-full shrink-0"
+              alt="Avatar"
+            />
           </div>
           <button
-            className="justify-start h-auto py-1 px-0 hover:bg-transparent text-muted-foreground"
+            className="justify-start h-auto py-0 px-0 hover:bg-transparent text-muted-foreground"
             onClick={handleAddThread}
           >
             <span className="hover:bg-transparent text-muted-foreground cursor-pointer text-sm">

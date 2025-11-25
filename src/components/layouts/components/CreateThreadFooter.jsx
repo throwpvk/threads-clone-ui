@@ -6,16 +6,12 @@ export const CreateThreadFooter = () => {
   return (
     <CardFooter className="border-0 border-border p-6!">
       <div className="flex items-center justify-between w-full">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-muted-foreground hover:text-foreground"
-        >
-          <OptionIcon className="h-4 w-4 mr-2" />
+        <button className="bg-transparent text-muted-foreground/70 cursor-pointer hover:bg-transparent flex items-center justify-center">
+          <OptionIcon className="mr-2" />
           Reply options
-        </Button>
+        </button>
         <button
-          className="rounded-lg px-4 h-9 border border-border cursor-pointer bg-transparent text-muted-foreground hover:bg-transparent active:scale-95"
+          className="rounded-lg px-4 h-9 border border-border cursor-pointer bg-transparent text-muted-foreground/70 hover:bg-transparent font-semibold active:scale-95"
           disabled
         >
           Post

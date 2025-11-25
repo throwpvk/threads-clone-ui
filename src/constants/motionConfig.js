@@ -54,14 +54,14 @@ export const MOTION_DIRECTIONS = {
 
   // Scale animations (zoom in/out from center)
   SCALE_UP: {
-    initial: { opacity: 0, scale: 0.9 },
+    initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.9 },
+    exit: { opacity: 0, scale: 0.95 },
   },
   SCALE_DOWN: {
-    initial: { opacity: 0, scale: 1.1 },
+    initial: { opacity: 0, scale: 1.05 },
     animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 1.1 },
+    exit: { opacity: 0, scale: 1.05 },
   },
 
   // No animation

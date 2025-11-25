@@ -11,8 +11,13 @@ import {
 import { CreateThreadHeader } from "./CreateThreadHeader";
 import { CreateThreadContent } from "./CreateThreadContent";
 import { CreateThreadFooter } from "./CreateThreadFooter";
+import clsx from "clsx";
 
-export const CreateCardFixed = ({ isModal = false, onClose }) => {
+export const CreateCardFixed = ({
+  isModal = false,
+  isMobile = false,
+  onClose,
+}) => {
   // Handle ESC key for both modal and dropdown
   useEffect(() => {
     if (!onClose) return;
@@ -28,12 +33,42 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
   }, [onClose]);
 
   const cardContent = (
-    <Card className="w-[90vw] md:max-w-[620px] shadow-none border-border bg-card flex flex-col p-0 rounded-2xl">
+    <Card
+      className={
+        (clsx(
+          "md:max-w-[620px] shadow-none border-border bg-card flex flex-col p-0"
+        ),
+        isModal ? "" : "md:w-[494px]",
+        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl")
+      }
+    >
       <CreateThreadHeader onClose={onClose} />
-      <CreateThreadContent />
+      <CreateThreadContent isMobile={isMobile} />
       <CreateThreadFooter />
     </Card>
   );
+
+  if (isMobile) {
+    return createPortal(
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+        onClick={onClose}
+      >
+        <MotionWrapper
+          motionKey="create-modal"
+          direction={MOTION_DIRECTIONS.BOTTOM_TO_TOP}
+          duration={DEFAULT_MOTION_CONFIG.duration}
+          ease={DEFAULT_MOTION_CONFIG.ease}
+          mode="wait"
+          initial={true}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {cardContent}
+        </MotionWrapper>
+      </div>,
+      document.body
+    );
+  }
 
   if (isModal) {
     return createPortal(
@@ -45,7 +80,7 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
           motionKey="create-modal"
           direction={MOTION_DIRECTIONS.SCALE_UP}
           duration={DEFAULT_MOTION_CONFIG.duration}
-          ease="easeOut"
+          ease={DEFAULT_MOTION_CONFIG.ease}
           mode="wait"
           initial={true}
           onClick={(e) => e.stopPropagation()}
@@ -59,7 +94,7 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
 
   return (
     <DropdownMenuContent
-      className="p-0 rounded-2xl border-border bg-transparent shadow-lg mr-6 mb-2"
+      className="p-0 rounded-2xl border-0 bg-transparent shadow-lg mr-0 -mb-19"
       align="end"
       side="top"
       sideOffset={8}
@@ -69,8 +104,8 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
       <MotionWrapper
         motionKey="create-dropdown"
         direction={MOTION_DIRECTIONS.BOTTOM_RIGHT_TO_TOP_LEFT}
-        duration={0.2}
-        ease="easeOut"
+        duration={DEFAULT_MOTION_CONFIG.duration}
+        ease={1}
         mode="wait"
         initial={false}
       >
@@ -82,5 +117,6 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
 
 CreateCardFixed.propTypes = {
   isModal: PropTypes.bool,
+  isMobile: PropTypes.bool,
   onClose: PropTypes.func,
 };
