@@ -4,7 +4,11 @@ import { NavMenuItems } from "./NavMenuItems";
 import { AppearanceMenuItems } from "./AppearanceMenuItems";
 import { FeedMenuItems } from "./FeedMenuItems";
 import { MotionWrapper } from "@/components/common/MotionWrapper";
-import { MOTION_DIRECTIONS, MOTION_PRESETS } from "@/constants/motionConfig";
+import {
+  DEFAULT_MOTION_CONFIG,
+  MOTION_DIRECTIONS,
+  MOTION_PRESETS,
+} from "@/constants/motionConfig";
 import { useIsMobile } from "@/hooks/use-mobile";
 import clsx from "clsx";
 
@@ -35,8 +39,8 @@ export const MenuNavigator = () => {
         : MOTION_DIRECTIONS.LEFT_TO_RIGHT;
     } else {
       return isForward
-        ? MOTION_DIRECTIONS.BOTTOM_LEFT_TO_TOP_RIGHT
-        : MOTION_DIRECTIONS.TOP_RIGHT_TO_BOTTOM_LEFT;
+        ? MOTION_DIRECTIONS.TOP_RIGHT_TO_BOTTOM_LEFT
+        : MOTION_DIRECTIONS.BOTTOM_LEFT_TO_TOP_RIGHT;
     }
   };
 
@@ -58,8 +62,8 @@ export const MenuNavigator = () => {
       <MotionWrapper
         motionKey={currentMenu}
         direction={getMotionDirection()}
-        duration={0.15}
-        ease="easeInOut"
+        duration={DEFAULT_MOTION_CONFIG.duration}
+        ease={DEFAULT_MOTION_CONFIG.ease}
         mode="wait"
         initial={false}
         wrapperAnimate={{ width: currentMenu === "appearance" ? 314 : 240 }}

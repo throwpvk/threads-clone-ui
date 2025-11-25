@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import { CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DraftIcon, MoreIcon } from "@/components/icons";
+import { DraftIcon, MoreIcon, XIcon } from "@/components/icons";
 
-export const CreateThreadHeader = ({ onClose }) => {
+export const CreateThreadHeader = ({ onClose, isModal = true }) => {
   return (
     <CardHeader className="border-b border-border h-14 px-6! flex items-center justify-between">
       <div className="flex items-center justify-between flex-1">
@@ -11,7 +11,7 @@ export const CreateThreadHeader = ({ onClose }) => {
           className="h-auto px-0 hover:bg-transparent text-base font-normal"
           onClick={onClose}
         >
-          Cancel
+          {isModal ? "Cancel" : <XIcon className="size-5" />}
         </button>
         <CardTitle className="text-base font-semibold">New thread</CardTitle>
         <CardAction className="flex items-center gap-2">

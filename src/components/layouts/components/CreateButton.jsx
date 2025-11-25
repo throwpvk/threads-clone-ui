@@ -34,7 +34,12 @@ export default function CreateButton({ icon, toolTipContent = "" }) {
 
       {/* Modal */}
       {isModalOpen && (
-        <CreateCardFixed isModal onClose={() => setIsModalOpen(false)} />
+        <CreateCardFixed
+          isModal
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        />
       )}
     </>
   );

@@ -32,17 +32,30 @@ export const CreateCardFixed = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [onClose]);
 
+  // Lock/unlock scroll when modal is open
+  useEffect(() => {
+    if (isModal || isMobile) {
+      const scrollY = window.scrollY;
+      document.body.classList.add("lock-scroll");
+      document.body.style.top = `-${scrollY}px`;
+
+      return () => {
+        document.body.classList.remove("lock-scroll");
+        document.body.style.top = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isModal, isMobile]);
+
   const cardContent = (
     <Card
-      className={
-        (clsx(
-          "md:max-w-[620px] shadow-none border-border bg-card flex flex-col p-0"
-        ),
-        isModal ? "" : "md:w-[494px]",
-        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl")
-      }
+      className={clsx(
+        "shadow-none border-border bg-card flex flex-col p-0",
+        isModal ? "md:w-[620px]" : "md:w-[494px]",
+        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl"
+      )}
     >
-      <CreateThreadHeader onClose={onClose} />
+      <CreateThreadHeader onClose={onClose} isModal={isModal} />
       <CreateThreadContent isMobile={isMobile} />
       <CreateThreadFooter />
     </Card>

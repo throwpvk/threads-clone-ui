@@ -19,8 +19,8 @@ export const CreateThreadContent = ({ isMobile = false }) => {
   };
 
   return (
-    <CardContent className={clsx("p-0", isMobile ? "flex-1" : "max-h-[60vh]")}>
-      <div className="overflow-y-auto px-6 pt-4 pb-1">
+    <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
+      <div className="overflow-y-auto px-6 pt-4 pb-1 max-h-[80vh]">
         {threads.map((thread, index) => (
           <div key={thread.id} className={index > 0 ? "mt-4" : ""}>
             <CreateThreadItem
