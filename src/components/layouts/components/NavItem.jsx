@@ -28,6 +28,7 @@ export default function NavItem({ to, icon, toolTipContent = "" }) {
               className="flex items-center justify-center px-5 py-3"
             >
               <Icon
+                solid={!!match}
                 strokeWidth={2.5}
                 className={`size-6! transition-colors  ${
                   match ? "text-foreground" : "text-muted-foreground/50"

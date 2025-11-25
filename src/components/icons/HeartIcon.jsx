@@ -2,8 +2,18 @@ import { Heart } from "lucide-react";
 
 export default function HeartIcon({
   className = "",
-  strokeWidth = 2.5,
+  solid = false,
+  width = 24,
+  height = 24,
   ...props
 }) {
-  return <Heart strokeWidth={strokeWidth} className={className} {...props} />;
+  return (
+    <Heart
+      width={width}
+      height={height}
+      fill={solid ? "currentColor" : "none"}
+      className={className}
+      {...props}
+    />
+  );
 }

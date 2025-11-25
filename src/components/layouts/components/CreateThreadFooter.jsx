@@ -1,6 +1,6 @@
 import { CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { OptionIcon } from "@/components/icons";
 
 export const CreateThreadFooter = () => {
   return (
@@ -11,7 +11,7 @@ export const CreateThreadFooter = () => {
           size="sm"
           className="text-muted-foreground hover:text-foreground"
         >
-          <Sparkles className="h-4 w-4 mr-2" />
+          <OptionIcon className="h-4 w-4 mr-2" />
           Reply options
         </Button>
         <Button

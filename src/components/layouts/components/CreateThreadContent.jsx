@@ -1,6 +1,13 @@
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Image, Smile, AlignLeft, List, MapPin, Copy } from "lucide-react";
+import {
+  AddLocationIcon,
+  AddPollIcon,
+  AttachMediaIcon,
+  AttachTextIcon,
+  GifIcon,
+  SmileIcon,
+} from "@/components/icons";
 
 export const CreateThreadContent = () => {
   return (
@@ -28,42 +35,42 @@ export const CreateThreadContent = () => {
               size="icon"
               className="h-9 w-9 rounded-lg hover:bg-accent"
             >
-              <Image className="h-5 w-5" />
+              <AttachMediaIcon className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-lg hover:bg-accent"
             >
-              <Copy className="h-5 w-5" />
+              <GifIcon className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-lg hover:bg-accent"
             >
-              <Smile className="h-5 w-5" />
+              <SmileIcon className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-lg hover:bg-accent"
             >
-              <AlignLeft className="h-5 w-5" />
+              <AddPollIcon className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-lg hover:bg-accent"
             >
-              <List className="h-5 w-5" />
+              <AttachTextIcon className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-lg hover:bg-accent"
             >
-              <MapPin className="h-5 w-5" />
+              <AddLocationIcon className="h-5 w-5" />
             </Button>
           </div>
         </div>

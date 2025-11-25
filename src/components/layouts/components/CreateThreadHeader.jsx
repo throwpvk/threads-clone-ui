@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { XIcon } from "@/components/icons";
-import { Copy, Smile } from "lucide-react";
+import { DraftIcon, MoreIcon, XIcon } from "@/components/icons";
 
 export const CreateThreadHeader = ({ onClose }) => {
   return (
@@ -23,14 +22,14 @@ export const CreateThreadHeader = ({ onClose }) => {
             size="icon"
             className="h-8 w-8 rounded-full hover:bg-accent"
           >
-            <Copy className="h-5 w-5" />
+            <DraftIcon className="h-5 w-5" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8 rounded-full hover:bg-accent"
           >
-            <Smile className="h-5 w-5" />
+            <MoreIcon className="h-5 w-5" />
           </Button>
         </CardAction>
       </div>
