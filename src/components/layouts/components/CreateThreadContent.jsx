@@ -1,85 +1,48 @@
+import { useState } from "react";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  AddLocationIcon,
-  AddPollIcon,
-  AttachMediaIcon,
-  AttachTextIcon,
-  GifIcon,
-  SmileIcon,
-} from "@/components/icons";
+import { CreateThreadItem } from "./CreateThreadItem";
 
 export const CreateThreadContent = () => {
+  // eslint-disable-next-line react-hooks/purity
+  const [threads, setThreads] = useState([{ id: Date.now() }]);
+
+  const handleAddThread = () => {
+    setThreads([...threads, { id: Date.now() }]);
+  };
+
+  const handleRemoveThread = (threadId) => {
+    if (threads.length > 1) {
+      setThreads(threads.filter((thread) => thread.id !== threadId));
+    }
+  };
+
   return (
-    <CardContent className="p-4">
-      <div className="flex gap-3 mb-4">
-        <div className="w-9 h-9 rounded-full bg-muted shrink-0" />
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-semibold text-sm">pvkhaii</span>
-            <span className="text-muted-foreground text-xs">›</span>
-            <span className="text-muted-foreground text-xs">Add a topic</span>
+    <CardContent className="p-0">
+      <div className="max-h-[60vh] overflow-y-auto">
+        {threads.map((thread, index) => (
+          <div key={thread.id} className={index > 0 ? "mt-4" : ""}>
+            <CreateThreadItem
+              index={index}
+              isFirst={index === 0}
+              showRemoveButton={index > 0}
+              onRemove={() => handleRemoveThread(thread.id)}
+            />
           </div>
+        ))}
 
-          <textarea
-            placeholder="What's new?"
-            className="w-full min-h-20 bg-transparent border-none outline-none resize-none text-sm placeholder:text-muted-foreground"
-          />
-
-          <p className="text-xs text-muted-foreground mb-3">AI info</p>
-
-          {/* Icons toolbar */}
-          <div className="flex items-center gap-1 mb-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg hover:bg-accent"
-            >
-              <AttachMediaIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg hover:bg-accent"
-            >
-              <GifIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg hover:bg-accent"
-            >
-              <SmileIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg hover:bg-accent"
-            >
-              <AddPollIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg hover:bg-accent"
-            >
-              <AttachTextIcon className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-lg hover:bg-accent"
-            >
-              <AddLocationIcon className="h-5 w-5" />
-            </Button>
+        <div className="flex gap-3 mt-3">
+          <div className="w-9 flex justify-center">
+            <div className="w-5 h-5 rounded-full bg-muted shrink-0" />
           </div>
+          <Button
+            variant="ghost"
+            className="flex-1 justify-start h-auto py-1 px-0 hover:bg-transparent disabled:opacity-50 text-muted-foreground"
+            onClick={handleAddThread}
+          >
+            <span className="text-sm">Add to thread</span>
+          </Button>
         </div>
-      </div>
-
-      {/* Add to thread */}
-      <div className="flex items-center gap-3 pl-12">
-        <div className="w-6 h-6 rounded-full bg-muted shrink-0" />
-        <span className="text-sm text-muted-foreground">Add to thread</span>
       </div>
     </CardContent>
   );

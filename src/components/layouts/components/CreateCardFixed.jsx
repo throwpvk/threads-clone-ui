@@ -28,7 +28,7 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
   }, [onClose]);
 
   const cardContent = (
-    <Card className="w-[500px] shadow-none border-border bg-card">
+    <Card className="w-[90vw] md:max-w-[620px] shadow-none border-border bg-card flex flex-col p-0">
       <CreateThreadHeader onClose={onClose} />
       <CreateThreadContent />
       <CreateThreadFooter />
@@ -38,7 +38,7 @@ export const CreateCardFixed = ({ isModal = false, onClose }) => {
   if (isModal) {
     return createPortal(
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
         onClick={onClose}
       >
         <MotionWrapper
