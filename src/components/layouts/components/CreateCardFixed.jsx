@@ -53,6 +53,10 @@ export const CreateCardFixed = ({
     console.log("Draft button clicked");
   };
 
+  const onBackClick = () => {
+    console.log("Back button clicked");
+  };
+
   const cardContent = (
     <Card
       className={clsx(
@@ -87,7 +91,11 @@ export const CreateCardFixed = ({
           "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
       )}
     >
-      <DraftHeader onClose={onClose} isModal={isModal} />
+      <DraftHeader
+        onClose={onClose}
+        isModal={isModal}
+        onBackClick={onBackClick}
+      />
       <DraftContent isMobile={isMobile} />
     </Card>
   );
@@ -98,17 +106,6 @@ export const CreateCardFixed = ({
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
         onClick={onClose}
       >
-        {/* <MotionWrapper
-          motionKey="create-modal"
-          direction={MOTION_DIRECTIONS.BOTTOM_TO_TOP}
-          duration={DEFAULT_MOTION_CONFIG.duration}
-          ease={DEFAULT_MOTION_CONFIG.ease}
-          mode="wait"
-          initial={true}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {cardContent}
-        </MotionWrapper> */}
         <MotionWrapper
           motionKey="create-modal"
           direction={MOTION_DIRECTIONS.BOTTOM_TO_TOP}
@@ -118,6 +115,7 @@ export const CreateCardFixed = ({
           initial={true}
           onClick={(e) => e.stopPropagation()}
         >
+          {cardContent}
           {draftContent}
         </MotionWrapper>
       </div>,
@@ -131,17 +129,6 @@ export const CreateCardFixed = ({
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
         onClick={onClose}
       >
-        {/* <MotionWrapper
-          motionKey="create-modal"
-          direction={MOTION_DIRECTIONS.SCALE_UP}
-          duration={DEFAULT_MOTION_CONFIG.duration}
-          ease={DEFAULT_MOTION_CONFIG.ease}
-          mode="wait"
-          initial={true}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {cardContent}
-        </MotionWrapper> */}
         <MotionWrapper
           motionKey="create-modal"
           direction={MOTION_DIRECTIONS.SCALE_UP}
@@ -151,6 +138,7 @@ export const CreateCardFixed = ({
           initial={true}
           onClick={(e) => e.stopPropagation()}
         >
+          {cardContent}
           {draftContent}
         </MotionWrapper>
       </div>,
@@ -167,16 +155,6 @@ export const CreateCardFixed = ({
       onInteractOutside={(e) => e.preventDefault()}
       onEscapeKeyDown={onClose}
     >
-      {/* <MotionWrapper
-        motionKey="create-dropdown"
-        direction={MOTION_DIRECTIONS.BOTTOM_RIGHT_TO_TOP_LEFT}
-        duration={DEFAULT_MOTION_CONFIG.duration}
-        ease={1}
-        mode="wait"
-        initial={false}
-      >
-        {cardContent}
-      </MotionWrapper> */}
       <MotionWrapper
         motionKey="create-dropdown"
         direction={MOTION_DIRECTIONS.BOTTOM_RIGHT_TO_TOP_LEFT}
@@ -185,6 +163,7 @@ export const CreateCardFixed = ({
         mode="wait"
         initial={false}
       >
+        {cardContent}
         {draftContent}
       </MotionWrapper>
     </DropdownMenuContent>
