@@ -114,7 +114,7 @@ export const CreateThreadSchedule = ({ dateTime, onClose, onClick }) => {
 
   return (
     <div
-      className="w-full bg-muted rounded-xl mt-2 pl-3 pr-2 py-3 flex items-center justify-between gap-3 cursor-pointer"
+      className="bg-muted rounded-xl mt-2 mx-6 pl-3 pr-2 py-2.5 flex items-center justify-between gap-3 cursor-pointer"
       onClick={handleClick}
     >
       <div className="flex items-center gap-3">

@@ -7,7 +7,7 @@ import { CreateThreadSchedule } from "./CreateThreadSchedule";
 
 export const CreateThreadContent = ({
   isMobile = false,
-  hasSchedule = false,
+  hasSchedule = true,
 }) => {
   // eslint-disable-next-line react-hooks/purity
   const [threads, setThreads] = useState([{ id: Date.now(), isAIInfo: false }]);
@@ -24,10 +24,10 @@ export const CreateThreadContent = ({
 
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
+      {hasSchedule && <CreateThreadSchedule />}
       <div className="overflow-y-auto px-6 pb-1 max-h-[80vh]">
-        {hasSchedule && <CreateThreadSchedule />}
         {threads.map((thread, index) => (
-          <div key={thread.id} className={index > 0 ? "mt-4" : ""}>
+          <div key={thread.id}>
             <CreateThreadItem
               index={index}
               totalThreads={threads.length}

@@ -52,7 +52,10 @@ export const CreateCardFixed = ({
       className={clsx(
         "shadow-none border-border bg-card flex flex-col p-0",
         isModal ? "md:w-[620px]" : "md:w-[494px]",
-        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl"
+        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
+        !isModal &&
+          !isMobile &&
+          "max-h-[80vh] [&_.overflow-y-auto]:max-h-[56vh]"
       )}
     >
       <CreateThreadHeader onClose={onClose} isModal={isModal} />
@@ -107,7 +110,7 @@ export const CreateCardFixed = ({
 
   return (
     <DropdownMenuContent
-      className="p-0 rounded-2xl border-0 bg-transparent shadow-lg mr-0 -mb-19"
+      className="p-0 rounded-2xl border-border bg-transparent shadow-lg mr-0 -mb-19"
       align="end"
       side="top"
       sideOffset={8}
