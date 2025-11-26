@@ -19,7 +19,7 @@ export default function MobileCreateButton({ icon }) {
       {/* Modal */}
       {isModalOpen && (
         <CreateCardFixed
-          isModal
+          // isModal
           isMobile
           onClose={() => setIsModalOpen(false)}
         />

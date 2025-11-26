@@ -12,6 +12,8 @@ import { CreateThreadHeader } from "./CreateThreadHeader";
 import { CreateThreadContent } from "./CreateThreadContent";
 import { CreateThreadFooter } from "./CreateThreadFooter";
 import clsx from "clsx";
+import { DraftHeader } from "./DraftHeader";
+import { DraftContent } from "./DraftContent";
 
 export const CreateCardFixed = ({
   isModal = false,
@@ -47,6 +49,10 @@ export const CreateCardFixed = ({
     }
   }, [isModal, isMobile]);
 
+  const handleDraftClick = () => {
+    console.log("Draft button clicked");
+  };
+
   const cardContent = (
     <Card
       className={clsx(
@@ -59,9 +65,30 @@ export const CreateCardFixed = ({
           "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
       )}
     >
-      <CreateThreadHeader onClose={onClose} isModal={isModal} />
+      <CreateThreadHeader
+        onClose={onClose}
+        isModal={isModal}
+        onDraftClick={handleDraftClick}
+      />
       <CreateThreadContent isMobile={isMobile} />
       <CreateThreadFooter />
+    </Card>
+  );
+
+  const draftContent = (
+    <Card
+      className={clsx(
+        "shadow-none border-border bg-card flex flex-col p-0",
+        isModal ? "md:w-[620px]" : "md:w-[494px]",
+        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
+        isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
+        !isModal &&
+          !isMobile &&
+          "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
+      )}
+    >
+      <DraftHeader onClose={onClose} isModal={isModal} />
+      <DraftContent isMobile={isMobile} />
     </Card>
   );
 
@@ -71,7 +98,7 @@ export const CreateCardFixed = ({
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
         onClick={onClose}
       >
-        <MotionWrapper
+        {/* <MotionWrapper
           motionKey="create-modal"
           direction={MOTION_DIRECTIONS.BOTTOM_TO_TOP}
           duration={DEFAULT_MOTION_CONFIG.duration}
@@ -81,6 +108,17 @@ export const CreateCardFixed = ({
           onClick={(e) => e.stopPropagation()}
         >
           {cardContent}
+        </MotionWrapper> */}
+        <MotionWrapper
+          motionKey="create-modal"
+          direction={MOTION_DIRECTIONS.BOTTOM_TO_TOP}
+          duration={DEFAULT_MOTION_CONFIG.duration}
+          ease={DEFAULT_MOTION_CONFIG.ease}
+          mode="wait"
+          initial={true}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {draftContent}
         </MotionWrapper>
       </div>,
       document.body
@@ -93,7 +131,7 @@ export const CreateCardFixed = ({
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
         onClick={onClose}
       >
-        <MotionWrapper
+        {/* <MotionWrapper
           motionKey="create-modal"
           direction={MOTION_DIRECTIONS.SCALE_UP}
           duration={DEFAULT_MOTION_CONFIG.duration}
@@ -103,6 +141,17 @@ export const CreateCardFixed = ({
           onClick={(e) => e.stopPropagation()}
         >
           {cardContent}
+        </MotionWrapper> */}
+        <MotionWrapper
+          motionKey="create-modal"
+          direction={MOTION_DIRECTIONS.SCALE_UP}
+          duration={DEFAULT_MOTION_CONFIG.duration}
+          ease={DEFAULT_MOTION_CONFIG.ease}
+          mode="wait"
+          initial={true}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {draftContent}
         </MotionWrapper>
       </div>,
       document.body
@@ -118,7 +167,7 @@ export const CreateCardFixed = ({
       onInteractOutside={(e) => e.preventDefault()}
       onEscapeKeyDown={onClose}
     >
-      <MotionWrapper
+      {/* <MotionWrapper
         motionKey="create-dropdown"
         direction={MOTION_DIRECTIONS.BOTTOM_RIGHT_TO_TOP_LEFT}
         duration={DEFAULT_MOTION_CONFIG.duration}
@@ -127,6 +176,16 @@ export const CreateCardFixed = ({
         initial={false}
       >
         {cardContent}
+      </MotionWrapper> */}
+      <MotionWrapper
+        motionKey="create-dropdown"
+        direction={MOTION_DIRECTIONS.BOTTOM_RIGHT_TO_TOP_LEFT}
+        duration={DEFAULT_MOTION_CONFIG.duration}
+        ease={1}
+        mode="wait"
+        initial={false}
+      >
+        {draftContent}
       </MotionWrapper>
     </DropdownMenuContent>
   );
