@@ -3,13 +3,17 @@ import { CardContent } from "@/components/ui/card";
 import { CreateThreadItem } from "./CreateThreadItem";
 import avt from "@/assets/avt-placeholder.png";
 import clsx from "clsx";
+import { CreateThreadSchedule } from "./CreateThreadSchedule";
 
-export const CreateThreadContent = ({ isMobile = false }) => {
+export const CreateThreadContent = ({
+  isMobile = false,
+  hasSchedule = false,
+}) => {
   // eslint-disable-next-line react-hooks/purity
-  const [threads, setThreads] = useState([{ id: Date.now() }]);
+  const [threads, setThreads] = useState([{ id: Date.now(), isAIInfo: false }]);
 
   const handleAddThread = () => {
-    setThreads([...threads, { id: Date.now() }]);
+    setThreads([...threads, { id: Date.now(), isAIInfo: true }]);
   };
 
   const handleRemoveThread = (threadId) => {
@@ -20,13 +24,15 @@ export const CreateThreadContent = ({ isMobile = false }) => {
 
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
-      <div className="overflow-y-auto px-6 pt-4 pb-1 max-h-[80vh]">
+      <div className="overflow-y-auto px-6 pb-1 max-h-[80vh]">
+        {hasSchedule && <CreateThreadSchedule />}
         {threads.map((thread, index) => (
           <div key={thread.id} className={index > 0 ? "mt-4" : ""}>
             <CreateThreadItem
               index={index}
               totalThreads={threads.length}
               isFirst={index === 0}
+              isAIInfo={thread.isAIInfo}
               showRemoveButton={index > 0}
               onRemove={() => handleRemoveThread(thread.id)}
             />
@@ -37,7 +43,7 @@ export const CreateThreadContent = ({ isMobile = false }) => {
           <div className="w-9 flex justify-center items-center">
             <img
               src={avt}
-              className="w-4 h-4 rounded-full shrink-0"
+              className="w-4 h-4 rounded-full shrink-0 border border-border"
               alt="Avatar"
             />
           </div>

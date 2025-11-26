@@ -1,6 +1,4 @@
 import PropTypes from "prop-types";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import avt from "@/assets/avt-placeholder.png";
 import {
   AddLocationIcon,
@@ -12,6 +10,7 @@ import {
   XIcon,
 } from "@/components/icons";
 import { ChevronRight } from "lucide-react";
+import clsx from "clsx";
 
 export const CreateThreadItem = ({
   index,
@@ -19,13 +18,14 @@ export const CreateThreadItem = ({
   showRemoveButton = false,
   onRemove,
   isFirst = false,
+  isAIInfo = false,
 }) => {
   return (
-    <div className="flex gap-3">
+    <div className={clsx("flex gap-3", { "pt-4": isFirst })}>
       <div className="flex flex-col items-center">
         <img
           src={avt}
-          className="mt-2 w-9 h-9 rounded-full shrink-0"
+          className="mt-2 w-9 h-9 rounded-full shrink-0 border border-border"
           alt="Avatar"
         />
         <div className="mt-3 w-0.5 flex-1 bg-border" />
@@ -55,7 +55,7 @@ export const CreateThreadItem = ({
           </div>
           {showRemoveButton && (
             <button
-              className="h-4 w-4 rounded-full hover:bg-transparent text-muted-foreground shrink-0"
+              className="h-4 w-4 rounded-full hover:bg-transparent text-muted-foreground shrink-0 "
               onClick={onRemove}
             >
               <XIcon className="h-4 w-4" />
@@ -73,7 +73,7 @@ export const CreateThreadItem = ({
           }}
         />
 
-        <p className="text-xs text-muted-foreground">AI info</p>
+        {isAIInfo && <p className="text-xs text-muted-foreground">AI info</p>}
 
         <div className="-translate-x-2 flex items-center gap-1 mt-1">
           <button className="h-8 w-8 rounded-lg hover:bg-transparent cursor-pointer text-muted-foreground flex items-center justify-center">
