@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CardContent } from "@/components/ui/card";
 import { CreateThreadItem } from "./CreateThreadItem";
 import avt from "@/assets/avt-placeholder.png";
@@ -11,9 +11,20 @@ export const CreateThreadContent = ({
 }) => {
   // eslint-disable-next-line react-hooks/purity
   const [threads, setThreads] = useState([{ id: Date.now(), isAIInfo: false }]);
+  const contentRef = useRef(null);
 
   const handleAddThread = () => {
     setThreads([...threads, { id: Date.now(), isAIInfo: true }]);
+
+    // Scroll to bottom smoothly after adding thread
+    setTimeout(() => {
+      if (contentRef.current) {
+        contentRef.current.scrollTo({
+          top: contentRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
   const handleRemoveThread = (threadId) => {
@@ -25,7 +36,7 @@ export const CreateThreadContent = ({
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
       {hasSchedule && <CreateThreadSchedule />}
-      <div className="overflow-y-auto px-6 pb-1 max-h-[80vh]">
+      <div ref={contentRef} className="overflow-y-auto px-6 pb-1 max-h-[80vh]">
         {threads.map((thread, index) => (
           <div key={thread.id}>
             <CreateThreadItem

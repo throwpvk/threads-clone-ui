@@ -53,9 +53,10 @@ export const CreateCardFixed = ({
         "shadow-none border-border bg-card flex flex-col p-0",
         isModal ? "md:w-[620px]" : "md:w-[494px]",
         isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
+        isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
         !isModal &&
           !isMobile &&
-          "max-h-[80vh] [&_.overflow-y-auto]:max-h-[56vh]"
+          "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
       )}
     >
       <CreateThreadHeader onClose={onClose} isModal={isModal} />
