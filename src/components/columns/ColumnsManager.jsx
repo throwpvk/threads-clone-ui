@@ -64,7 +64,7 @@ export default function ColumnsManager({
         ref={scrollContainerRef}
         className={clsx("flex items-start", {
           "justify-center": isSingleColumn,
-          "h-full w-full pl-24 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
+          "h-full w-full pl-0 md:pl-24 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
             isMultiColumn,
         })}
       >
