@@ -14,6 +14,7 @@ export default function MobileNavItem({ to, icon }) {
       aria-current={match ? "page" : undefined}
     >
       <Icon
+        solid={!!match}
         className={`size-6 transition-colors ${
           match ? "text-foreground" : "text-muted-foreground"
         }`}
