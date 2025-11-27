@@ -65,6 +65,15 @@ export const CreateCardFixed = ({
     }
   };
 
+  const cardClassName = clsx(
+    "shadow-none border-border bg-card flex flex-col p-0 w-full",
+    isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
+    isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
+    !isModal &&
+      !isMobile &&
+      "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
+  );
+
   const cardWidth = isMobile ? "w-screen" : isModal ? "w-[620px]" : "w-[494px]";
 
   const slideContent = (
@@ -90,17 +99,7 @@ export const CreateCardFixed = ({
             cardWidth
           )}
         >
-          <Card
-            className={clsx(
-              "shadow-none border-border bg-card flex flex-col p-0 w-full",
-              isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
-              isModal &&
-                "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
-              !isModal &&
-                !isMobile &&
-                "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
-            )}
-          >
+          <Card className={cardClassName}>
             <CreateThreadHeader
               onClose={onClose}
               isModal={isModal}
@@ -118,17 +117,7 @@ export const CreateCardFixed = ({
             cardWidth
           )}
         >
-          <Card
-            className={clsx(
-              "shadow-none border-border bg-card flex flex-col p-0 w-full",
-              isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
-              isModal &&
-                "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
-              !isModal &&
-                !isMobile &&
-                "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
-            )}
-          >
+          <Card className={cardClassName}>
             <DraftHeader
               onClose={onClose}
               isModal={isModal}
@@ -141,29 +130,11 @@ export const CreateCardFixed = ({
     </div>
   );
 
-  if (isMobile) {
-    return createPortal(
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-        onClick={handleOverlayClick}
-      >
-        <MotionWrapper
-          motionKey="create-modal"
-          direction={MOTION_DIRECTIONS.BOTTOM_TO_TOP}
-          duration={DEFAULT_MOTION_CONFIG.duration}
-          ease={DEFAULT_MOTION_CONFIG.ease}
-          mode="wait"
-          initial={true}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {slideContent}
-        </MotionWrapper>
-      </div>,
-      document.body
-    );
-  }
+  if (isMobile || isModal) {
+    const motionDirection = isMobile
+      ? MOTION_DIRECTIONS.BOTTOM_TO_TOP
+      : MOTION_DIRECTIONS.SCALE_UP;
 
-  if (isModal) {
     return createPortal(
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
@@ -171,7 +142,7 @@ export const CreateCardFixed = ({
       >
         <MotionWrapper
           motionKey="create-modal"
-          direction={MOTION_DIRECTIONS.SCALE_UP}
+          direction={motionDirection}
           duration={DEFAULT_MOTION_CONFIG.duration}
           ease={DEFAULT_MOTION_CONFIG.ease}
           mode="wait"
