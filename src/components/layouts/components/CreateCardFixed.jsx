@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
 import { MotionWrapper } from "@/components/common/MotionWrapper";
@@ -20,19 +20,21 @@ export const CreateCardFixed = ({
   isMobile = false,
   onClose,
 }) => {
+  const [currentView, setCurrentView] = useState("create"); // "create" or "draft"
+
   // Handle ESC key for both modal and dropdown
   useEffect(() => {
     if (!onClose) return;
 
     const handleEscape = (e) => {
-      if (e.key === "Escape") {
+      if (e.key === "Escape" && currentView === "create") {
         onClose();
       }
     };
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [onClose]);
+  }, [currentView, onClose]);
 
   // Lock/unlock scroll when modal is open
   useEffect(() => {
@@ -50,61 +52,100 @@ export const CreateCardFixed = ({
   }, [isModal, isMobile]);
 
   const handleDraftClick = () => {
-    console.log("Draft button clicked");
+    setCurrentView("draft");
   };
 
   const onBackClick = () => {
-    console.log("Back button clicked");
+    setCurrentView("create");
   };
 
-  const cardContent = (
-    <Card
-      className={clsx(
-        "shadow-none border-border bg-card flex flex-col p-0",
-        isModal ? "md:w-[620px]" : "md:w-[494px]",
-        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
-        isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
-        !isModal &&
-          !isMobile &&
-          "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
-      )}
-    >
-      <CreateThreadHeader
-        onClose={onClose}
-        isModal={isModal}
-        onDraftClick={handleDraftClick}
-      />
-      <CreateThreadContent isMobile={isMobile} />
-      <CreateThreadFooter />
-    </Card>
-  );
+  const handleOverlayClick = () => {
+    if (currentView === "create" && onClose) {
+      onClose();
+    }
+  };
 
-  const draftContent = (
-    <Card
-      className={clsx(
-        "shadow-none border-border bg-card flex flex-col p-0",
-        isModal ? "md:w-[620px]" : "md:w-[494px]",
-        isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
-        isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
-        !isModal &&
-          !isMobile &&
-          "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
-      )}
-    >
-      <DraftHeader
-        onClose={onClose}
-        isModal={isModal}
-        onBackClick={onBackClick}
-      />
-      <DraftContent isMobile={isMobile} />
-    </Card>
+  const cardWidth = isMobile ? "w-screen" : isModal ? "w-[620px]" : "w-[494px]";
+
+  const slideContent = (
+    <div className={clsx("relative overflow-hidden", cardWidth)}>
+      <div
+        className="flex h-full transition-transform duration-300 ease-in-out"
+        style={{
+          width: isMobile ? "200vw" : isModal ? "1240px" : "988px",
+          transform:
+            currentView === "create"
+              ? "translateX(0)"
+              : isMobile
+                ? "translateX(-100vw)"
+                : isModal
+                  ? "translateX(-620px)"
+                  : "translateX(-494px)",
+        }}
+      >
+        <div
+          className={clsx(
+            "shrink-0 flex justify-center",
+            isModal ? "items-center" : "items-end",
+            cardWidth
+          )}
+        >
+          <Card
+            className={clsx(
+              "shadow-none border-border bg-card flex flex-col p-0 w-full",
+              isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
+              isModal &&
+                "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
+              !isModal &&
+                !isMobile &&
+                "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
+            )}
+          >
+            <CreateThreadHeader
+              onClose={onClose}
+              isModal={isModal}
+              onDraftClick={handleDraftClick}
+            />
+            <CreateThreadContent isMobile={isMobile} />
+            <CreateThreadFooter />
+          </Card>
+        </div>
+
+        <div
+          className={clsx(
+            "shrink-0 flex justify-center",
+            isModal ? "items-center" : "items-end",
+            cardWidth
+          )}
+        >
+          <Card
+            className={clsx(
+              "shadow-none border-border bg-card flex flex-col p-0 w-full",
+              isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
+              isModal &&
+                "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
+              !isModal &&
+                !isMobile &&
+                "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
+            )}
+          >
+            <DraftHeader
+              onClose={onClose}
+              isModal={isModal}
+              onBackClick={onBackClick}
+            />
+            <DraftContent isMobile={isMobile} />
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 
   if (isMobile) {
     return createPortal(
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-        onClick={onClose}
+        onClick={handleOverlayClick}
       >
         <MotionWrapper
           motionKey="create-modal"
@@ -115,8 +156,7 @@ export const CreateCardFixed = ({
           initial={true}
           onClick={(e) => e.stopPropagation()}
         >
-          {cardContent}
-          {draftContent}
+          {slideContent}
         </MotionWrapper>
       </div>,
       document.body
@@ -127,7 +167,7 @@ export const CreateCardFixed = ({
     return createPortal(
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-        onClick={onClose}
+        onClick={handleOverlayClick}
       >
         <MotionWrapper
           motionKey="create-modal"
@@ -138,8 +178,7 @@ export const CreateCardFixed = ({
           initial={true}
           onClick={(e) => e.stopPropagation()}
         >
-          {cardContent}
-          {draftContent}
+          {slideContent}
         </MotionWrapper>
       </div>,
       document.body
@@ -148,7 +187,7 @@ export const CreateCardFixed = ({
 
   return (
     <DropdownMenuContent
-      className="p-0 rounded-2xl border-border bg-transparent shadow-lg mr-0 -mb-19"
+      className="p-0 rounded-2xl border-0 border-border bg-transparent shadow-lg mr-0 -mb-19"
       align="end"
       side="top"
       sideOffset={8}
@@ -163,8 +202,7 @@ export const CreateCardFixed = ({
         mode="wait"
         initial={false}
       >
-        {cardContent}
-        {draftContent}
+        {slideContent}
       </MotionWrapper>
     </DropdownMenuContent>
   );
