@@ -66,7 +66,7 @@ export const CreateCardFixed = ({
   };
 
   const cardClassName = clsx(
-    "shadow-none border-border bg-card flex flex-col p-0 w-full",
+    "drop-shadow-lg border-border bg-card flex flex-col p-0 w-full",
     isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
     isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
     !isModal &&
@@ -74,27 +74,28 @@ export const CreateCardFixed = ({
       "max-h-[80vh] [&_.overflow-y-auto]:max-h-[calc(80vh-200px)]"
   );
 
-  const cardWidth = isMobile ? "w-screen" : isModal ? "w-[620px]" : "w-[494px]";
+  const cardWidth = isMobile ? "w-screen" : isModal ? "w-[644px]" : "w-[518px]";
 
   const slideContent = (
     <div className={clsx("relative overflow-hidden", cardWidth)}>
       <div
         className="flex h-full transition-transform duration-300 ease-in-out"
         style={{
-          width: isMobile ? "200vw" : isModal ? "1240px" : "988px",
+          width: isMobile ? "200vw" : isModal ? "1288px" : "1036px",
           transform:
             currentView === "create"
               ? "translateX(0)"
               : isMobile
                 ? "translateX(-100vw)"
                 : isModal
-                  ? "translateX(-620px)"
-                  : "translateX(-494px)",
+                  ? "translateX(-644px)"
+                  : "translateX(-518px)",
         }}
       >
         <div
           className={clsx(
-            "shrink-0 flex justify-center",
+            "flex justify-center",
+            isMobile || "p-2",
             isModal ? "items-center" : "items-end",
             cardWidth
           )}
@@ -112,7 +113,8 @@ export const CreateCardFixed = ({
 
         <div
           className={clsx(
-            "shrink-0 flex justify-center",
+            "flex justify-center",
+            isMobile || "p-2",
             isModal ? "items-center" : "items-end",
             cardWidth
           )}
@@ -158,7 +160,7 @@ export const CreateCardFixed = ({
 
   return (
     <DropdownMenuContent
-      className="p-0 rounded-2xl border-0 border-border bg-transparent shadow-none mr-0 -mb-19"
+      className="p-0 rounded-2xl border-0 border-border bg-transparent shadow-none -mr-2 -mb-21"
       align="end"
       side="top"
       sideOffset={8}
