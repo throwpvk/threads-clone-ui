@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { DraftIcon, MoreIcon, XIcon } from "@/components/icons";
-import { DropMenu } from "@/components/dropMenuContent";
-import { CreateThreadMoreSetting } from "./CreateThreadMoreSetting";
+import { DropMenu, CreateThreadMoreMenu } from "@/components/dropMenuContent";
 
 export const CreateThreadHeader = ({
   onClose,
@@ -26,7 +25,7 @@ export const CreateThreadHeader = ({
           >
             <DraftIcon />
           </button>
-          <DropMenu content={<CreateThreadMoreSetting />}>
+          <DropMenu content={<CreateThreadMoreMenu />}>
             <button className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end">
               <MoreIcon />
             </button>

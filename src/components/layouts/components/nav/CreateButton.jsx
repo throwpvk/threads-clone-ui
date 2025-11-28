@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CreateCardFixed } from "./CreateCardFixed";
+import { CreateCardFixed } from "../create/CreateCardFixed";
 
 export default function CreateButton({ icon, toolTipContent = "" }) {
   const Icon = icon;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CreateCardFixed } from "./CreateCardFixed";
+import { CreateCardFixed } from "../create/CreateCardFixed";
 
 export default function MobileCreateButton({ icon }) {
   const Icon = icon;

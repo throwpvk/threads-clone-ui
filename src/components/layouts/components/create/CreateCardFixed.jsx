@@ -12,8 +12,8 @@ import { CreateThreadHeader } from "./CreateThreadHeader";
 import { CreateThreadContent } from "./CreateThreadContent";
 import { CreateThreadFooter } from "./CreateThreadFooter";
 import clsx from "clsx";
-import { DraftHeader } from "./DraftHeader";
-import { DraftContent } from "./DraftContent";
+import { DraftHeader } from "../draft/DraftHeader";
+import { DraftContent } from "../draft/DraftContent";
 
 export const CreateCardFixed = ({
   isModal = false,
@@ -137,7 +137,7 @@ export const CreateCardFixed = ({
 
     return createPortal(
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-background/80"
         onClick={handleOverlayClick}
       >
         <MotionWrapper
@@ -158,7 +158,7 @@ export const CreateCardFixed = ({
 
   return (
     <DropdownMenuContent
-      className="p-0 rounded-2xl border-0 border-border bg-transparent shadow-lg mr-0 -mb-19"
+      className="p-0 rounded-2xl border-0 border-border bg-transparent shadow-none mr-0 -mb-19"
       align="end"
       side="top"
       sideOffset={8}

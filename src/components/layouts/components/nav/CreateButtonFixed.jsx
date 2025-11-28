@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { PlusIcon } from "@/components/icons";
-import { CreateCardFixed } from "./CreateCardFixed";
+import { CreateCardFixed } from "../create/CreateCardFixed";
 
 export default function CreateButtonFixed({
   tooltipContent = "Create New Thread",

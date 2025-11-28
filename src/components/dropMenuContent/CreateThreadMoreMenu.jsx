@@ -12,14 +12,14 @@ import {
 import clsx from "clsx";
 import { Clock } from "lucide-react";
 
-export function CreateThreadMoreSetting({
+export function CreateThreadMoreMenu({
   isAIInfo = false,
   onAIClick = () => {},
   onScheduledClick = () => {},
 }) {
   return (
     <MotionWrapper
-      motionKey="CreateThreadMoreSetting"
+      motionKey="CreateThreadMoreMenu"
       direction={MOTION_DIRECTIONS.TOP_RIGHT_TO_BOTTOM_LEFT}
       duration={DEFAULT_MOTION_CONFIG.duration}
       ease={DEFAULT_MOTION_CONFIG.ease}
