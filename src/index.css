@@ -12,6 +12,12 @@ body.lock-scroll {
   left: 0;
 }
 
+body.modal-lock-scroll {
+  position: fixed !important;
+  width: 100%;
+  overflow-y: scroll;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
