@@ -105,13 +105,20 @@ export const CreateCardFixed = ({
             style={
               isMobile
                 ? undefined
-                : {
-                    opacity: currentView === "create" ? 1 : 0,
-                    transform:
-                      currentView === "create" ? "scaleY(1)" : "scaleY(0.7)",
-                    transition:
-                      "opacity 200ms ease-out 100ms, transform 300ms ease-out",
-                  }
+                : isModal
+                  ? {
+                      opacity: currentView === "create" ? 1 : 0,
+                      transform:
+                        currentView === "create" ? "scaleY(1)" : "scaleY(0.7)",
+                      transition:
+                        "opacity 200ms ease-out 100ms, transform 300ms ease-out",
+                    }
+                  : {
+                      transform:
+                        currentView === "create" ? "scaleY(1)" : "scaleY(0.7)",
+                      transformOrigin: "bottom",
+                      transition: "transform 300ms ease-out",
+                    }
             }
           >
             <CreateThreadHeader
@@ -137,13 +144,20 @@ export const CreateCardFixed = ({
             style={
               isMobile
                 ? undefined
-                : {
-                    opacity: currentView === "draft" ? 1 : 0,
-                    transform:
-                      currentView === "draft" ? "scaleY(1)" : "scaleY(0.7)",
-                    transition:
-                      "opacity 200ms ease-out 100ms, transform 300ms ease-out",
-                  }
+                : isModal
+                  ? {
+                      opacity: currentView === "draft" ? 1 : 0,
+                      transform:
+                        currentView === "draft" ? "scaleY(1)" : "scaleY(0.7)",
+                      transition:
+                        "opacity 200ms ease-out 100ms, transform 300ms ease-out",
+                    }
+                  : {
+                      transform:
+                        currentView === "draft" ? "scaleY(1)" : "scaleY(0.7)",
+                      transformOrigin: "bottom",
+                      transition: "transform 300ms ease-out",
+                    }
             }
           >
             <DraftHeader
