@@ -26,28 +26,32 @@ export function CreateThreadMoreMenu({
       mode="wait"
       initial={true}
     >
-      <DropdownMenuContent className="w-40 mr-30 mt-27 py-2 px-0 rounded-2xl bg-ring border border-border">
-        <DropdownMenuGroup>
-          <DropdownMenuItem
-            onSelect={onAIClick}
-            className="flex cursor-pointer items-center justify-between px-3 py-2 text-base outline-none hover:bg-accent hover:text-foreground"
-          >
-            {isAIInfo ? "Remove AI Label" : "Add AI Label"}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className={clsx(
-              isAIInfo ? "text-muted" : "text-foreground",
-              "flex cursor-pointer items-center justify-between px-3 py-2 text-base hover:bg-accent hover:text-foreground"
-            )}
-            onSelect={isAIInfo || onScheduledClick}
-            disabled={isAIInfo}
-          >
-            Schedule...
-            <DropdownMenuShortcut>
-              <Clock />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+      <DropdownMenuContent className="w-40 mr-30 mb-20 py-2 px-0 z-100 rounded-2xl bg-ring border border-border">
+        <DropdownMenuItem
+          onSelect={onAIClick}
+          className="flex cursor-pointer items-center justify-between px-3 py-2 text-base hover:bg-accent"
+        >
+          {isAIInfo ? "Remove AI Label" : "Add AI Label"}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className={clsx(
+            isAIInfo ? "text-muted" : "text-foreground",
+            "flex justify-between items-center cursor-pointer px-3 py-2 text-base hover:bg-accent"
+          )}
+          onSelect={isAIInfo || onScheduledClick}
+          disabled={isAIInfo}
+        >
+          Schedule...
+          <DropdownMenuShortcut>
+            <Clock
+              className={clsx(
+                "size-5",
+                isAIInfo ? "text-muted" : "text-foreground"
+              )}
+              strokeWidth="1.5"
+            />
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </MotionWrapper>
   );
