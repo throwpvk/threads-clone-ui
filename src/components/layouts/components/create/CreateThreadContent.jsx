@@ -1,37 +1,25 @@
-import { useState, useRef } from "react";
 import { CardContent } from "@/components/ui/card";
 import { CreateThreadItem } from "./CreateThreadItem";
 import avt from "@/assets/avt-placeholder.png";
 import clsx from "clsx";
 import { CreateThreadSchedule } from "./CreateThreadSchedule";
+import PropTypes from "prop-types";
 
 export const CreateThreadContent = ({
   isMobile = false,
   hasSchedule = true,
+  threads,
+  activeThreadId,
+  onAddThread,
+  onRemoveThread,
+  onThreadFocus,
+  onThreadContentChange,
+  contentRef,
 }) => {
-  // eslint-disable-next-line react-hooks/purity
-  const [threads, setThreads] = useState([{ id: Date.now(), isAIInfo: false }]);
-  const contentRef = useRef(null);
-
-  const handleAddThread = () => {
-    setThreads([...threads, { id: Date.now(), isAIInfo: true }]);
-
-    // Scroll to bottom smoothly after adding thread
-    setTimeout(() => {
-      if (contentRef.current) {
-        contentRef.current.scrollTo({
-          top: contentRef.current.scrollHeight,
-          behavior: "smooth",
-        });
-      }
-    }, 100);
-  };
-
-  const handleRemoveThread = (threadId) => {
-    if (threads.length > 1) {
-      setThreads(threads.filter((thread) => thread.id !== threadId));
-    }
-  };
+  // Kiểm tra xem thread cuối cùng có content không
+  const lastThread = threads[threads.length - 1];
+  const canAddThread =
+    lastThread?.content && lastThread.content.trim().length > 0;
 
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
@@ -41,11 +29,18 @@ export const CreateThreadContent = ({
           <div key={thread.id}>
             <CreateThreadItem
               index={index}
+              threadId={thread.id}
               totalThreads={threads.length}
               isFirst={index === 0}
+              isActive={thread.id === activeThreadId}
               isAIInfo={thread.isAIInfo}
+              content={thread.content || ""}
               showRemoveButton={index > 0}
-              onRemove={() => handleRemoveThread(thread.id)}
+              onRemove={() => onRemoveThread(thread.id)}
+              onFocus={() => onThreadFocus(thread.id)}
+              onContentChange={(content) =>
+                onThreadContentChange(thread.id, content)
+              }
             />
           </div>
         ))}
@@ -59,15 +54,31 @@ export const CreateThreadContent = ({
             />
           </div>
           <button
-            className="justify-start h-auto py-0 px-0 hover:bg-transparent text-muted-foreground"
-            onClick={handleAddThread}
+            className={clsx(
+              "justify-start h-auto py-0 px-0 hover:bg-transparent text-sm",
+              canAddThread
+                ? "text-muted-foreground cursor-pointer"
+                : "text-muted-foreground/50 cursor-default"
+            )}
+            onClick={canAddThread ? onAddThread : undefined}
+            disabled={!canAddThread}
           >
-            <span className="hover:bg-transparent text-muted-foreground cursor-pointer text-sm">
-              Add to thread
-            </span>
+            <span className="hover:bg-transparent">Add to thread</span>
           </button>
         </div>
       </div>
     </CardContent>
   );
+};
+
+CreateThreadContent.propTypes = {
+  isMobile: PropTypes.bool,
+  hasSchedule: PropTypes.bool,
+  threads: PropTypes.array.isRequired,
+  activeThreadId: PropTypes.number.isRequired,
+  onAddThread: PropTypes.func.isRequired,
+  onRemoveThread: PropTypes.func.isRequired,
+  onThreadFocus: PropTypes.func.isRequired,
+  onThreadContentChange: PropTypes.func.isRequired,
+  contentRef: PropTypes.object,
 };

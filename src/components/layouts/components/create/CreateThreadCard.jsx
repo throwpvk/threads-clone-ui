@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
 import { MotionWrapper } from "@/components/common/MotionWrapper";
@@ -21,6 +21,12 @@ export const CreateThreadCard = ({
   onClose,
 }) => {
   const [currentView, setCurrentView] = useState("create"); // "create" or "draft"
+  const [threads, setThreads] = useState([
+    { id: 0, isAIInfo: false, content: "" },
+  ]);
+  const [activeThreadId, setActiveThreadId] = useState(0);
+  const nextThreadId = useRef(1); // Track next thread id
+  const contentRef = useRef(null);
 
   // Handle ESC key for both modal and dropdown
   useEffect(() => {
@@ -58,6 +64,63 @@ export const CreateThreadCard = ({
   const onBackClick = () => {
     setCurrentView("create");
   };
+
+  // Toggle AI label cho active thread
+  const handleToggleAILabel = () => {
+    setThreads((prevThreads) =>
+      prevThreads.map((thread) =>
+        thread.id === activeThreadId
+          ? { ...thread, isAIInfo: !thread.isAIInfo }
+          : thread
+      )
+    );
+  };
+
+  // Thêm thread mới
+  const handleAddThread = () => {
+    const newThread = {
+      id: nextThreadId.current,
+      isAIInfo: false,
+      content: "",
+    };
+    nextThreadId.current += 1; // Increment for next thread
+    setThreads([...threads, newThread]);
+    setActiveThreadId(newThread.id);
+
+    // Scroll to bottom smoothly
+    setTimeout(() => {
+      if (contentRef.current) {
+        contentRef.current.scrollTo({
+          top: contentRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+  };
+
+  // Xóa thread
+  const handleRemoveThread = (threadId) => {
+    if (threads.length > 1) {
+      const newThreads = threads.filter((thread) => thread.id !== threadId);
+      setThreads(newThreads);
+      // Nếu thread bị xóa là active thread, chuyển active sang thread đầu tiên
+      if (threadId === activeThreadId && newThreads.length > 0) {
+        setActiveThreadId(newThreads[0].id);
+      }
+    }
+  };
+
+  // Cập nhật content của thread
+  const handleThreadContentChange = (threadId, content) => {
+    setThreads((prevThreads) =>
+      prevThreads.map((thread) =>
+        thread.id === threadId ? { ...thread, content } : thread
+      )
+    );
+  };
+
+  // Kiểm tra xem có thread nào có AI label không
+  const hasAIInfo = threads.some((t) => t.isAIInfo);
 
   const handleOverlayClick = () => {
     if (currentView === "create" && onClose) {
@@ -126,8 +189,19 @@ export const CreateThreadCard = ({
               isModal={isModal}
               isMobile={isMobile}
               onDraftClick={handleDraftClick}
+              onToggleAILabel={handleToggleAILabel}
+              hasAIInfo={hasAIInfo}
             />
-            <CreateThreadContent isMobile={isMobile} />
+            <CreateThreadContent
+              isMobile={isMobile}
+              threads={threads}
+              activeThreadId={activeThreadId}
+              onAddThread={handleAddThread}
+              onRemoveThread={handleRemoveThread}
+              onThreadFocus={setActiveThreadId}
+              onThreadContentChange={handleThreadContentChange}
+              contentRef={contentRef}
+            />
             <CreateThreadFooter />
           </Card>
         </div>

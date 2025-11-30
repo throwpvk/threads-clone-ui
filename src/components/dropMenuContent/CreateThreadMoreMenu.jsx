@@ -10,7 +10,7 @@ import { Clock } from "lucide-react";
 export function CreateThreadMoreMenu({
   isModal = false,
   isMobile = false,
-  isAIInfo = false,
+  hasAIInfo = false,
   onAIClick = () => {},
   onScheduledClick = () => {},
 }) {
@@ -25,27 +25,27 @@ export function CreateThreadMoreMenu({
     >
       <DropdownMenuItem
         onSelect={onAIClick}
-        className="flex cursor-pointer items-center justify-between px-3 py-3 text-base hover:bg-accent rounded-xl m-2"
+        className="flex cursor-pointer items-center justify-between px-3 py-3 text-base font-semibold hover:bg-accent rounded-xl m-2"
       >
-        {isAIInfo ? "Remove AI Label" : "Add AI Label"}
+        {hasAIInfo ? "Remove AI Label" : "Add AI Label"}
       </DropdownMenuItem>
       <DropdownMenuSeparator className="bg-border/50 h-px" />
       <DropdownMenuItem
         className={clsx(
-          isAIInfo ? "text-muted" : "text-foreground",
-          "flex justify-between items-center cursor-pointer px-3 py-3 text-base hover:bg-accent rounded-xl m-2"
+          hasAIInfo ? "text-foreground/50" : "text-foreground",
+          "flex justify-between items-center cursor-pointer px-3 py-3 text-base font-semibold hover:bg-accent rounded-xl m-2"
         )}
-        onSelect={isAIInfo || onScheduledClick}
-        disabled={isAIInfo}
+        onSelect={hasAIInfo || onScheduledClick}
+        disabled={hasAIInfo}
       >
         Schedule...
         <DropdownMenuShortcut>
           <Clock
             className={clsx(
               "size-5",
-              isAIInfo ? "text-muted" : "text-foreground"
+              hasAIInfo ? "text-foreground/50" : "text-foreground"
             )}
-            strokeWidth="1.5"
+            strokeWidth="2"
           />
         </DropdownMenuShortcut>
       </DropdownMenuItem>

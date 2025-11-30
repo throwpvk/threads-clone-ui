@@ -17,6 +17,9 @@ export const CreateThreadItem = ({
   totalThreads,
   showRemoveButton = false,
   onRemove,
+  onFocus,
+  onContentChange,
+  content = "",
   isFirst = false,
   isAIInfo = false,
 }) => {
@@ -44,6 +47,7 @@ export const CreateThreadItem = ({
                   type="text"
                   placeholder="Add a topic"
                   className="flex-1 h-auto px-0 py-0 border-none bg-transparent text-sm text-muted-foreground placeholder:text-muted-foreground outline-none"
+                  onFocus={onFocus}
                 />
               </>
             )}
@@ -67,9 +71,12 @@ export const CreateThreadItem = ({
           placeholder={isFirst ? "What's new?" : "Say more..."}
           className="w-full bg-transparent border-none outline-none resize-none text-sm placeholder:text-muted-foreground leading-5 overflow-hidden"
           rows={1}
+          value={content}
+          onFocus={onFocus}
           onInput={(e) => {
             e.target.style.height = "auto";
             e.target.style.height = e.target.scrollHeight + "px";
+            onContentChange(e.target.value);
           }}
         />
 
@@ -102,8 +109,14 @@ export const CreateThreadItem = ({
 
 CreateThreadItem.propTypes = {
   index: PropTypes.number.isRequired,
+  threadId: PropTypes.number.isRequired,
+  totalThreads: PropTypes.number.isRequired,
   showRemoveButton: PropTypes.bool,
   onRemove: PropTypes.func,
+  onFocus: PropTypes.func,
+  onContentChange: PropTypes.func,
+  content: PropTypes.string,
   isFirst: PropTypes.bool,
-  isLast: PropTypes.bool,
+  isActive: PropTypes.bool,
+  isAIInfo: PropTypes.bool,
 };

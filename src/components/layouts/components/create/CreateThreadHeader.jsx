@@ -8,6 +8,8 @@ export const CreateThreadHeader = ({
   isModal = false,
   isMobile = false,
   onDraftClick,
+  onToggleAILabel,
+  hasAIInfo = false,
 }) => {
   return (
     <CardHeader className="border-b border-border h-14 px-0 flex items-center justify-between">
@@ -22,16 +24,21 @@ export const CreateThreadHeader = ({
         <CardAction className="flex items-center gap-2 h-full">
           <button
             onClick={onDraftClick}
-            className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end active:scale-90 transition-transform duration-150"
+            className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end transition-transform duration-150"
           >
             <DraftIcon />
           </button>
           <DropMenu
             content={
-              <CreateThreadMoreMenu isModal={isModal} isMobile={isMobile} />
+              <CreateThreadMoreMenu
+                isModal={isModal}
+                isMobile={isMobile}
+                hasAIInfo={hasAIInfo}
+                onAIClick={onToggleAILabel}
+              />
             }
           >
-            <button className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end active:scale-90 transition-transform duration-150">
+            <button className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end transition-transform duration-150">
               <MoreIcon strokeWidth="2.2" />
             </button>
           </DropMenu>
