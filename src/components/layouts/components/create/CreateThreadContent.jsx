@@ -8,6 +8,9 @@ import PropTypes from "prop-types";
 export const CreateThreadContent = ({
   isMobile = false,
   hasSchedule = false,
+  scheduleData = null,
+  onRemoveSchedule,
+  onClickSchedule,
   threads,
   activeThreadId,
   onAddThread,
@@ -23,7 +26,13 @@ export const CreateThreadContent = ({
 
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
-      {hasSchedule && <CreateThreadSchedule />}
+      {hasSchedule && scheduleData && (
+        <CreateThreadSchedule
+          dateTime={scheduleData.dateTime}
+          onClose={onRemoveSchedule}
+          onClick={onClickSchedule}
+        />
+      )}
       <div ref={contentRef} className="overflow-y-auto px-6 pb-1 max-h-[80vh]">
         {threads.map((thread, index) => (
           <div key={thread.id}>
@@ -74,6 +83,13 @@ export const CreateThreadContent = ({
 CreateThreadContent.propTypes = {
   isMobile: PropTypes.bool,
   hasSchedule: PropTypes.bool,
+  scheduleData: PropTypes.shape({
+    dateTime: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
+    time: PropTypes.string,
+  }),
+  onRemoveSchedule: PropTypes.func,
+  onClickSchedule: PropTypes.func,
   threads: PropTypes.array.isRequired,
   activeThreadId: PropTypes.number.isRequired,
   onAddThread: PropTypes.func.isRequired,

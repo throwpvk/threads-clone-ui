@@ -26,6 +26,7 @@ export const CreateThreadCard = ({
   ]);
   const [activeThreadId, setActiveThreadId] = useState(0);
   const [showScheduleMenu, setShowScheduleMenu] = useState(false);
+  const [scheduleData, setScheduleData] = useState(null);
   const nextThreadId = useRef(1);
   const contentRef = useRef(null);
 
@@ -125,13 +126,32 @@ export const CreateThreadCard = ({
 
   // Handle schedule done
   const handleScheduleDone = ({ date, time }) => {
-    console.log("Scheduled:", date, time);
+    // Tạo datetime string từ date và time
+    const [hours, minutes] = time.split(":").slice(0, 2).map(Number);
+    const scheduledDateTime = new Date(date);
+    scheduledDateTime.setHours(hours, minutes, 0, 0);
+
+    setScheduleData({
+      dateTime: scheduledDateTime.toISOString(),
+      date,
+      time,
+    });
     setShowScheduleMenu(false);
   };
 
   // Handle schedule close (click outside)
   const handleScheduleClose = () => {
     setShowScheduleMenu(false);
+  };
+
+  // Handle remove schedule
+  const handleRemoveSchedule = () => {
+    setScheduleData(null);
+  };
+
+  // Handle click schedule to edit
+  const handleClickSchedule = () => {
+    setShowScheduleMenu(true);
   };
 
   const handleOverlayClick = () => {
@@ -217,7 +237,10 @@ export const CreateThreadCard = ({
               onThreadFocus={setActiveThreadId}
               onThreadContentChange={handleThreadContentChange}
               contentRef={contentRef}
-              hasSchedule={true}
+              hasSchedule={!!scheduleData}
+              scheduleData={scheduleData}
+              onRemoveSchedule={handleRemoveSchedule}
+              onClickSchedule={handleClickSchedule}
             />
             <CreateThreadFooter />
           </Card>

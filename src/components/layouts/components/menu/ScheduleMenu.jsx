@@ -12,14 +12,17 @@ import {
 import { ClockIcon } from "lucide-react";
 import TimeInput from "@/components/common/TimeInput";
 
-export const ScheduleMenu = ({
-  onDone,
-  onClose,
-  initialDate,
-  initialTime = new Date().toTimeString().slice(0, 5),
-}) => {
+export const ScheduleMenu = ({ onDone, onClose, initialDate, initialTime }) => {
+  // Set default time to current time + 5 minutes
+  const getDefaultTime = () => {
+    if (initialTime) return initialTime;
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + 5);
+    return now.toTimeString().slice(0, 5);
+  };
+
   const [selectedDate, setSelectedDate] = useState(initialDate || new Date());
-  const [time, setTime] = useState(initialTime);
+  const [time, setTime] = useState(getDefaultTime());
   const menuRef = useRef(null);
 
   useEffect(() => {

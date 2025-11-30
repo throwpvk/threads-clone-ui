@@ -37,11 +37,12 @@ export const CreateThreadHeader = ({
       const menuHeight = menuElement.offsetHeight;
       const cardHeight = cardElement.offsetHeight;
       const availableHeight = cardHeight;
+
       if (menuHeight > availableHeight) {
         const offset = menuHeight - availableHeight;
         setMenuTopOffset(-offset);
       } else {
-        setMenuTopOffset(0);
+        setMenuTopOffset(47);
       }
     };
 
@@ -102,7 +103,7 @@ export const CreateThreadHeader = ({
               ? "top-[47px] right-4"
               : isMobile
                 ? "top-[47px] right-4"
-                : "right-0"
+                : "right-4"
           )}
           style={
             !isModal && !isMobile ? { top: `${menuTopOffset}px` } : undefined
