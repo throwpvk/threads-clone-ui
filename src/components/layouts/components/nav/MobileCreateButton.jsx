@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CreateCardFixed } from "../create/CreateCardFixed";
+import { CreateThreadCard } from "../create/CreateThreadCard";
 
 export default function MobileCreateButton({ icon }) {
   const Icon = icon;
@@ -18,7 +18,7 @@ export default function MobileCreateButton({ icon }) {
 
       {/* Modal */}
       {isModalOpen && (
-        <CreateCardFixed
+        <CreateThreadCard
           // isModal
           isMobile
           onClose={() => setIsModalOpen(false)}

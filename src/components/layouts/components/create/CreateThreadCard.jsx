@@ -15,7 +15,7 @@ import clsx from "clsx";
 import { DraftHeader } from "../draft/DraftHeader";
 import { DraftContent } from "../draft/DraftContent";
 
-export const CreateCardFixed = ({
+export const CreateThreadCard = ({
   isModal = false,
   isMobile = false,
   onClose,
@@ -222,7 +222,7 @@ export const CreateCardFixed = ({
   );
 };
 
-CreateCardFixed.propTypes = {
+CreateThreadCard.propTypes = {
   isModal: PropTypes.bool,
   isMobile: PropTypes.bool,
   onClose: PropTypes.func,

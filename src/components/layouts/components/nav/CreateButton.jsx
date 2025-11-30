@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CreateCardFixed } from "../create/CreateCardFixed";
+import { CreateThreadCard } from "../create/CreateThreadCard";
 
 export default function CreateButton({ icon, toolTipContent = "" }) {
   const Icon = icon;
@@ -34,7 +34,7 @@ export default function CreateButton({ icon, toolTipContent = "" }) {
 
       {/* Modal */}
       {isModalOpen && (
-        <CreateCardFixed
+        <CreateThreadCard
           isModal
           onClose={() => {
             setIsModalOpen(false);

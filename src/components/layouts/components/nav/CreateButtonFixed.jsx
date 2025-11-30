@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { PlusIcon } from "@/components/icons";
-import { CreateCardFixed } from "../create/CreateCardFixed";
+import { CreateThreadCard } from "../create/CreateThreadCard";
 
 export default function CreateButtonFixed({
   tooltipContent = "Create New Thread",
@@ -37,7 +37,7 @@ export default function CreateButtonFixed({
           <p>{tooltipContent}</p>
         </TooltipContent>
       </Tooltip>
-      <CreateCardFixed isModal={false} onClose={() => setOpen(false)} />
+      <CreateThreadCard isModal={false} onClose={() => setOpen(false)} />
     </DropdownMenu>
   );
 }
