@@ -189,4 +189,23 @@ body.modal-lock-scroll {
   .scrollbar-custom:not(:hover)::-webkit-scrollbar-thumb {
     background: transparent;
   }
+
+  /* Custom time input - hide seconds picker */
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    cursor: pointer;
+    pointer-events: none;
+  }
+
+  input[type="time"]::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }
+
+  input[type="time"]::-webkit-datetime-edit-second-field {
+    display: none;
+  }
+
+  input[type="time"]::-webkit-datetime-edit-millisecond-field {
+    display: none;
+  }
 }

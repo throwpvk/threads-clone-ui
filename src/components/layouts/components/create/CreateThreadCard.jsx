@@ -14,6 +14,7 @@ import { CreateThreadFooter } from "./CreateThreadFooter";
 import clsx from "clsx";
 import { DraftHeader } from "../draft/DraftHeader";
 import { DraftContent } from "../draft/DraftContent";
+import { ScheduleMenu } from "../menu/ScheduleMenu";
 
 export const CreateThreadCard = ({
   isModal = false,
@@ -25,6 +26,7 @@ export const CreateThreadCard = ({
     { id: 0, isAIInfo: false, content: "" },
   ]);
   const [activeThreadId, setActiveThreadId] = useState(0);
+  const [showScheduleMenu, setShowScheduleMenu] = useState(true); // Control ScheduleMenu visibility
   const nextThreadId = useRef(1); // Track next thread id
   const contentRef = useRef(null);
 
@@ -122,6 +124,12 @@ export const CreateThreadCard = ({
   // Kiểm tra xem có thread nào có AI label không
   const hasAIInfo = threads.some((t) => t.isAIInfo);
 
+  // Handle schedule done
+  const handleScheduleDone = ({ date, time }) => {
+    console.log("Scheduled:", date, time);
+    setShowScheduleMenu(false);
+  };
+
   const handleOverlayClick = () => {
     if (currentView === "create" && onClose) {
       onClose();
@@ -141,6 +149,14 @@ export const CreateThreadCard = ({
 
   const slideContent = (
     <div className={clsx("relative overflow-hidden", cardWidth)}>
+      {/* ScheduleMenu - Absolute positioned at top-right */}
+      {showScheduleMenu && (
+        <div className="absolute top-16 right-0 z-50">
+          <ScheduleMenu onDone={handleScheduleDone} />
+        </div>
+      )}
+
+      {/* Main sliding content */}
       <div
         className="flex h-full transition-transform duration-300 ease-in-out"
         style={{
