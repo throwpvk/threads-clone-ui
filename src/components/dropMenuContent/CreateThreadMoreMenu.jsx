@@ -18,6 +18,8 @@ export function CreateThreadMoreMenu({
     <DropdownMenuContent
       className={clsx(
         "w-70 p-0 z-100 rounded-2xl bg-ring border border-border shadow-lg",
+        "origin-top-right animate-in fade-in-0 zoom-in-0",
+        "duration-transition-duration",
         isModal ? "mr-58 mt-1" : isMobile ? "mr-4 mt-1" : "mr-10 mt-1"
       )}
     >

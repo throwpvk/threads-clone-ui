@@ -10,8 +10,8 @@ export const CreateThreadHeader = ({
   onDraftClick,
 }) => {
   return (
-    <CardHeader className="border-b border-border h-14 px-6! flex items-center justify-between">
-      <div className="flex items-center justify-between flex-1">
+    <CardHeader className="border-b border-border h-14 px-0 flex items-center justify-between">
+      <div className="flex items-center justify-between flex-1 h-full mx-6">
         <button
           className="h-auto px-0 hover:bg-transparent cursor-pointer text-base font-normal"
           onClick={onClose}
@@ -19,10 +19,10 @@ export const CreateThreadHeader = ({
           {isModal ? "Cancel" : <XIcon className="size-5" />}
         </button>
         <CardTitle className="text-base font-semibold">New thread</CardTitle>
-        <CardAction className="flex items-center gap-2">
+        <CardAction className="flex items-center gap-2 h-full">
           <button
             onClick={onDraftClick}
-            className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end"
+            className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end active:scale-90 transition-transform duration-150"
           >
             <DraftIcon />
           </button>
@@ -31,8 +31,8 @@ export const CreateThreadHeader = ({
               <CreateThreadMoreMenu isModal={isModal} isMobile={isMobile} />
             }
           >
-            <button className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end">
-              <MoreIcon />
+            <button className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end active:scale-90 transition-transform duration-150">
+              <MoreIcon strokeWidth="2.2" />
             </button>
           </DropMenu>
         </CardAction>
