@@ -66,7 +66,7 @@ export const CreateCardFixed = ({
   };
 
   const cardClassName = clsx(
-    "drop-shadow-lg border-border bg-card flex flex-col p-0 w-full",
+    "drop-shadow-sm border-border bg-card flex flex-col p-0 w-full",
     isMobile ? "w-screen h-screen rounded-none" : "rounded-2xl",
     isModal && "max-h-[90vh] [&_.overflow-y-auto]:max-h-[calc(90vh-200px)]",
     !isModal &&
@@ -124,6 +124,7 @@ export const CreateCardFixed = ({
             <CreateThreadHeader
               onClose={onClose}
               isModal={isModal}
+              isMobile={isMobile}
               onDraftClick={handleDraftClick}
             />
             <CreateThreadContent isMobile={isMobile} />

@@ -5,7 +5,8 @@ import { DropMenu, CreateThreadMoreMenu } from "@/components/dropMenuContent";
 
 export const CreateThreadHeader = ({
   onClose,
-  isModal = true,
+  isModal = false,
+  isMobile = false,
   onDraftClick,
 }) => {
   return (
@@ -25,7 +26,11 @@ export const CreateThreadHeader = ({
           >
             <DraftIcon />
           </button>
-          <DropMenu content={<CreateThreadMoreMenu />}>
+          <DropMenu
+            content={
+              <CreateThreadMoreMenu isModal={isModal} isMobile={isMobile} />
+            }
+          >
             <button className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end">
               <MoreIcon />
             </button>

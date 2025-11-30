@@ -1,58 +1,52 @@
-import { MotionWrapper } from "@/components/common/MotionWrapper";
 import { DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
 import {
-  DEFAULT_MOTION_CONFIG,
-  MOTION_DIRECTIONS,
-} from "@/constants/motionConfig";
-import {
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@radix-ui/react-dropdown-menu";
 import clsx from "clsx";
 import { Clock } from "lucide-react";
 
 export function CreateThreadMoreMenu({
+  isModal = false,
+  isMobile = false,
   isAIInfo = false,
   onAIClick = () => {},
   onScheduledClick = () => {},
 }) {
   return (
-    <MotionWrapper
-      motionKey="CreateThreadMoreMenu"
-      direction={MOTION_DIRECTIONS.TOP_RIGHT_TO_BOTTOM_LEFT}
-      duration={DEFAULT_MOTION_CONFIG.duration}
-      ease={DEFAULT_MOTION_CONFIG.ease}
-      mode="wait"
-      initial={true}
+    <DropdownMenuContent
+      className={clsx(
+        "w-70 p-0 z-100 rounded-2xl bg-ring border border-border shadow-lg",
+        isModal ? "mr-58 mt-1" : isMobile ? "mr-4 mt-1" : "mr-10 mt-1"
+      )}
     >
-      <DropdownMenuContent className="w-40 mr-30 mb-20 py-2 px-0 z-100 rounded-2xl bg-ring border border-border">
-        <DropdownMenuItem
-          onSelect={onAIClick}
-          className="flex cursor-pointer items-center justify-between px-3 py-2 text-base hover:bg-accent"
-        >
-          {isAIInfo ? "Remove AI Label" : "Add AI Label"}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={clsx(
-            isAIInfo ? "text-muted" : "text-foreground",
-            "flex justify-between items-center cursor-pointer px-3 py-2 text-base hover:bg-accent"
-          )}
-          onSelect={isAIInfo || onScheduledClick}
-          disabled={isAIInfo}
-        >
-          Schedule...
-          <DropdownMenuShortcut>
-            <Clock
-              className={clsx(
-                "size-5",
-                isAIInfo ? "text-muted" : "text-foreground"
-              )}
-              strokeWidth="1.5"
-            />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </MotionWrapper>
+      <DropdownMenuItem
+        onSelect={onAIClick}
+        className="flex cursor-pointer items-center justify-between px-3 py-3 text-base hover:bg-accent rounded-xl m-2"
+      >
+        {isAIInfo ? "Remove AI Label" : "Add AI Label"}
+      </DropdownMenuItem>
+      <DropdownMenuSeparator className="bg-border/50 h-px" />
+      <DropdownMenuItem
+        className={clsx(
+          isAIInfo ? "text-muted" : "text-foreground",
+          "flex justify-between items-center cursor-pointer px-3 py-3 text-base hover:bg-accent rounded-xl m-2"
+        )}
+        onSelect={isAIInfo || onScheduledClick}
+        disabled={isAIInfo}
+      >
+        Schedule...
+        <DropdownMenuShortcut>
+          <Clock
+            className={clsx(
+              "size-5",
+              isAIInfo ? "text-muted" : "text-foreground"
+            )}
+            strokeWidth="1.5"
+          />
+        </DropdownMenuShortcut>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
   );
 }

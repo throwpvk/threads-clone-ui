@@ -67,7 +67,10 @@ export const MenuNavigator = () => {
         mode="wait"
         initial={false}
         wrapperAnimate={{ width: currentMenu === "appearance" ? 314 : 240 }}
-        wrapperTransition={{ duration: 0.1, ease: "easeInOut" }}
+        wrapperTransition={{
+          duration: DEFAULT_MOTION_CONFIG.duration,
+          ease: DEFAULT_MOTION_CONFIG.ease,
+        }}
       >
         {currentMenu === "appearance" ? (
           <AppearanceMenuItems onBack={handleBackToNav} />
