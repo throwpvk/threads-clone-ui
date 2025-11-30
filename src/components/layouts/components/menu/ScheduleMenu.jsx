@@ -15,7 +15,7 @@ import TimeInput from "@/components/common/TimeInput";
 export const ScheduleMenu = ({
   onDone,
   initialDate,
-  initialTime = "00:00",
+  initialTime = new Date().toTimeString().slice(0, 5),
 }) => {
   const [selectedDate, setSelectedDate] = useState(initialDate || new Date());
   const [time, setTime] = useState(initialTime);
@@ -23,7 +23,7 @@ export const ScheduleMenu = ({
   const handleDone = () => {
     onDone?.({
       date: selectedDate,
-      time,
+      time: `${time}:00`,
     });
   };
 
@@ -52,22 +52,22 @@ export const ScheduleMenu = ({
       mode="wait"
       initial={true}
     >
-      <Card className="drop-shadow-sm border-border bg-card flex flex-col p-4 rounded-3xl">
+      <Card className="drop-shadow-sm border-border bg-card flex flex-col pt-1 pb-2 px-2 rounded-2xl">
         <div className="flex items-center justify-center p-0">
           <Calendar
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
-            className="rounded-md bg-card"
+            className="rounded-md bg-card p-0"
             disabled={(date) =>
               date < new Date(new Date().setHours(0, 0, 0, 0))
             }
           />
         </div>
 
-        <Separator className="my-2" />
+        <Separator className="mt-1 mb-2" />
 
-        <div className="flex justify-center items-center gap-4 p-0">
+        <div className="flex justify-center items-center gap-4 p-0 mx-4">
           <div
             className={`flex-3 flex items-center justify-between gap-2 px-3 py-2 border rounded-xl bg-background h-9 ${
               isTimeInvalid() ? "border-red-500" : "border-border"

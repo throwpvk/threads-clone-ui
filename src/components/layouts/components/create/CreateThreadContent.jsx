@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 export const CreateThreadContent = ({
   isMobile = false,
-  hasSchedule = true,
+  hasSchedule = false,
   threads,
   activeThreadId,
   onAddThread,

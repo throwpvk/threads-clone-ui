@@ -7,12 +7,12 @@ import {
 import clsx from "clsx";
 import { Clock } from "lucide-react";
 
-export function CreateThreadMoreMenu({
+export function MoreMenu({
   isModal = false,
   isMobile = false,
   hasAIInfo = false,
   onAIClick = () => {},
-  onScheduledClick = () => {},
+  onScheduleClick = () => {},
 }) {
   return (
     <DropdownMenuContent
@@ -35,7 +35,7 @@ export function CreateThreadMoreMenu({
           hasAIInfo ? "text-foreground/50" : "text-foreground",
           "flex justify-between items-center cursor-pointer px-3 py-3 text-base font-semibold hover:bg-accent rounded-xl m-2"
         )}
-        onSelect={hasAIInfo || onScheduledClick}
+        onSelect={onScheduleClick}
         disabled={hasAIInfo}
       >
         Schedule...

@@ -26,11 +26,11 @@ export const CreateThreadCard = ({
     { id: 0, isAIInfo: false, content: "" },
   ]);
   const [activeThreadId, setActiveThreadId] = useState(0);
-  const [showScheduleMenu, setShowScheduleMenu] = useState(true); // Control ScheduleMenu visibility
-  const nextThreadId = useRef(1); // Track next thread id
+  const [showScheduleMenu, setShowScheduleMenu] = useState(false);
+  const nextThreadId = useRef(1);
   const contentRef = useRef(null);
 
-  // Handle ESC key for both modal and dropdown
+  // Handle ESC key
   useEffect(() => {
     if (!onClose) return;
 
@@ -149,14 +149,6 @@ export const CreateThreadCard = ({
 
   const slideContent = (
     <div className={clsx("relative overflow-hidden", cardWidth)}>
-      {/* ScheduleMenu - Absolute positioned at top-right */}
-      {showScheduleMenu && (
-        <div className="absolute top-16 right-0 z-50">
-          <ScheduleMenu onDone={handleScheduleDone} />
-        </div>
-      )}
-
-      {/* Main sliding content */}
       <div
         className="flex h-full transition-transform duration-300 ease-in-out"
         style={{
@@ -206,7 +198,10 @@ export const CreateThreadCard = ({
               isMobile={isMobile}
               onDraftClick={handleDraftClick}
               onToggleAILabel={handleToggleAILabel}
+              onScheduleClick={() => setShowScheduleMenu(true)}
               hasAIInfo={hasAIInfo}
+              showScheduleMenu={showScheduleMenu}
+              onScheduleDone={handleScheduleDone}
             />
             <CreateThreadContent
               isMobile={isMobile}
