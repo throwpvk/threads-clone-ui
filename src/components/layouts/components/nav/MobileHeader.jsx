@@ -2,7 +2,7 @@ import React from "react";
 import { ThreadsLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import MobileMenuIcon from "@/components/icons/MobileMenuIcon";
-import { DropMenu } from "@/components/dropMenuContent";
+import { DropMenu } from "@/components/dropMenu";
 import { MenuNavigator } from "@/components/layouts/components";
 
 const MobileHeader = () => {

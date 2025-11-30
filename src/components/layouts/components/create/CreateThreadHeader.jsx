@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { DraftIcon, MoreIcon, XIcon } from "@/components/icons";
-import { DropMenu } from "@/components/dropMenuContent";
+import { DropMenu } from "@/components/dropMenu";
 import { CreateThreadMoreMenu } from "@/components/layouts/components";
 
 export const CreateThreadHeader = ({
