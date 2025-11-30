@@ -14,7 +14,6 @@ import { CreateThreadFooter } from "./CreateThreadFooter";
 import clsx from "clsx";
 import { DraftHeader } from "../draft/DraftHeader";
 import { DraftContent } from "../draft/DraftContent";
-import { ScheduleMenu } from "../menu/ScheduleMenu";
 
 export const CreateThreadCard = ({
   isModal = false,
@@ -130,6 +129,11 @@ export const CreateThreadCard = ({
     setShowScheduleMenu(false);
   };
 
+  // Handle schedule close (click outside)
+  const handleScheduleClose = () => {
+    setShowScheduleMenu(false);
+  };
+
   const handleOverlayClick = () => {
     if (currentView === "create" && onClose) {
       onClose();
@@ -198,10 +202,11 @@ export const CreateThreadCard = ({
               isMobile={isMobile}
               onDraftClick={handleDraftClick}
               onToggleAILabel={handleToggleAILabel}
-              onScheduleClick={() => setShowScheduleMenu(true)}
+              onScheduleClick={() => setShowScheduleMenu(!showScheduleMenu)}
               hasAIInfo={hasAIInfo}
               showScheduleMenu={showScheduleMenu}
               onScheduleDone={handleScheduleDone}
+              onScheduleClose={handleScheduleClose}
             />
             <CreateThreadContent
               isMobile={isMobile}
@@ -212,6 +217,7 @@ export const CreateThreadCard = ({
               onThreadFocus={setActiveThreadId}
               onThreadContentChange={handleThreadContentChange}
               contentRef={contentRef}
+              hasSchedule={true}
             />
             <CreateThreadFooter />
           </Card>

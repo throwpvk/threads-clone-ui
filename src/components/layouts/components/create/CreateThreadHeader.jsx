@@ -16,6 +16,7 @@ export const CreateThreadHeader = ({
   hasAIInfo = false,
   showScheduleMenu = false,
   onScheduleDone,
+  onScheduleClose,
 }) => {
   const scheduleMenuRef = useRef(null);
   const [menuTopOffset, setMenuTopOffset] = useState(0);
@@ -107,7 +108,7 @@ export const CreateThreadHeader = ({
             !isModal && !isMobile ? { top: `${menuTopOffset}px` } : undefined
           }
         >
-          <ScheduleMenu onDone={onScheduleDone} />
+          <ScheduleMenu onDone={onScheduleDone} onClose={onScheduleClose} />
         </div>
       )}
     </CardHeader>
@@ -124,4 +125,5 @@ CreateThreadHeader.propTypes = {
   hasAIInfo: PropTypes.bool,
   showScheduleMenu: PropTypes.bool,
   onScheduleDone: PropTypes.func,
+  onScheduleClose: PropTypes.func,
 };

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -14,11 +14,26 @@ import TimeInput from "@/components/common/TimeInput";
 
 export const ScheduleMenu = ({
   onDone,
+  onClose,
   initialDate,
   initialTime = new Date().toTimeString().slice(0, 5),
 }) => {
   const [selectedDate, setSelectedDate] = useState(initialDate || new Date());
   const [time, setTime] = useState(initialTime);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleDone = () => {
     onDone?.({
@@ -52,7 +67,10 @@ export const ScheduleMenu = ({
       mode="wait"
       initial={true}
     >
-      <Card className="drop-shadow-sm border-border bg-card flex flex-col pt-1 pb-2 px-2 rounded-2xl">
+      <Card
+        ref={menuRef}
+        className="drop-shadow-sm border-border bg-card flex flex-col p-3 rounded-2xl"
+      >
         <div className="flex items-center justify-center p-0">
           <Calendar
             mode="single"
@@ -65,9 +83,9 @@ export const ScheduleMenu = ({
           />
         </div>
 
-        <Separator className="mt-1 mb-2" />
+        <Separator className="my-2" />
 
-        <div className="flex justify-center items-center gap-4 p-0 mx-4">
+        <div className="flex justify-center items-center gap-4 p-0">
           <div
             className={`flex-3 flex items-center justify-between gap-2 px-3 py-2 border rounded-xl bg-background h-9 ${
               isTimeInvalid() ? "border-red-500" : "border-border"
@@ -96,6 +114,7 @@ export const ScheduleMenu = ({
 
 ScheduleMenu.propTypes = {
   onDone: PropTypes.func,
+  onClose: PropTypes.func,
   initialDate: PropTypes.instanceOf(Date),
   initialTime: PropTypes.string,
 };
