@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
 import { MotionWrapper } from "@/components/common/MotionWrapper";
@@ -30,19 +30,25 @@ export const CreateThreadCard = ({
   const nextThreadId = useRef(1);
   const contentRef = useRef(null);
 
+  const handleClose = useCallback(() => {
+    setThreads([{ id: 0, isAIInfo: false, content: "" }]);
+    setActiveThreadId(0);
+    onClose();
+  }, [onClose]);
+
   // Handle ESC key
   useEffect(() => {
     if (!onClose) return;
 
     const handleEscape = (e) => {
       if (e.key === "Escape" && currentView === "create") {
-        onClose();
+        handleClose();
       }
     };
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [currentView, onClose]);
+  }, [currentView, onClose, handleClose]);
 
   // Lock/unlock scroll when modal is open
   useEffect(() => {
@@ -217,7 +223,7 @@ export const CreateThreadCard = ({
             }
           >
             <CreateThreadHeader
-              onClose={onClose}
+              onClose={handleClose}
               isModal={isModal}
               isMobile={isMobile}
               onDraftClick={handleDraftClick}
@@ -276,7 +282,7 @@ export const CreateThreadCard = ({
             }
           >
             <DraftHeader
-              onClose={onClose}
+              onClose={handleClose}
               isModal={isModal}
               onBackClick={onBackClick}
             />

@@ -58,7 +58,12 @@ export const CreateThreadContent = ({
           <div className="w-9 flex justify-center items-center">
             <img
               src={avt}
-              className="w-4 h-4 rounded-full shrink-0 border border-border"
+              className={clsx(
+                "w-4 h-4 rounded-full shrink-0 border border-border",
+                canAddThread
+                  ? "opacity-100 cursor-pointer"
+                  : "opacity-50 cursor-default"
+              )}
               alt="Avatar"
             />
           </div>
