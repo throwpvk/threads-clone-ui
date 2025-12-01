@@ -11,7 +11,7 @@ const MobileHeader = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/85 backdrop-blur supports-backdrop-filter:bg-background/80 md:hidden">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/85 backdrop-blur supports-backdrop-filter:bg-black/70 md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         <div className="w-10"></div>
         <div className="absolute left-1/2 -translate-x-1/2">
