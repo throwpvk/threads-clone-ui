@@ -14,6 +14,7 @@ import { CreateThreadFooter } from "./CreateThreadFooter";
 import clsx from "clsx";
 import { DraftHeader } from "../draft/DraftHeader";
 import { DraftContent } from "../draft/DraftContent";
+import CancelDialogContent from "../menu/CancelDialogContent";
 
 export const CreateThreadCard = ({
   isModal = false,
@@ -36,19 +37,123 @@ export const CreateThreadCard = ({
     onClose();
   }, [onClose]);
 
+  // Draft dialog + saving state
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [savingDraft, setSavingDraft] = useState(false);
+
+  const DRAFT_KEY = "threads_create_draft_v1";
+  const loadDraftsFromStorage = () => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      // support both single object and array
+      if (Array.isArray(parsed)) return parsed;
+      if (parsed && parsed.threads) {
+        // older shape => convert to single draft entry
+        const first = parsed.threads[0] || { content: "" };
+        return [
+          {
+            id: Date.now(),
+            content: first.content || "",
+            scheduleData: parsed.scheduleData || null,
+            savedAt: parsed.savedAt || new Date().toISOString(),
+          },
+        ];
+      }
+      return [];
+    } catch (e) {
+      console.warn("Failed to load draft from storage", e);
+      return [];
+    }
+  };
+
+  const saveDraftsToStorage = (drafts) => {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(drafts));
+    } catch (e) {
+      console.warn("Failed to save drafts to storage", e);
+    }
+  };
+
+  const [draftsList, setDraftsList] = useState([]);
+
   // Handle ESC key
   useEffect(() => {
     if (!onClose) return;
 
     const handleEscape = (e) => {
       if (e.key === "Escape" && currentView === "create") {
-        handleClose();
+        const first = threads && threads[0];
+        const firstEmpty = !first.content || first.content.trim().length === 0;
+        if (firstEmpty) {
+          handleClose();
+        } else {
+          setShowCancelDialog(true);
+        }
       }
     };
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [currentView, onClose, handleClose]);
+  }, [currentView, onClose, handleClose, threads]);
+
+  // load draft when component mounts
+  useEffect(() => {
+    const drafts = loadDraftsFromStorage();
+    if (drafts && drafts.length > 0) {
+      // defer setState to avoid cascading render warning
+      setTimeout(() => setDraftsList(drafts), 0);
+      // do not auto-load into create view; user can open Draft tab to apply
+    }
+  }, []);
+
+  const handleConfirmDiscard = () => {
+    setShowCancelDialog(false);
+    handleClose();
+  };
+
+  const handleConfirmSave = async () => {
+    setSavingDraft(true);
+    try {
+      const first = threads && threads[0] ? threads[0] : { content: "" };
+      const newDraft = {
+        id: Date.now(),
+        content: first.content || "",
+        scheduleData: scheduleData || null,
+        savedAt: new Date().toISOString(),
+      };
+      const next = [newDraft, ...draftsList];
+      setDraftsList(next);
+      saveDraftsToStorage(next);
+    } catch (err) {
+      console.warn(err);
+    }
+    setSavingDraft(false);
+    setShowCancelDialog(false);
+    handleClose();
+  };
+
+  // Try to close: if first thread is empty then close immediately, else open confirm dialog
+  const attemptClose = useCallback(() => {
+    const first = threads && threads[0];
+    const firstEmpty = !first.content || first.content.trim().length === 0;
+
+    if (firstEmpty) {
+      handleClose();
+    } else {
+      setShowCancelDialog(true);
+    }
+  }, [threads, handleClose]);
+
+  // When user selects a draft from DraftContent, load it into create view
+  const handleSelectDraft = (draft) => {
+    const thread = { id: 0, isAIInfo: false, content: draft.content || "" };
+    setThreads([thread]);
+    setActiveThreadId(0);
+    setScheduleData(draft.scheduleData || null);
+    setCurrentView("create");
+  };
 
   // Lock/unlock scroll when modal is open
   useEffect(() => {
@@ -161,9 +266,13 @@ export const CreateThreadCard = ({
   };
 
   const handleOverlayClick = () => {
-    if (currentView === "create" && onClose) {
-      onClose();
+    if (currentView === "create") {
+      attemptClose();
     }
+  };
+
+  const handleConfirmCancel = () => {
+    setShowCancelDialog(false);
   };
 
   const cardClassName = clsx(
@@ -178,7 +287,14 @@ export const CreateThreadCard = ({
   const cardWidth = isMobile ? "w-screen" : isModal ? "w-[644px]" : "w-[518px]";
 
   const slideContent = (
-    <div className={clsx("relative overflow-hidden", cardWidth)}>
+    <div
+      className={clsx(
+        "relative overflow-hidden",
+        isModal && " min-h-150 flex items-center",
+        !isModal && !isMobile && " min-h-150 flex items-end",
+        cardWidth
+      )}
+    >
       <div
         className="flex h-full transition-transform duration-300 ease-in-out"
         style={{
@@ -223,7 +339,7 @@ export const CreateThreadCard = ({
             }
           >
             <CreateThreadHeader
-              onClose={handleClose}
+              onClose={attemptClose}
               isModal={isModal}
               isMobile={isMobile}
               onDraftClick={handleDraftClick}
@@ -282,11 +398,15 @@ export const CreateThreadCard = ({
             }
           >
             <DraftHeader
-              onClose={handleClose}
+              onClose={attemptClose}
               isModal={isModal}
               onBackClick={onBackClick}
             />
-            <DraftContent isMobile={isMobile} />
+            <DraftContent
+              isMobile={isMobile}
+              drafts={draftsList}
+              onSelectDraft={handleSelectDraft}
+            />
           </Card>
         </div>
       </div>
@@ -314,6 +434,13 @@ export const CreateThreadCard = ({
         >
           {slideContent}
         </MotionWrapper>
+        <CancelDialogContent
+          open={showCancelDialog}
+          onClose={handleConfirmCancel}
+          onSave={handleConfirmSave}
+          onDiscard={handleConfirmDiscard}
+          saving={savingDraft}
+        />
       </div>,
       document.body
     );
@@ -326,7 +453,7 @@ export const CreateThreadCard = ({
       side="top"
       sideOffset={8}
       onInteractOutside={(e) => e.preventDefault()}
-      onEscapeKeyDown={onClose}
+      onEscapeKeyDown={() => setShowCancelDialog(true)}
     >
       <MotionWrapper
         motionKey="create-dropdown"
@@ -338,6 +465,13 @@ export const CreateThreadCard = ({
       >
         {slideContent}
       </MotionWrapper>
+      <CancelDialogContent
+        open={showCancelDialog}
+        onClose={handleConfirmCancel}
+        onSave={handleConfirmSave}
+        onDiscard={handleConfirmDiscard}
+        saving={savingDraft}
+      />
     </DropdownMenuContent>
   );
 };

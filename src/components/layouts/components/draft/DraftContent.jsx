@@ -1,64 +1,44 @@
 import { CardContent } from "@/components/ui/card";
 import { DraftItem } from "./DraftItem";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 
-// Mock draft data
-const mockDrafts = [
-  {
-    id: 1,
-    username: "pvkhaii",
-    time: "16m",
-    content: `sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-XSssssssssssssssssssssss
-XSssssssssssssssssssssss
-xssssssssssssssssssssssssxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-XSssssssssssssssssssssss
-XSssssssssssssssssssssss
-xssssssssssssssssssssssss`,
-  },
-  {
-    id: 2,
-    username: "pvkhaii",
-    time: "16m",
-    content: `sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-XSssssssssssssssssssssss
-XSssssssssssssssssssssss
-xssssssssssssssssssssssss`,
-  },
-  {
-    id: 3,
-    username: "pvkhaii",
-    time: "16m",
-    content: `sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-sxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-XSssssssssssssssssssssss
-XSssssssssssssssssssssss
-xssssssssssssssssssssssss`,
-  },
-];
+const mockDrafts = [];
 
-export const DraftContent = ({ isMobile = false }) => {
-  const handleDraftClick = (draftId) => {
-    console.log("Draft clicked:", draftId);
-    // TODO: Load draft and switch back to create thread view
+export const DraftContent = ({
+  isMobile = false,
+  drafts = null,
+  onSelectDraft = null,
+}) => {
+  const list = Array.isArray(drafts) && drafts.length ? drafts : mockDrafts;
+
+  const handleDraftClick = (draft) => {
+    if (onSelectDraft) onSelectDraft(draft);
   };
 
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
       <div className="overflow-y-auto max-h-[calc(90vh-56px)]">
-        {mockDrafts.map((draft) => (
+        {list.map((draft) => (
           <DraftItem
             key={draft.id}
-            username={draft.username}
-            time={draft.time}
+            username={draft.username || "You"}
+            time={
+              draft.savedAt
+                ? new Date(draft.savedAt).toLocaleString()
+                : draft.time
+            }
             content={draft.content}
-            onClick={() => handleDraftClick(draft.id)}
+            onClick={() => handleDraftClick(draft)}
           />
         ))}
       </div>
     </CardContent>
   );
+};
+
+DraftContent.propTypes = {
+  isMobile: PropTypes.bool,
+  drafts: PropTypes.array,
+  onSelectDraft: PropTypes.func,
 };
