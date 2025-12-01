@@ -71,12 +71,30 @@ export const CreateThreadCard = ({
   const saveDraftsToStorage = (drafts) => {
     try {
       localStorage.setItem(DRAFT_KEY, JSON.stringify(drafts));
-    } catch (e) {
-      console.warn("Failed to save drafts to storage", e);
+      // Dispatch an in-page event so other mounted instances can sync immediately
+      try {
+        window.dispatchEvent(
+          new CustomEvent("threads:drafts:updated", { detail: drafts })
+        );
+      } catch (e) {
+        // ignore if CustomEvent is not supported for some reason
+      }
+    } catch {
+      console.warn("Failed to save drafts to storage");
     }
   };
 
   const [draftsList, setDraftsList] = useState([]);
+  const [editingDraftId, setEditingDraftId] = useState(null);
+
+  const sortDrafts = (arr) => {
+    if (!Array.isArray(arr)) return [];
+    return arr.slice().sort((a, b) => {
+      const ta = a && a.savedAt ? Date.parse(a.savedAt) : 0;
+      const tb = b && b.savedAt ? Date.parse(b.savedAt) : 0;
+      return tb - ta;
+    });
+  };
 
   // Handle ESC key
   useEffect(() => {
@@ -103,13 +121,44 @@ export const CreateThreadCard = ({
     const drafts = loadDraftsFromStorage();
     if (drafts && drafts.length > 0) {
       // defer setState to avoid cascading render warning
-      setTimeout(() => setDraftsList(drafts), 0);
+      setTimeout(() => setDraftsList(sortDrafts(drafts)), 0);
       // do not auto-load into create view; user can open Draft tab to apply
     }
   }, []);
 
+  // Listen for draft updates from other instances (same page) and storage events (other tabs)
+  useEffect(() => {
+    const onDraftsUpdated = (e) => {
+      try {
+        const payload = e && e.detail ? e.detail : null;
+        const next = payload
+          ? sortDrafts(payload)
+          : sortDrafts(loadDraftsFromStorage());
+        setDraftsList(next);
+      } catch {
+        // fallback to loading from storage
+        setDraftsList(sortDrafts(loadDraftsFromStorage()));
+      }
+    };
+
+    const onStorage = (e) => {
+      if (e && e.key === DRAFT_KEY) {
+        setDraftsList(sortDrafts(loadDraftsFromStorage()));
+      }
+    };
+
+    window.addEventListener("threads:drafts:updated", onDraftsUpdated);
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("threads:drafts:updated", onDraftsUpdated);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
   const handleConfirmDiscard = () => {
     setShowCancelDialog(false);
+    setEditingDraftId(null);
     handleClose();
   };
 
@@ -117,20 +166,39 @@ export const CreateThreadCard = ({
     setSavingDraft(true);
     try {
       const first = threads && threads[0] ? threads[0] : { content: "" };
-      const newDraft = {
-        id: Date.now(),
-        content: first.content || "",
-        scheduleData: scheduleData || null,
-        savedAt: new Date().toISOString(),
-      };
-      const next = [newDraft, ...draftsList];
-      setDraftsList(next);
-      saveDraftsToStorage(next);
+      if (editingDraftId) {
+        // update existing draft (update timestamp)
+        const nextUnsorted = draftsList.map((d) =>
+          d.id === editingDraftId
+            ? {
+                ...d,
+                content: first.content || "",
+                scheduleData: scheduleData || null,
+                savedAt: new Date().toISOString(),
+              }
+            : d
+        );
+        const next = sortDrafts(nextUnsorted);
+        setDraftsList(next);
+        saveDraftsToStorage(next);
+      } else {
+        const newDraft = {
+          id: Date.now(),
+          content: first.content || "",
+          scheduleData: scheduleData || null,
+          savedAt: new Date().toISOString(),
+        };
+        const next = sortDrafts([newDraft, ...draftsList]);
+        setDraftsList(next);
+        saveDraftsToStorage(next);
+      }
     } catch (err) {
       console.warn(err);
     }
     setSavingDraft(false);
     setShowCancelDialog(false);
+    // reset editing state and close
+    setEditingDraftId(null);
     handleClose();
   };
 
@@ -152,7 +220,22 @@ export const CreateThreadCard = ({
     setThreads([thread]);
     setActiveThreadId(0);
     setScheduleData(draft.scheduleData || null);
+    // remember which draft we loaded so updates go to this draft
+    setEditingDraftId(draft.id || null);
     setCurrentView("create");
+  };
+
+  const handleDeleteDraft = (draftId) => {
+    const next = draftsList.filter((d) => d.id !== draftId);
+    setDraftsList(next);
+    saveDraftsToStorage(next);
+    // if we were editing this draft, clear editing state and reset form
+    if (editingDraftId === draftId) {
+      setEditingDraftId(null);
+      setThreads([{ id: 0, isAIInfo: false, content: "" }]);
+      setActiveThreadId(0);
+      setScheduleData(null);
+    }
   };
 
   // Lock/unlock scroll when modal is open
@@ -171,7 +254,16 @@ export const CreateThreadCard = ({
   }, [isModal, isMobile]);
 
   const handleDraftClick = () => {
-    setCurrentView("draft");
+    const first = threads && threads[0];
+    const firstEmpty = !first.content || first.content.trim().length === 0;
+
+    if (firstEmpty) {
+      // existing behavior: open draft list
+      setCurrentView("draft");
+    } else {
+      // prompt save/update before showing drafts
+      setShowCancelDialog(true);
+    }
   };
 
   const onBackClick = () => {
@@ -403,9 +495,11 @@ export const CreateThreadCard = ({
               onBackClick={onBackClick}
             />
             <DraftContent
+              isModal={isModal}
               isMobile={isMobile}
               drafts={draftsList}
               onSelectDraft={handleSelectDraft}
+              onDeleteDraft={handleDeleteDraft}
             />
           </Card>
         </div>
@@ -440,6 +534,8 @@ export const CreateThreadCard = ({
           onSave={handleConfirmSave}
           onDiscard={handleConfirmDiscard}
           saving={savingDraft}
+          saveLabel={editingDraftId ? "Update" : "Save"}
+          title={editingDraftId ? "Update draft?" : "Save to drafts?"}
         />
       </div>,
       document.body
@@ -471,6 +567,8 @@ export const CreateThreadCard = ({
         onSave={handleConfirmSave}
         onDiscard={handleConfirmDiscard}
         saving={savingDraft}
+        saveLabel={editingDraftId ? "Update" : "Save"}
+        title={editingDraftId ? "Update draft?" : "Save to drafts?"}
       />
     </DropdownMenuContent>
   );

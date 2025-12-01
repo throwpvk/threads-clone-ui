@@ -10,6 +10,8 @@ export const CancelDialogContent = ({
   onSave = () => {},
   onDiscard = () => {},
   saving = false,
+  saveLabel = "Save",
+  title = "Save to drafts?",
 }) => {
   const content = (
     <div className="w-full flex flex-col gap-0">
@@ -25,7 +27,7 @@ export const CancelDialogContent = ({
         }}
         disabled={saving}
       >
-        {saving ? "Saving..." : "Save"}
+        {saving ? `${saveLabel}...` : saveLabel}
       </button>
 
       <button
@@ -51,7 +53,7 @@ export const CancelDialogContent = ({
     <ConfirmDialog
       open={open}
       onClose={onClose}
-      title="Save to drafts?"
+      title={title}
       ariaLabel="Save to drafts dialog"
       width="w-70"
     >
@@ -66,6 +68,8 @@ CancelDialogContent.propTypes = {
   onSave: PropTypes.func,
   onDiscard: PropTypes.func,
   saving: PropTypes.bool,
+  saveLabel: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default CancelDialogContent;
