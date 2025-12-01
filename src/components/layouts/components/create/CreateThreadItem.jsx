@@ -11,6 +11,7 @@ import {
 } from "@/components/icons";
 import { ChevronRight } from "lucide-react";
 import clsx from "clsx";
+import { useRef, useEffect } from "react";
 
 export const CreateThreadItem = ({
   index,
@@ -23,6 +24,16 @@ export const CreateThreadItem = ({
   isFirst = false,
   isAIInfo = false,
 }) => {
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + "px";
+    }
+  }, [content]);
+
   return (
     <div className={clsx("flex gap-3", { "pt-4": isFirst })}>
       <div className="flex flex-col items-center">
@@ -68,6 +79,7 @@ export const CreateThreadItem = ({
         </div>
 
         <textarea
+          ref={textareaRef}
           placeholder={isFirst ? "What's new?" : "Say more..."}
           className="w-full bg-transparent border-none outline-none resize-none text-sm placeholder:text-muted-foreground leading-5 overflow-hidden"
           rows={1}
