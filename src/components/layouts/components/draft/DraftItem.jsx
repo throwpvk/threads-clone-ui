@@ -4,6 +4,37 @@ import { Ellipsis } from "lucide-react";
 import { DropMenu } from "@/components/dropMenu";
 import DeleteDraftMenu from "@/components/layouts/components/menu/DeleteDraftMenu";
 
+// Format relative time
+const formatRelativeTime = (dateString) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMinutes = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  const diffMonths = Math.floor(diffDays / 30);
+  const diffYears = Math.floor(diffDays / 365);
+
+  if (diffMinutes < 1) return "now";
+  if (diffMinutes < 60) return `${diffMinutes}m`;
+  if (diffHours < 24) return `${diffHours}h`;
+  if (diffDays < 30) return `${diffDays}d`;
+  if (diffMonths < 12) return `${diffMonths}mo`;
+  return `${diffYears}y`;
+};
+
+// Format full datetime for title
+const formatFullDateTime = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 export const DraftItem = ({
   username,
   time,
@@ -12,7 +43,12 @@ export const DraftItem = ({
   onDelete,
   isModal = false,
   isMobile = false,
+  threadCount = 1,
 }) => {
+  const hasMultipleThreads = threadCount > 1;
+  const relativeTime = formatRelativeTime(time);
+  const fullDateTime = formatFullDateTime(time);
+
   return (
     <div className="flex items-center justify-between relative">
       <div
@@ -33,22 +69,42 @@ export const DraftItem = ({
           if (onClick) onClick(e);
         }}
       >
-        <div className="shrink-0">
+        <div className="shrink-0 flex flex-col items-center">
           <img
             src={avt}
             className="w-9 h-9 rounded-full border border-border"
             alt="Avatar"
           />
+          {hasMultipleThreads && (
+            <>
+              <div className="w-0.5 flex-1 bg-border my-2" />
+              <img
+                src={avt}
+                className="w-4 h-4 rounded-full border border-border"
+                alt="Avatar small"
+              />
+            </>
+          )}
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="font-semibold text-sm">{username}</span>
-            <span className="text-muted-foreground text-sm">{time}</span>
+            <span
+              className="text-muted-foreground text-sm cursor-default"
+              title={fullDateTime}
+            >
+              {relativeTime}
+            </span>
           </div>
-          <div className="text-sm text-foreground line-clamp-6 whitespace-pre-wrap wrap-break-word">
+          <div className="text-sm text-foreground line-clamp-6 whitespace-pre-wrap wrap-break-word max-w-prose">
             {content}
           </div>
+          {hasMultipleThreads && (
+            <div className="text-xs text-muted-foreground mt-2">
+              {threadCount} replies
+            </div>
+          )}
         </div>
       </div>
 
@@ -81,4 +137,7 @@ DraftItem.propTypes = {
   content: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   onDelete: PropTypes.func,
+  isModal: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  threadCount: PropTypes.number,
 };

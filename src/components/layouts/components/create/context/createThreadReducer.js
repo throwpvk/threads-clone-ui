@@ -121,10 +121,16 @@ export function createThreadReducer(state, action) {
 
     case ACTIONS.LOAD_DRAFT: {
       const draft = action.payload;
+      const threads = draft.threads || [
+        { id: 0, isAIInfo: false, content: "" },
+      ];
+      const maxId = Math.max(...threads.map((t) => t.id), 0);
+
       return {
         ...state,
-        threads: [{ id: 0, isAIInfo: false, content: draft.content || "" }],
-        activeThreadId: 0,
+        threads: threads,
+        activeThreadId: threads[0]?.id || 0,
+        nextThreadId: maxId + 1,
         scheduleData: draft.scheduleData || null,
         editingDraftId: draft.id || null,
         currentView: "create",

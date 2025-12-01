@@ -156,14 +156,12 @@ export const CreateThreadProvider = ({
         dispatch({ type: ACTIONS.SET_SAVING_DRAFT, payload: true });
 
         try {
-          const first = state.threads?.[0] || { content: "" };
-
           if (state.editingDraftId) {
             const nextUnsorted = state.draftsList.map((d) =>
               d.id === state.editingDraftId
                 ? {
                     ...d,
-                    content: first.content || "",
+                    threads: state.threads || [],
                     scheduleData: state.scheduleData || null,
                     savedAt: new Date().toISOString(),
                   }
@@ -175,7 +173,7 @@ export const CreateThreadProvider = ({
           } else {
             const newDraft = {
               id: Date.now(),
-              content: first.content || "",
+              threads: state.threads || [],
               scheduleData: state.scheduleData || null,
               savedAt: new Date().toISOString(),
             };
