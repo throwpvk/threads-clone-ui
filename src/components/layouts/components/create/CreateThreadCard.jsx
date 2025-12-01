@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useRef } from "react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
 import { MotionWrapper } from "@/components/common/MotionWrapper";
@@ -15,284 +15,21 @@ import clsx from "clsx";
 import { DraftHeader } from "../draft/DraftHeader";
 import { DraftContent } from "../draft/DraftContent";
 import CancelDialogContent from "../menu/CancelDialogContent";
+import { CreateThreadProvider } from "./context/CreateThreadContext";
+import { useCreateThread } from "./context/useCreateThread";
 
-export const CreateThreadCard = ({
-  isModal = false,
-  isMobile = false,
-  onClose,
-}) => {
-  const [currentView, setCurrentView] = useState("create"); // "create" or "draft"
-  const [threads, setThreads] = useState([
-    { id: 0, isAIInfo: false, content: "" },
-  ]);
-  const [activeThreadId, setActiveThreadId] = useState(0);
-  const [showScheduleMenu, setShowScheduleMenu] = useState(false);
-  const [scheduleData, setScheduleData] = useState(null);
-  const nextThreadId = useRef(1);
+const CreateThreadCardContent = () => {
+  const { state, actions, isModal, isMobile } = useCreateThread();
   const contentRef = useRef(null);
 
-  const handleClose = useCallback(() => {
-    setThreads([{ id: 0, isAIInfo: false, content: "" }]);
-    setActiveThreadId(0);
-    onClose();
-  }, [onClose]);
-
-  // Draft dialog + saving state
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
-  const [savingDraft, setSavingDraft] = useState(false);
-
-  const DRAFT_KEY = "threads_create_draft_v1";
-  const loadDraftsFromStorage = () => {
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      // support both single object and array
-      if (Array.isArray(parsed)) return parsed;
-      if (parsed && parsed.threads) {
-        // older shape => convert to single draft entry
-        const first = parsed.threads[0] || { content: "" };
-        return [
-          {
-            id: Date.now(),
-            content: first.content || "",
-            scheduleData: parsed.scheduleData || null,
-            savedAt: parsed.savedAt || new Date().toISOString(),
-          },
-        ];
-      }
-      return [];
-    } catch (e) {
-      console.warn("Failed to load draft from storage", e);
-      return [];
+  const handleOverlayClick = () => {
+    if (state.currentView === "create") {
+      actions.attemptClose();
     }
   };
 
-  const saveDraftsToStorage = (drafts) => {
-    try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(drafts));
-      // Dispatch an in-page event so other mounted instances can sync immediately
-      try {
-        window.dispatchEvent(
-          new CustomEvent("threads:drafts:updated", { detail: drafts })
-        );
-      } catch (e) {
-        // ignore if CustomEvent is not supported for some reason
-      }
-    } catch {
-      console.warn("Failed to save drafts to storage");
-    }
-  };
-
-  const [draftsList, setDraftsList] = useState([]);
-  const [editingDraftId, setEditingDraftId] = useState(null);
-
-  const sortDrafts = (arr) => {
-    if (!Array.isArray(arr)) return [];
-    return arr.slice().sort((a, b) => {
-      const ta = a && a.savedAt ? Date.parse(a.savedAt) : 0;
-      const tb = b && b.savedAt ? Date.parse(b.savedAt) : 0;
-      return tb - ta;
-    });
-  };
-
-  // Handle ESC key
-  useEffect(() => {
-    if (!onClose) return;
-
-    const handleEscape = (e) => {
-      if (e.key === "Escape" && currentView === "create") {
-        const first = threads && threads[0];
-        const firstEmpty = !first.content || first.content.trim().length === 0;
-        if (firstEmpty) {
-          handleClose();
-        } else {
-          setShowCancelDialog(true);
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [currentView, onClose, handleClose, threads]);
-
-  // load draft when component mounts
-  useEffect(() => {
-    const drafts = loadDraftsFromStorage();
-    if (drafts && drafts.length > 0) {
-      // defer setState to avoid cascading render warning
-      setTimeout(() => setDraftsList(sortDrafts(drafts)), 0);
-      // do not auto-load into create view; user can open Draft tab to apply
-    }
-  }, []);
-
-  // Listen for draft updates from other instances (same page) and storage events (other tabs)
-  useEffect(() => {
-    const onDraftsUpdated = (e) => {
-      try {
-        const payload = e && e.detail ? e.detail : null;
-        const next = payload
-          ? sortDrafts(payload)
-          : sortDrafts(loadDraftsFromStorage());
-        setDraftsList(next);
-      } catch {
-        // fallback to loading from storage
-        setDraftsList(sortDrafts(loadDraftsFromStorage()));
-      }
-    };
-
-    const onStorage = (e) => {
-      if (e && e.key === DRAFT_KEY) {
-        setDraftsList(sortDrafts(loadDraftsFromStorage()));
-      }
-    };
-
-    window.addEventListener("threads:drafts:updated", onDraftsUpdated);
-    window.addEventListener("storage", onStorage);
-
-    return () => {
-      window.removeEventListener("threads:drafts:updated", onDraftsUpdated);
-      window.removeEventListener("storage", onStorage);
-    };
-  }, []);
-
-  const handleConfirmDiscard = () => {
-    setShowCancelDialog(false);
-    setEditingDraftId(null);
-    handleClose();
-  };
-
-  const handleConfirmSave = async () => {
-    setSavingDraft(true);
-    try {
-      const first = threads && threads[0] ? threads[0] : { content: "" };
-      if (editingDraftId) {
-        // update existing draft (update timestamp)
-        const nextUnsorted = draftsList.map((d) =>
-          d.id === editingDraftId
-            ? {
-                ...d,
-                content: first.content || "",
-                scheduleData: scheduleData || null,
-                savedAt: new Date().toISOString(),
-              }
-            : d
-        );
-        const next = sortDrafts(nextUnsorted);
-        setDraftsList(next);
-        saveDraftsToStorage(next);
-      } else {
-        const newDraft = {
-          id: Date.now(),
-          content: first.content || "",
-          scheduleData: scheduleData || null,
-          savedAt: new Date().toISOString(),
-        };
-        const next = sortDrafts([newDraft, ...draftsList]);
-        setDraftsList(next);
-        saveDraftsToStorage(next);
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-    setSavingDraft(false);
-    setShowCancelDialog(false);
-    // reset editing state and close
-    setEditingDraftId(null);
-    handleClose();
-  };
-
-  // Try to close: if first thread is empty then close immediately, else open confirm dialog
-  const attemptClose = useCallback(() => {
-    const first = threads && threads[0];
-    const firstEmpty = !first.content || first.content.trim().length === 0;
-
-    if (firstEmpty) {
-      handleClose();
-    } else {
-      setShowCancelDialog(true);
-    }
-  }, [threads, handleClose]);
-
-  // When user selects a draft from DraftContent, load it into create view
-  const handleSelectDraft = (draft) => {
-    const thread = { id: 0, isAIInfo: false, content: draft.content || "" };
-    setThreads([thread]);
-    setActiveThreadId(0);
-    setScheduleData(draft.scheduleData || null);
-    // remember which draft we loaded so updates go to this draft
-    setEditingDraftId(draft.id || null);
-    setCurrentView("create");
-  };
-
-  const handleDeleteDraft = (draftId) => {
-    const next = draftsList.filter((d) => d.id !== draftId);
-    setDraftsList(next);
-    saveDraftsToStorage(next);
-    // if we were editing this draft, clear editing state and reset form
-    if (editingDraftId === draftId) {
-      setEditingDraftId(null);
-      setThreads([{ id: 0, isAIInfo: false, content: "" }]);
-      setActiveThreadId(0);
-      setScheduleData(null);
-    }
-  };
-
-  // Lock/unlock scroll when modal is open
-  useEffect(() => {
-    if (isModal || isMobile) {
-      const scrollY = window.scrollY;
-      document.body.classList.add("modal-lock-scroll");
-      document.body.style.top = `-${scrollY}px`;
-
-      return () => {
-        document.body.classList.remove("modal-lock-scroll");
-        document.body.style.top = "";
-        window.scrollTo(0, scrollY);
-      };
-    }
-  }, [isModal, isMobile]);
-
-  const handleDraftClick = () => {
-    const first = threads && threads[0];
-    const firstEmpty = !first.content || first.content.trim().length === 0;
-
-    if (firstEmpty) {
-      // existing behavior: open draft list
-      setCurrentView("draft");
-    } else {
-      // prompt save/update before showing drafts
-      setShowCancelDialog(true);
-    }
-  };
-
-  const onBackClick = () => {
-    setCurrentView("create");
-  };
-
-  // Toggle AI label cho active thread
-  const handleToggleAILabel = () => {
-    setThreads((prevThreads) =>
-      prevThreads.map((thread) =>
-        thread.id === activeThreadId
-          ? { ...thread, isAIInfo: !thread.isAIInfo }
-          : thread
-      )
-    );
-  };
-
-  // Thêm thread mới
-  const handleAddThread = () => {
-    const newThread = {
-      id: nextThreadId.current,
-      isAIInfo: false,
-      content: "",
-    };
-    nextThreadId.current += 1; // Increment for next thread
-    setThreads([...threads, newThread]);
-    setActiveThreadId(newThread.id);
-
-    // Scroll to bottom smoothly
+  const handleAddThreadWithScroll = () => {
+    actions.addThread();
     setTimeout(() => {
       if (contentRef.current) {
         contentRef.current.scrollTo({
@@ -301,70 +38,6 @@ export const CreateThreadCard = ({
         });
       }
     }, 100);
-  };
-
-  // Xóa thread
-  const handleRemoveThread = (threadId) => {
-    if (threads.length > 1) {
-      const newThreads = threads.filter((thread) => thread.id !== threadId);
-      setThreads(newThreads);
-      // Nếu thread bị xóa là active thread, chuyển active sang thread đầu tiên
-      if (threadId === activeThreadId && newThreads.length > 0) {
-        setActiveThreadId(newThreads[0].id);
-      }
-    }
-  };
-
-  // Cập nhật content của thread
-  const handleThreadContentChange = (threadId, content) => {
-    setThreads((prevThreads) =>
-      prevThreads.map((thread) =>
-        thread.id === threadId ? { ...thread, content } : thread
-      )
-    );
-  };
-
-  // Kiểm tra xem có thread nào có AI label không
-  const hasAIInfo = threads.some((t) => t.isAIInfo);
-
-  // Handle schedule done
-  const handleScheduleDone = ({ date, time }) => {
-    // Tạo datetime string từ date và time
-    const [hours, minutes] = time.split(":").slice(0, 2).map(Number);
-    const scheduledDateTime = new Date(date);
-    scheduledDateTime.setHours(hours, minutes, 0, 0);
-
-    setScheduleData({
-      dateTime: scheduledDateTime.toISOString(),
-      date,
-      time,
-    });
-    setShowScheduleMenu(false);
-  };
-
-  // Handle schedule close (click outside)
-  const handleScheduleClose = () => {
-    setShowScheduleMenu(false);
-  };
-
-  // Handle remove schedule
-  const handleRemoveSchedule = () => {
-    setScheduleData(null);
-  };
-
-  // Handle click schedule to edit
-  const handleClickSchedule = () => {
-    setShowScheduleMenu(true);
-  };
-
-  const handleOverlayClick = () => {
-    if (currentView === "create") {
-      attemptClose();
-    }
-  };
-
-  const handleConfirmCancel = () => {
-    setShowCancelDialog(false);
   };
 
   const cardClassName = clsx(
@@ -392,7 +65,7 @@ export const CreateThreadCard = ({
         style={{
           width: isMobile ? "200vw" : isModal ? "1288px" : "1036px",
           transform:
-            currentView === "create"
+            state.currentView === "create"
               ? "translateX(0)"
               : isMobile
                 ? "translateX(-100vw)"
@@ -416,45 +89,28 @@ export const CreateThreadCard = ({
                 ? undefined
                 : isModal
                   ? {
-                      opacity: currentView === "create" ? 1 : 0,
+                      opacity: state.currentView === "create" ? 1 : 0,
                       transform:
-                        currentView === "create" ? "scaleY(1)" : "scaleY(0.7)",
+                        state.currentView === "create"
+                          ? "scaleY(1)"
+                          : "scaleY(0.7)",
                       transition:
                         "opacity 200ms ease-out 100ms, transform 300ms ease-out",
                     }
                   : {
                       transform:
-                        currentView === "create" ? "scaleY(1)" : "scaleY(0.7)",
+                        state.currentView === "create"
+                          ? "scaleY(1)"
+                          : "scaleY(0.7)",
                       transformOrigin: "bottom",
                       transition: "transform 300ms ease-out",
                     }
             }
           >
-            <CreateThreadHeader
-              onClose={attemptClose}
-              isModal={isModal}
-              isMobile={isMobile}
-              onDraftClick={handleDraftClick}
-              onToggleAILabel={handleToggleAILabel}
-              onScheduleClick={() => setShowScheduleMenu(!showScheduleMenu)}
-              hasAIInfo={hasAIInfo}
-              showScheduleMenu={showScheduleMenu}
-              onScheduleDone={handleScheduleDone}
-              onScheduleClose={handleScheduleClose}
-            />
+            <CreateThreadHeader />
             <CreateThreadContent
-              isMobile={isMobile}
-              threads={threads}
-              activeThreadId={activeThreadId}
-              onAddThread={handleAddThread}
-              onRemoveThread={handleRemoveThread}
-              onThreadFocus={setActiveThreadId}
-              onThreadContentChange={handleThreadContentChange}
               contentRef={contentRef}
-              hasSchedule={!!scheduleData}
-              scheduleData={scheduleData}
-              onRemoveSchedule={handleRemoveSchedule}
-              onClickSchedule={handleClickSchedule}
+              onAddThread={handleAddThreadWithScroll}
             />
             <CreateThreadFooter />
           </Card>
@@ -475,31 +131,31 @@ export const CreateThreadCard = ({
                 ? undefined
                 : isModal
                   ? {
-                      opacity: currentView === "draft" ? 1 : 0,
+                      opacity: state.currentView === "draft" ? 1 : 0,
                       transform:
-                        currentView === "draft" ? "scaleY(1)" : "scaleY(0.7)",
+                        state.currentView === "draft"
+                          ? "scaleY(1)"
+                          : "scaleY(0.7)",
                       transition:
                         "opacity 200ms ease-out 100ms, transform 300ms ease-out",
                     }
                   : {
                       transform:
-                        currentView === "draft" ? "scaleY(1)" : "scaleY(0.7)",
+                        state.currentView === "draft"
+                          ? "scaleY(1)"
+                          : "scaleY(0.7)",
                       transformOrigin: "bottom",
                       transition: "transform 300ms ease-out",
                     }
             }
           >
-            <DraftHeader
-              onClose={attemptClose}
-              isModal={isModal}
-              onBackClick={onBackClick}
-            />
+            <DraftHeader onBackClick={actions.handleBackFromDraft} />
             <DraftContent
               isModal={isModal}
               isMobile={isMobile}
-              drafts={draftsList}
-              onSelectDraft={handleSelectDraft}
-              onDeleteDraft={handleDeleteDraft}
+              drafts={state.draftsList}
+              onSelectDraft={actions.handleSelectDraft}
+              onDeleteDraft={actions.handleDeleteDraft}
             />
           </Card>
         </div>
@@ -529,13 +185,13 @@ export const CreateThreadCard = ({
           {slideContent}
         </MotionWrapper>
         <CancelDialogContent
-          open={showCancelDialog}
-          onClose={handleConfirmCancel}
-          onSave={handleConfirmSave}
-          onDiscard={handleConfirmDiscard}
-          saving={savingDraft}
-          saveLabel={editingDraftId ? "Update" : "Save"}
-          title={editingDraftId ? "Update draft?" : "Save to drafts?"}
+          open={state.showCancelDialog}
+          onClose={actions.handleConfirmCancel}
+          onSave={actions.handleConfirmSave}
+          onDiscard={actions.handleConfirmDiscard}
+          saving={state.savingDraft}
+          saveLabel={state.editingDraftId ? "Update" : "Save"}
+          title={state.editingDraftId ? "Update draft?" : "Save to drafts?"}
         />
       </div>,
       document.body
@@ -549,7 +205,7 @@ export const CreateThreadCard = ({
       side="top"
       sideOffset={8}
       onInteractOutside={(e) => e.preventDefault()}
-      onEscapeKeyDown={() => setShowCancelDialog(true)}
+      onEscapeKeyDown={() => actions.setCancelDialog(true)}
     >
       <MotionWrapper
         motionKey="create-dropdown"
@@ -562,15 +218,31 @@ export const CreateThreadCard = ({
         {slideContent}
       </MotionWrapper>
       <CancelDialogContent
-        open={showCancelDialog}
-        onClose={handleConfirmCancel}
-        onSave={handleConfirmSave}
-        onDiscard={handleConfirmDiscard}
-        saving={savingDraft}
-        saveLabel={editingDraftId ? "Update" : "Save"}
-        title={editingDraftId ? "Update draft?" : "Save to drafts?"}
+        open={state.showCancelDialog}
+        onClose={actions.handleConfirmCancel}
+        onSave={actions.handleConfirmSave}
+        onDiscard={actions.handleConfirmDiscard}
+        saving={state.savingDraft}
+        saveLabel={state.editingDraftId ? "Update" : "Save"}
+        title={state.editingDraftId ? "Update draft?" : "Save to drafts?"}
       />
     </DropdownMenuContent>
+  );
+};
+
+export const CreateThreadCard = ({
+  isModal = false,
+  isMobile = false,
+  onClose,
+}) => {
+  return (
+    <CreateThreadProvider
+      isModal={isModal}
+      isMobile={isMobile}
+      onClose={onClose}
+    >
+      <CreateThreadCardContent />
+    </CreateThreadProvider>
   );
 };
 

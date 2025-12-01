@@ -4,51 +4,40 @@ import avt from "@/assets/avt-placeholder.png";
 import clsx from "clsx";
 import { CreateThreadSchedule } from "./CreateThreadSchedule";
 import PropTypes from "prop-types";
+import { useCreateThread } from "./context/useCreateThread";
 
-export const CreateThreadContent = ({
-  isMobile = false,
-  hasSchedule = false,
-  scheduleData = null,
-  onRemoveSchedule,
-  onClickSchedule,
-  threads,
-  activeThreadId,
-  onAddThread,
-  onRemoveThread,
-  onThreadFocus,
-  onThreadContentChange,
-  contentRef,
-}) => {
-  // Kiểm tra xem thread cuối cùng có content không
-  const lastThread = threads[threads.length - 1];
+export const CreateThreadContent = ({ contentRef, onAddThread }) => {
+  const { state, actions, isMobile } = useCreateThread();
+
+  const lastThread = state.threads[state.threads.length - 1];
   const canAddThread =
     lastThread?.content && lastThread.content.trim().length > 0;
 
   return (
     <CardContent className={clsx("p-0", isMobile ? "flex-1" : "")}>
-      {hasSchedule && scheduleData && (
+      {state.scheduleData && (
         <CreateThreadSchedule
-          dateTime={scheduleData.dateTime}
-          onClose={onRemoveSchedule}
-          onClick={onClickSchedule}
+          dateTime={state.scheduleData.dateTime}
+          onClose={actions.handleRemoveSchedule}
+          onClick={actions.handleClickSchedule}
         />
       )}
       <div ref={contentRef} className="overflow-y-auto px-6 pb-1 max-h-[80vh]">
-        {threads.map((thread, index) => (
+        {state.threads.map((thread, index) => (
           <div key={thread.id}>
             <CreateThreadItem
               index={index}
               threadId={thread.id}
-              totalThreads={threads.length}
+              totalThreads={state.threads.length}
               isFirst={index === 0}
-              isActive={thread.id === activeThreadId}
+              isActive={thread.id === state.activeThreadId}
               isAIInfo={thread.isAIInfo}
               content={thread.content || ""}
               showRemoveButton={index > 0}
-              onRemove={() => onRemoveThread(thread.id)}
-              onFocus={() => onThreadFocus(thread.id)}
+              onRemove={() => actions.removeThread(thread.id)}
+              onFocus={() => actions.setActiveThread(thread.id)}
               onContentChange={(content) =>
-                onThreadContentChange(thread.id, content)
+                actions.updateThreadContent(thread.id, content)
               }
             />
           </div>
@@ -86,20 +75,6 @@ export const CreateThreadContent = ({
 };
 
 CreateThreadContent.propTypes = {
-  isMobile: PropTypes.bool,
-  hasSchedule: PropTypes.bool,
-  scheduleData: PropTypes.shape({
-    dateTime: PropTypes.string,
-    date: PropTypes.instanceOf(Date),
-    time: PropTypes.string,
-  }),
-  onRemoveSchedule: PropTypes.func,
-  onClickSchedule: PropTypes.func,
-  threads: PropTypes.array.isRequired,
-  activeThreadId: PropTypes.number.isRequired,
-  onAddThread: PropTypes.func.isRequired,
-  onRemoveThread: PropTypes.func.isRequired,
-  onThreadFocus: PropTypes.func.isRequired,
-  onThreadContentChange: PropTypes.func.isRequired,
   contentRef: PropTypes.object,
+  onAddThread: PropTypes.func,
 };

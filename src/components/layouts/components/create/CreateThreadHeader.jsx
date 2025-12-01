@@ -5,24 +5,17 @@ import { DraftIcon, MoreIcon, XIcon } from "@/components/icons";
 import { DropMenu } from "@/components/dropMenu";
 import { MoreMenu, ScheduleMenu } from "@/components/layouts/components";
 import clsx from "clsx";
+import { useCreateThread } from "./context/useCreateThread";
 
-export const CreateThreadHeader = ({
-  onClose,
-  isModal = false,
-  isMobile = false,
-  onDraftClick,
-  onToggleAILabel,
-  onScheduleClick,
-  hasAIInfo = false,
-  showScheduleMenu = false,
-  onScheduleDone,
-  onScheduleClose,
-}) => {
+export const CreateThreadHeader = () => {
+  const { state, actions, isModal, isMobile } = useCreateThread();
   const scheduleMenuRef = useRef(null);
   const [menuTopOffset, setMenuTopOffset] = useState(0);
 
+  const hasAIInfo = state.threads.some((t) => t.isAIInfo);
+
   useEffect(() => {
-    if (!showScheduleMenu || isModal || isMobile) {
+    if (!state.showScheduleMenu || isModal || isMobile) {
       return;
     }
 
@@ -38,7 +31,7 @@ export const CreateThreadHeader = ({
       const cardHeight = cardElement.offsetHeight;
       const availableHeight = cardHeight;
 
-      if (menuHeight > availableHeight) {
+      if (menuHeight > availableHeight - 47) {
         const offset = menuHeight - availableHeight;
         setMenuTopOffset(-offset);
       } else {
@@ -57,21 +50,21 @@ export const CreateThreadHeader = ({
       clearTimeout(timer);
       window.removeEventListener("resize", calculatePosition);
     };
-  }, [showScheduleMenu, isModal, isMobile]);
+  }, [state.showScheduleMenu, isModal, isMobile]);
 
   return (
     <CardHeader className="border-b border-border h-14 px-0 flex items-center justify-between relative overflow-visible">
       <div className="flex items-center justify-between flex-1 h-full mx-6">
         <button
           className="h-auto px-0 hover:bg-transparent cursor-pointer text-base font-normal"
-          onClick={onClose}
+          onClick={actions.attemptClose}
         >
           {isModal ? "Cancel" : <XIcon className="size-5" />}
         </button>
         <CardTitle className="text-base font-semibold">New thread</CardTitle>
         <CardAction className="flex items-center gap-2 h-full">
           <button
-            onClick={onDraftClick}
+            onClick={actions.handleDraftClick}
             className="h-8 w-8 rounded-full hover:bg-transparent cursor-pointer flex items-center justify-end transition-transform duration-150"
           >
             <DraftIcon />
@@ -82,8 +75,10 @@ export const CreateThreadHeader = ({
                 isModal={isModal}
                 isMobile={isMobile}
                 hasAIInfo={hasAIInfo}
-                onAIClick={onToggleAILabel}
-                onScheduleClick={onScheduleClick}
+                onAIClick={() => actions.toggleAILabel(state.activeThreadId)}
+                onScheduleClick={() =>
+                  actions.setScheduleMenu(!state.showScheduleMenu)
+                }
               />
             }
           >
@@ -94,7 +89,7 @@ export const CreateThreadHeader = ({
         </CardAction>
       </div>
 
-      {showScheduleMenu && (
+      {state.showScheduleMenu && (
         <div
           ref={scheduleMenuRef}
           className={clsx(
@@ -109,22 +104,14 @@ export const CreateThreadHeader = ({
             !isModal && !isMobile ? { top: `${menuTopOffset}px` } : undefined
           }
         >
-          <ScheduleMenu onDone={onScheduleDone} onClose={onScheduleClose} />
+          <ScheduleMenu
+            onDone={actions.handleScheduleDone}
+            onClose={actions.handleScheduleClose}
+          />
         </div>
       )}
     </CardHeader>
   );
 };
 
-CreateThreadHeader.propTypes = {
-  onClose: PropTypes.func,
-  isModal: PropTypes.bool,
-  isMobile: PropTypes.bool,
-  onDraftClick: PropTypes.func,
-  onToggleAILabel: PropTypes.func,
-  onScheduleClick: PropTypes.func,
-  hasAIInfo: PropTypes.bool,
-  showScheduleMenu: PropTypes.bool,
-  onScheduleDone: PropTypes.func,
-  onScheduleClose: PropTypes.func,
-};
+CreateThreadHeader.propTypes = {};
