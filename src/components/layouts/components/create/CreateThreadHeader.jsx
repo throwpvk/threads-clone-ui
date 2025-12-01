@@ -107,6 +107,8 @@ export const CreateThreadHeader = () => {
           <ScheduleMenu
             onDone={actions.handleScheduleDone}
             onClose={actions.handleScheduleClose}
+            initialDate={state.scheduleData?.date}
+            initialTime={state.scheduleData?.time}
           />
         </div>
       )}

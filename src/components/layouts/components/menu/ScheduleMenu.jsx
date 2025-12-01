@@ -17,7 +17,7 @@ export const ScheduleMenu = ({ onDone, onClose, initialDate, initialTime }) => {
   const getDefaultTime = () => {
     if (initialTime) return initialTime;
     const now = new Date();
-    now.setMinutes(now.getMinutes() + 5);
+    now.setMinutes(now.getMinutes() + 30);
     return now.toTimeString().slice(0, 5);
   };
 
