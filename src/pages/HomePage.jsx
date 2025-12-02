@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import { ColumnsManager } from "@/components/columns";
+import { FeedColumn, FeedContent } from "@/components/feed";
 
 export default function HomePage() {
+  const [activeTab, setActiveTab] = useState("for-you");
   const [columns, setColumns] = useState([
-    { id: "home-main", title: "Dành cho bạn", width: "640px", items: 20 },
+    { id: "for-you-main", title: "For you", width: "640px" },
   ]);
 
   const handleAddColumn = () => {
     const newColumn = {
       id: `column-${Date.now()}`,
-      title: `Column ${columns.length + 1}`,
+      title: `Feed ${columns.length + 1}`,
       width: "520px",
-      items: 15,
     };
     setColumns([...columns, newColumn]);
   };
 
   return (
     <ColumnsManager
-      columns={columns}
+      columns={columns.map((col) => ({
+        ...col,
+        content: (
+          <FeedColumn enableScroll={columns.length > 1}>
+            <FeedContent activeTab={activeTab} onTabChange={setActiveTab} />
+          </FeedColumn>
+        ),
+      }))}
       hasAddColumnBtn={true}
       onAddColumn={handleAddColumn}
     />

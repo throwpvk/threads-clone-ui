@@ -84,11 +84,15 @@ export default function ColumnsManager({
                 [getColumnWidthClass()]: isMultiColumn,
               })}
             >
-              <Column
-                title={col.title}
-                items={col.items || 4}
-                enableScroll={isMultiColumn}
-              />
+              {col.content ? (
+                col.content
+              ) : (
+                <Column
+                  title={col.title}
+                  items={col.items || 4}
+                  enableScroll={isMultiColumn}
+                />
+              )}
             </div>
           ))}
 
