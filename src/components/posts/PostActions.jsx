@@ -7,6 +7,7 @@ import {
   Bookmark,
   BookmarkCheck,
 } from "lucide-react";
+import ActionButton from "./ActionButton";
 
 export default function PostActions({
   likes = 0,
@@ -39,66 +40,43 @@ export default function PostActions({
   return (
     <div className="flex items-center gap-4 pt-3">
       {/* Like */}
-      <button
-        onClick={handleLike}
-        className="flex items-center gap-1.5 group"
-        aria-label="Like"
-      >
-        <div className="p-1.5 rounded-full group-hover:bg-accent transition-colors">
+      <ActionButton
+        icon={(props) => (
           <HeartIcon
-            className={`w-5 h-5 transition-colors ${
-              liked
-                ? "fill-red-500 text-red-500"
-                : "text-muted-foreground group-hover:text-foreground"
-            }`}
+            {...props}
+            className={`${props.className} ${liked ? "fill-red-500 text-red-500" : ""}`}
           />
-        </div>
-        {likesCount > 0 && (
-          <span className="text-sm text-muted-foreground">{likesCount}</span>
         )}
-      </button>
+        count={likesCount}
+        isActive={liked}
+        activeColor="text-red-500"
+        label="Like"
+        onClick={handleLike}
+      />
 
       {/* Comment */}
-      <button
+      <ActionButton
+        icon={MessageCircle}
+        count={comments}
+        label="Comment"
         onClick={onComment}
-        className="flex items-center gap-1.5 group"
-        aria-label="Comment"
-      >
-        <div className="p-1.5 rounded-full group-hover:bg-accent transition-colors">
-          <MessageCircle className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-        </div>
-        {comments > 0 && (
-          <span className="text-sm text-muted-foreground">{comments}</span>
-        )}
-      </button>
+      />
 
       {/* Repost */}
-      <button
+      <ActionButton
+        icon={Repeat2}
+        count={reposts}
+        label="Repost"
         onClick={onRepost}
-        className="flex items-center gap-1.5 group"
-        aria-label="Repost"
-      >
-        <div className="p-1.5 rounded-full group-hover:bg-accent transition-colors">
-          <Repeat2 className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-        </div>
-        {reposts > 0 && (
-          <span className="text-sm text-muted-foreground">{reposts}</span>
-        )}
-      </button>
+      />
 
       {/* Share */}
-      <button
+      <ActionButton
+        icon={Send}
+        count={shares}
+        label="Share"
         onClick={onShare}
-        className="flex items-center gap-1.5 group"
-        aria-label="Share"
-      >
-        <div className="p-1.5 rounded-full group-hover:bg-accent transition-colors">
-          <Send className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-        </div>
-        {shares > 0 && (
-          <span className="text-sm text-muted-foreground">{shares}</span>
-        )}
-      </button>
+      />
 
       {/* Spacer */}
       <div className="flex-1" />

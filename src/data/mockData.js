@@ -91,6 +91,34 @@ export const mockPosts = [
     hasTranslate: true,
     replies: [],
   },
+  {
+    id: 4,
+    userId: 1,
+    content: "This is amazing! Check out this thread about music 🎸",
+    timestamp: "2h",
+    likes: 15,
+    comments: 3,
+    reposts: 5,
+    shares: 2,
+    hasTranslate: false,
+    // Quote/Repost - post bên trong post
+    quotedPost: {
+      id: 1,
+      userId: 2,
+      user: {
+        username: "sieuдeptranvien",
+        avatar: "https://i.pravatar.cc/150?img=2",
+        verified: false,
+      },
+      content:
+        "Just finished recording my new album! Can't wait to share it with you all 🎵✨",
+      timestamp: "5h",
+      images: [
+        "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600",
+      ],
+    },
+    replies: [],
+  },
 ];
 
 export const mockUser = mockUsers[0]; // Current logged in user

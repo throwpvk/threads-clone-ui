@@ -1,6 +1,6 @@
 import React from "react";
 import { FeedHeader } from "@/components/feed";
-import { CreatePostInput, PostCard } from "@/components/posts";
+import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
 import { getPostsWithUserInfo } from "@/data/mockData";
 
 export default function FeedContent({ activeTab = "for-you", onTabChange }) {
@@ -15,7 +15,7 @@ export default function FeedContent({ activeTab = "for-you", onTabChange }) {
     <div className="flex flex-col h-full">
       <FeedHeader activeTab={activeTab} onTabChange={onTabChange} />
 
-      <div className="flex-1 overflow-y-auto">
+      <PostsWrapper>
         <CreatePostInput onCreateClick={handleCreatePost} />
 
         <div className="divide-y">
@@ -23,7 +23,7 @@ export default function FeedContent({ activeTab = "for-you", onTabChange }) {
             <PostCard key={post.id} post={post} showReply={true} />
           ))}
         </div>
-      </div>
+      </PostsWrapper>
     </div>
   );
 }
