@@ -12,7 +12,7 @@ import MobileCreateButton from "./MobileCreateButton";
 const MobileBottomNav = () => {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-black/70 md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/70 md:hidden"
       aria-label="Mobile navigation"
     >
       <div className="flex items-center justify-around px-1 py-1">

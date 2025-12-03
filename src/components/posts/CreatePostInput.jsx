@@ -5,9 +5,9 @@ import { mockUser } from "@/data/mockData";
 export default function CreatePostInput({ onCreateClick }) {
   return (
     <div className="border-b bg-background">
-      <button
+      <div
         onClick={onCreateClick}
-        className="w-full flex items-center gap-3 px-4 py-4 hover:bg-accent/50 transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 py-4 hover:bg-accent/50 transition-colors cursor-pointer"
       >
         <Avatar className="w-9 h-9 ring-2 ring-background shrink-0">
           <AvatarImage src={mockUser.avatar} alt={mockUser.username} />
@@ -27,7 +27,7 @@ export default function CreatePostInput({ onCreateClick }) {
         >
           Post
         </button>
-      </button>
+      </div>
     </div>
   );
 }

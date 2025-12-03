@@ -7,8 +7,10 @@ import {
   MobileBottomNav,
   CreateButtonFixed,
 } from "./components";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function DefaultLayout() {
+  const isMobile = useIsMobile();
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
@@ -19,7 +21,7 @@ export default function DefaultLayout() {
             <Outlet />
           </div>
         </SidebarInset>
-        <CreateButtonFixed />
+        {!isMobile && <CreateButtonFixed />}
         <MobileBottomNav />
       </div>
     </SidebarProvider>
