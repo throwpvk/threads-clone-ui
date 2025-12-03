@@ -1,27 +1,18 @@
 import React from "react";
 import { ChevronDown, Ellipsis } from "lucide-react";
 
-// const tabDefault = [
-//   { id: "for-you", label: "For you" },
-//   { id: "following", label: "Following" },
-//   { id: "ghost-posts", label: "Ghost posts" },
-// ];
-
-const tabDefault = [{ id: "default", label: "Feed" }];
-
 export default function FeedHeader({
-  tabs = tabDefault,
-  isMultiTab = false,
-  hasOptions = true,
+  tabs = [{ id: "default", label: "Feed" }],
   activeTab = "default",
   onTabChange,
+  hasOptions = true,
 }) {
   return (
     <div className="sticky top-0 z-10 bg-background border-0">
       <div className="flex items-center justify-between px-4 h-14">
         <div className="h-10 w-10"></div>
         <div className="flex-1 flex items-center justify-center gap-6">
-          {/* multiple tabs */}
+          {/* Multiple tabs */}
           {tabs &&
             tabs.length >= 2 &&
             tabs.map((tab) => (
@@ -40,7 +31,7 @@ export default function FeedHeader({
                 )}
               </button>
             ))}
-          {/* single tab */}
+          {/* Single tab */}
           {tabs && tabs.length === 1 && (
             <div className="flex items-center text-sm font-medium text-foreground relative">
               {tabs[0].label}

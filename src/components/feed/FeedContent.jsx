@@ -1,24 +1,35 @@
 import React from "react";
-import { FeedHeader } from "@/components/feed";
 import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
-import { getPostsWithUserInfo } from "@/data/mockData";
+import clsx from "clsx";
 
-export default function FeedContent() {
-  const posts = getPostsWithUserInfo();
-
+export default function FeedContent({
+  hasCreatePost = false,
+  onCreatePost,
+  posts = [],
+  showReply = true,
+  isMultiColumn = false,
+}) {
   const handleCreatePost = () => {
-    // TODO: Mở modal create post (Phase 2-3)
-    console.log("Open create post modal");
+    if (onCreatePost) {
+      onCreatePost();
+    } else {
+      console.log("Open create post modal");
+    }
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden rounded-tl-3xl rounded-tr-3xl border border-border border-b-0 drop-shadow-md drop-shadow-b-0 mx-2 bg-card">
+    <div
+      className={clsx(
+        "flex flex-col h-full overflow-hidden border border-border border-b-0 drop-shadow-md mx-2 bg-card rounded-t-3xl",
+        !isMultiColumn && "custom-scrollbar"
+      )}
+    >
       <PostsWrapper>
-        <CreatePostInput onCreateClick={handleCreatePost} />
+        {hasCreatePost && <CreatePostInput onCreateClick={handleCreatePost} />}
 
         <div className="divide-y">
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} showReply={true} />
+            <PostCard key={post.id} post={post} showReply={showReply} />
           ))}
         </div>
       </PostsWrapper>
