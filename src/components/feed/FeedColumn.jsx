@@ -4,7 +4,7 @@ import clsx from "clsx";
 export default function FeedColumn({ enableScroll = false, children }) {
   return (
     <section
-      className={clsx("bg-card rounded-xl border border-border shadow-sm", {
+      className={clsx("rounded-xl border-0", {
         "h-screen flex flex-col": enableScroll,
         "h-full": !enableScroll,
       })}

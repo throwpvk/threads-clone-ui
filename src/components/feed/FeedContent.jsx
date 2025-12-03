@@ -3,7 +3,7 @@ import { FeedHeader } from "@/components/feed";
 import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
 import { getPostsWithUserInfo } from "@/data/mockData";
 
-export default function FeedContent({ activeTab = "for-you", onTabChange }) {
+export default function FeedContent() {
   const posts = getPostsWithUserInfo();
 
   const handleCreatePost = () => {
@@ -12,9 +12,7 @@ export default function FeedContent({ activeTab = "for-you", onTabChange }) {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <FeedHeader activeTab={activeTab} onTabChange={onTabChange} />
-
+    <div className="flex flex-col h-full overflow-hidden rounded-tl-3xl rounded-tr-3xl border border-border border-b-0 drop-shadow-md drop-shadow-b-0 mx-2 bg-card">
       <PostsWrapper>
         <CreatePostInput onCreateClick={handleCreatePost} />
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ColumnsManager } from "@/components/columns";
-import { FeedColumn, FeedContent } from "@/components/feed";
+import { FeedColumn, FeedContent, FeedHeader } from "@/components/feed";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("for-you");
@@ -23,7 +23,12 @@ export default function HomePage() {
         ...col,
         content: (
           <FeedColumn enableScroll={columns.length > 1}>
-            <FeedContent activeTab={activeTab} onTabChange={setActiveTab} />
+            <FeedHeader
+              isMultiTab={columns.length > 1}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
+            <FeedContent activeTab={activeTab} />
           </FeedColumn>
         ),
       }))}

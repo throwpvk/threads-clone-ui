@@ -9,7 +9,7 @@ export default function Column({
 }) {
   return (
     <section
-      className={clsx("bg-card rounded-xl border border-border shadow-sm", {
+      className={clsx("rounded-xl border-0", {
         "h-screen flex flex-col": enableScroll,
         "h-full p-4": !enableScroll,
       })}
