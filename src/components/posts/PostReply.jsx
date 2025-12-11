@@ -1,5 +1,6 @@
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { PostAvatar } from ".";
 
 /**
  * PostReply - Render nested reply
@@ -9,10 +10,7 @@ export default function PostReply({ reply }) {
 
   return (
     <div className="flex gap-3 px-4 pb-4">
-      <Avatar className="w-6 h-6 ring-2 ring-background">
-        <AvatarImage src={user?.avatar} alt={user?.username} />
-        <AvatarFallback>{user?.username?.[0]?.toUpperCase()}</AvatarFallback>
-      </Avatar>
+      <PostAvatar user={user} />
 
       <div className="flex-1 min-w-0">
         {isPlaceholder ? (

@@ -13,7 +13,7 @@ export default function PostAvatar({ user, hasConnectingLine = false }) {
       </Avatar>
 
       {/* Connecting line for replies */}
-      {hasConnectingLine && <div className="w-0.5 flex-1 bg-border mt-2" />}
+      {hasConnectingLine && <div className="w-0.5 flex-1 bg-border my-2" />}
     </div>
   );
 }

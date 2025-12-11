@@ -55,7 +55,7 @@ export default function PostContent({ post, onTranslate }) {
       {location && <PostMediaLocation location={location} />}
 
       {/* Translate button */}
-      {hasTranslate && (
+      {/* {hasTranslate && (
         <button
           onClick={onTranslate}
           className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
@@ -63,7 +63,7 @@ export default function PostContent({ post, onTranslate }) {
           <Languages className="w-4 h-4" />
           <span className="text-xs">Translate</span>
         </button>
-      )}
+      )} */}
     </div>
   );
 }

@@ -27,7 +27,7 @@ export default function PostCard({
 
   return (
     <article className={`relative ${!isNested ? "border-b" : ""}`}>
-      <div className="flex gap-3 px-4 py-4">
+      <div className="flex gap-3 px-4 pt-4">
         {/* Left side - Avatar with connecting line */}
         <PostAvatar
           user={user}
@@ -55,13 +55,13 @@ export default function PostCard({
           />
 
           {/* Footer: reply count indicator */}
-          <PostFooter comments={comments} isNested={isNested} />
+          {/* <PostFooter comments={comments} isNested={isNested} /> */}
         </div>
       </div>
 
       {/* Nested replies */}
       {showReply && replies && replies.length > 0 && (
-        <div className="pl-[52px]">
+        <div>
           {replies.map((reply) => (
             <PostReply
               key={reply.id}
