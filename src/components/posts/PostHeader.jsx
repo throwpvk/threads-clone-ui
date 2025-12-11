@@ -1,9 +1,16 @@
 import React from "react";
 import { MoreHorizontal, BadgeCheck } from "lucide-react";
 
-export default function PostHeader({ user, timestamp, onMoreClick }) {
+export default function PostHeader({
+  user,
+  timestamp,
+  onMoreClick,
+  isReply = false,
+}) {
   return (
-    <div className="flex items-center justify-between mb-1">
+    <div
+      className={`flex items-center justify-between ${isReply ? "" : "mb-1"}`}
+    >
       <div className="flex items-center gap-1.5">
         <span className="font-semibold text-sm hover:underline cursor-pointer">
           {user?.username}

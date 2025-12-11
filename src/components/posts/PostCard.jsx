@@ -3,11 +3,15 @@ import PostAvatar from "./PostAvatar";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostReply from "./PostReply";
-import AvatarConnectingLine from "./AvatarConnectingLine";
 
 /**
  * PostCard - Main orchestrator component
- * Grid layout: Row 1 (Avatar | Header), Row 2-4 (Line | Content), Row 5 (Replies)
+ * Layout với CSS Grid Template Areas (5 rows):
+ * Row 1: avatar | header
+ * Row 2: avatar | content
+ * Row 3: line   | content
+ * Row 4: line   | content
+ * Row 5: repAvatar | repContent (chỉ khi hasReplies)
  */
 export default function PostCard({
   post,
@@ -24,37 +28,90 @@ export default function PostCard({
 
   return (
     <article className={`relative ${!isNested ? "border-b" : ""}`}>
-      {/* Grid Layout: 2 columns (Avatar/Line | Header/Content) */}
-      <div className="grid grid-cols-[auto_1fr] gap-x-3 px-4 pt-4 pb-3">
-        {/* Row 1, Column 1: Avatar */}
-        <PostAvatar user={user} />
-
-        {/* Row 1, Column 2: Header (Username + Timestamp + More) */}
-        <PostHeader
-          user={user}
-          timestamp={timestamp}
-          onMoreClick={handleMoreClick}
-        />
-
-        {/* Row 2-4, Column 1: Connecting line (if has replies) */}
-        {hasReplies ? <AvatarConnectingLine /> : <div />}
-
-        {/* Row 2-4, Column 2: Post Content (text + media + actions) */}
-        <PostContent post={post} />
-      </div>
-
-      {/* Row 5: Nested replies */}
-      {hasReplies && (
-        <div>
-          {replies.map((reply) => (
-            <PostReply
-              key={reply.id}
-              reply={reply}
-              PostCardComponent={PostCard}
-            />
-          ))}
+      {/* Grid Template Areas Layout */}
+      <div
+        className="px-4 pt-4 pb-3"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "48px 1fr",
+          gridTemplateRows: "21px 24px 1fr 1fr 21px auto",
+          columnGap: "12px",
+          rowGap: "0px",
+          gridTemplateAreas: hasReplies
+            ? `"avatar header"
+               "avatar content"
+               "line content"
+               "line content"
+               "repAvatar repHeader"
+               "repAvatar repContent"`
+            : `"avatar header"
+               "avatar content"
+               ". content"
+               ". content"`,
+        }}
+      >
+        {/* Avatar Area */}
+        <div style={{ gridArea: "avatar" }}>
+          <PostAvatar user={user} />
         </div>
-      )}
+
+        {/* Header Area: Username + Timestamp + More */}
+        <div style={{ gridArea: "header" }}>
+          <PostHeader
+            user={user}
+            timestamp={timestamp}
+            onMoreClick={handleMoreClick}
+          />
+        </div>
+
+        {/* Connecting Line Area (only when has replies) */}
+        {hasReplies && (
+          <div
+            style={{ gridArea: "line" }}
+            className="flex justify-center pt-2"
+          >
+            <div className="w-0.5 h-full bg-border" />
+          </div>
+        )}
+
+        {/* Content Area: Text + Media + Actions + Footer */}
+        <div style={{ gridArea: "content" }}>
+          <PostContent post={post} />
+        </div>
+
+        {/* Reply Avatar Area (only when has replies) */}
+        {hasReplies && replies[0] && (
+          <div style={{ gridArea: "repAvatar" }} className="pt-3">
+            <PostAvatar user={replies[0].user} size="small" />
+          </div>
+        )}
+
+        {/* Reply Header Area: Username + Timestamp (only when has replies) */}
+        {hasReplies && replies[0] && (
+          <div style={{ gridArea: "repHeader" }}>
+            <PostHeader
+              user={replies[0].user}
+              timestamp={replies[0].timestamp}
+              onMoreClick={handleMoreClick}
+              isReply={true}
+            />
+          </div>
+        )}
+
+        {/* Reply Content Area: Text + Media (only when has replies) */}
+        {hasReplies && (
+          <div style={{ gridArea: "repContent" }}>
+            {replies.map((reply, index) => (
+              <PostReply
+                key={reply.id}
+                reply={reply}
+                PostCardComponent={PostCard}
+                isFirst={index === 0}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </article>
   );
 }
