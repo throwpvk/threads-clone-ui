@@ -1,5 +1,4 @@
 import React from "react";
-import { Languages } from "lucide-react";
 import {
   PostMediaImage,
   PostMediaGIF,
@@ -9,15 +8,16 @@ import {
   PostMediaLocation,
 } from "./media";
 import PostQuoted from "./PostQuoted";
+import PostActions from "./PostActions";
 
 /**
  * PostContent - Orchestrator cho post content
- * Render text + media types (image, gif, video, audio, poll, location, quoted post)
+ * Bao gồm: text content, media, quoted post, và actions
+ * Chiếm row 2-4 cột 2
  */
-export default function PostContent({ post, onTranslate }) {
+export default function PostContent({ post }) {
   const {
     content,
-    hasTranslate,
     images,
     gif,
     video,
@@ -25,15 +25,19 @@ export default function PostContent({ post, onTranslate }) {
     poll,
     location,
     quotedPost,
+    likes,
+    comments,
+    reposts,
+    shares,
   } = post;
 
   return (
     <div className="space-y-3">
       {/* Text content */}
       {content && (
-        <p className="text-sm text-foreground whitespace-pre-wrap wrap-break-word">
+        <div className="text-sm text-foreground whitespace-pre-wrap wrap-break-word">
           {content}
-        </p>
+        </div>
       )}
 
       {/* Quoted post - hiển thị trước media */}
@@ -54,16 +58,13 @@ export default function PostContent({ post, onTranslate }) {
       {poll && <PostMediaPoll poll={poll} />}
       {location && <PostMediaLocation location={location} />}
 
-      {/* Translate button */}
-      {/* {hasTranslate && (
-        <button
-          onClick={onTranslate}
-          className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <Languages className="w-4 h-4" />
-          <span className="text-xs">Translate</span>
-        </button>
-      )} */}
+      {/* Actions - luôn nằm trong PostContent */}
+      <PostActions
+        likes={likes}
+        comments={comments}
+        reposts={reposts}
+        shares={shares}
+      />
     </div>
   );
 }

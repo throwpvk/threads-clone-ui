@@ -2,65 +2,49 @@ import React from "react";
 import PostAvatar from "./PostAvatar";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
-import PostActions from "./PostActions";
-import PostFooter from "./PostFooter";
 import PostReply from "./PostReply";
+import AvatarConnectingLine from "./AvatarConnectingLine";
 
 /**
  * PostCard - Main orchestrator component
- * Tập hợp các sub-components: Avatar, Header, Content, Actions, Footer, Reply
+ * Grid layout: Row 1 (Avatar | Header), Row 2-4 (Line | Content), Row 5 (Replies)
  */
 export default function PostCard({
   post,
   showReply = false,
   isNested = false,
 }) {
-  const { user, timestamp, likes, comments, reposts, shares, replies } = post;
+  const { user, timestamp, replies } = post;
 
   const handleMoreClick = () => {
     console.log("More options");
   };
 
-  const handleTranslate = () => {
-    console.log("Translate post");
-  };
+  const hasReplies = showReply && replies && replies.length > 0;
 
   return (
     <article className={`relative ${!isNested ? "border-b" : ""}`}>
-      <div className="flex gap-3 px-4 pt-4">
-        {/* Left side - Avatar with connecting line */}
-        <PostAvatar
+      {/* Grid Layout: 2 columns (Avatar/Line | Header/Content) */}
+      <div className="grid grid-cols-[auto_1fr] gap-x-3 px-4 pt-4 pb-3">
+        {/* Row 1, Column 1: Avatar */}
+        <PostAvatar user={user} />
+
+        {/* Row 1, Column 2: Header (Username + Timestamp + More) */}
+        <PostHeader
           user={user}
-          hasConnectingLine={showReply && replies && replies.length > 0}
+          timestamp={timestamp}
+          onMoreClick={handleMoreClick}
         />
 
-        {/* Right side - Content */}
-        <div className="flex-1 min-w-0">
-          {/* Header: username, verified, timestamp, more button */}
-          <PostHeader
-            user={user}
-            timestamp={timestamp}
-            onMoreClick={handleMoreClick}
-          />
+        {/* Row 2-4, Column 1: Connecting line (if has replies) */}
+        {hasReplies ? <AvatarConnectingLine /> : <div />}
 
-          {/* Content: text + media (images, gif, video, audio, poll, location) */}
-          <PostContent post={post} onTranslate={handleTranslate} />
-
-          {/* Actions: like, comment, repost, share, save */}
-          <PostActions
-            likes={likes}
-            comments={comments}
-            reposts={reposts}
-            shares={shares}
-          />
-
-          {/* Footer: reply count indicator */}
-          {/* <PostFooter comments={comments} isNested={isNested} /> */}
-        </div>
+        {/* Row 2-4, Column 2: Post Content (text + media + actions) */}
+        <PostContent post={post} />
       </div>
 
-      {/* Nested replies */}
-      {showReply && replies && replies.length > 0 && (
+      {/* Row 5: Nested replies */}
+      {hasReplies && (
         <div>
           {replies.map((reply) => (
             <PostReply

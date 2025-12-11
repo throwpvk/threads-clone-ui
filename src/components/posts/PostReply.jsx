@@ -1,17 +1,18 @@
 import React from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { PostAvatar } from ".";
 
 /**
- * PostReply - Render nested reply
+ * PostReply - Render nested reply với grid layout 2 cột
  */
-export default function PostReply({ reply }) {
+export default function PostReply({ reply, PostCardComponent }) {
   const { user, content, isPlaceholder } = reply;
 
   return (
-    <div className="flex gap-3 px-4 pb-4">
+    <div className="grid grid-cols-[auto_1fr] gap-x-3 px-4 pb-4">
+      {/* Column 1: Avatar */}
       <PostAvatar user={user} />
 
+      {/* Column 2: Content */}
       <div className="flex-1 min-w-0">
         {isPlaceholder ? (
           <div className="space-y-1">
@@ -21,7 +22,9 @@ export default function PostReply({ reply }) {
             <div className="text-sm text-muted-foreground">{content}</div>
           </div>
         ) : (
-          <PostCardComponent post={reply} isNested={true} />
+          PostCardComponent && (
+            <PostCardComponent post={reply} isNested={true} />
+          )
         )}
       </div>
     </div>

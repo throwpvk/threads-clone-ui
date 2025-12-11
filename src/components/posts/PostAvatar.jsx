@@ -2,18 +2,13 @@ import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 /**
- * PostAvatar - Avatar với connecting line cho replies
+ * PostAvatar - Avatar component (without connecting line)
  */
-export default function PostAvatar({ user, hasConnectingLine = false }) {
+export default function PostAvatar({ user }) {
   return (
-    <div className="flex flex-col items-center">
-      <Avatar className="w-9 h-9 ring-2 ring-background">
-        <AvatarImage src={user?.avatar} alt={user?.username} />
-        <AvatarFallback>{user?.username?.[0]?.toUpperCase()}</AvatarFallback>
-      </Avatar>
-
-      {/* Connecting line for replies */}
-      {hasConnectingLine && <div className="w-0.5 flex-1 bg-border my-2" />}
-    </div>
+    <Avatar className="w-9 h-9 ring-2 ring-background">
+      <AvatarImage src={user?.avatar} alt={user?.username} />
+      <AvatarFallback>{user?.username?.[0]?.toUpperCase()}</AvatarFallback>
+    </Avatar>
   );
 }

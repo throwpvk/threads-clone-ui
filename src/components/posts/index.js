@@ -11,6 +11,7 @@ export { default as PostContent } from "./PostContent";
 export { default as PostFooter } from "./PostFooter";
 export { default as PostReply } from "./PostReply";
 export { default as PostQuoted } from "./PostQuoted";
+export { default as AvatarConnectingLine } from "./AvatarConnectingLine";
 
 // Atomic components
 export { default as ActionButton } from "./ActionButton";
