@@ -61,7 +61,7 @@ export default function PostCard({
         {hasReplies && (
           <div
             style={{ gridArea: "line" }}
-            className="flex justify-center mt-3"
+            className="flex justify-center mt-[6.5px]"
           >
             <AvatarConnectingLine />
           </div>
