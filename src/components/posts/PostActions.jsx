@@ -18,12 +18,9 @@ export default function PostActions({
   onComment,
   onRepost,
   onShare,
-  onSave,
   isLiked = false,
-  isSaved = false,
 }) {
   const [liked, setLiked] = useState(isLiked);
-  const [saved, setSaved] = useState(isSaved);
   const [likesCount, setLikesCount] = useState(likes);
 
   const handleLike = () => {
@@ -31,14 +28,8 @@ export default function PostActions({
     setLikesCount(liked ? likesCount - 1 : likesCount + 1);
     onLike?.();
   };
-
-  const handleSave = () => {
-    setSaved(!saved);
-    onSave?.();
-  };
-
   return (
-    <div className="flex items-center gap-4 pt-3">
+    <div className="flex items-center gap-3 -ml-2">
       {/* Like */}
       <ActionButton
         icon={(props) => (
@@ -80,19 +71,6 @@ export default function PostActions({
 
       {/* Spacer */}
       <div className="flex-1" />
-
-      {/* Save */}
-      <button
-        onClick={handleSave}
-        className="group p-1.5 rounded-full hover:bg-accent transition-colors"
-        aria-label="Save"
-      >
-        {saved ? (
-          <BookmarkCheck className="w-5 h-5 text-foreground" />
-        ) : (
-          <Bookmark className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-        )}
-      </button>
     </div>
   );
 }

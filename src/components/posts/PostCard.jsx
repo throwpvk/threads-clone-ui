@@ -3,6 +3,7 @@ import PostAvatar from "./PostAvatar";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostReply from "./PostReply";
+import { AvatarConnectingLine } from ".";
 
 /**
  * PostCard - Main orchestrator component
@@ -30,11 +31,13 @@ export default function PostCard({
     <article className={`relative ${!isNested ? "border-b" : ""}`}>
       {/* Grid Template Areas Layout */}
       <div
-        className="px-4 pt-4 pb-3"
+        className="px-6 py-3"
         style={{
           display: "grid",
-          gridTemplateColumns: "48px 1fr",
-          gridTemplateRows: "21px 24px 1fr 1fr 21px auto",
+          gridTemplateColumns: "36px 1fr",
+          gridTemplateRows: hasReplies
+            ? "21px 24px 1fr 1fr 21px auto"
+            : "21px 24px 1fr 1fr",
           columnGap: "12px",
           rowGap: "0px",
           gridTemplateAreas: hasReplies
@@ -51,7 +54,10 @@ export default function PostCard({
         }}
       >
         {/* Avatar Area */}
-        <div style={{ gridArea: "avatar" }}>
+        <div
+          style={{ gridArea: "avatar" }}
+          className="flex items-center justify-center"
+        >
           <PostAvatar user={user} />
         </div>
 
@@ -68,9 +74,9 @@ export default function PostCard({
         {hasReplies && (
           <div
             style={{ gridArea: "line" }}
-            className="flex justify-center pt-2"
+            className="flex justify-center my-2"
           >
-            <div className="w-0.5 h-full bg-border" />
+            <AvatarConnectingLine />
           </div>
         )}
 
@@ -81,8 +87,11 @@ export default function PostCard({
 
         {/* Reply Avatar Area (only when has replies) */}
         {hasReplies && replies[0] && (
-          <div style={{ gridArea: "repAvatar" }} className="pt-3">
-            <PostAvatar user={replies[0].user} size="small" />
+          <div
+            style={{ gridArea: "repAvatar" }}
+            className="flex items-center justify-center"
+          >
+            <PostAvatar user={replies[0].user} size="normal" />
           </div>
         )}
 

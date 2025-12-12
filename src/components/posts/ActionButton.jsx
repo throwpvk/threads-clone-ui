@@ -16,12 +16,12 @@ export default function ActionButton({
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-1.5 group"
+      className="flex items-center gap-1 group"
       aria-label={label}
     >
-      <div className="p-1.5 rounded-full group-hover:bg-accent transition-colors">
+      <div className="rounded-full group-hover:bg-accent transition-colors">
         <Icon
-          className={`w-5 h-5 transition-colors ${
+          className={`w-4.5 h-4.5 transition-colors ${
             isActive
               ? activeColor
               : "text-muted-foreground group-hover:text-foreground"
