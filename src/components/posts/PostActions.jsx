@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { HeartIcon } from "@/components/icons";
 import {
-  MessageCircle,
-  Repeat2,
-  Send,
-  Bookmark,
-  BookmarkCheck,
-} from "lucide-react";
+  HeartIcon,
+  CommentIcon,
+  RepostIcon,
+  ShareIcon,
+} from "@/components/icons";
+import { Bookmark, BookmarkCheck } from "lucide-react";
 import ActionButton from "./ActionButton";
 
 export default function PostActions({
@@ -29,7 +28,7 @@ export default function PostActions({
     onLike?.();
   };
   return (
-    <div className="flex items-center gap-3 -ml-2">
+    <div className="flex items-center gap-6 -ml-2">
       {/* Like */}
       <ActionButton
         icon={(props) => (
@@ -47,7 +46,7 @@ export default function PostActions({
 
       {/* Comment */}
       <ActionButton
-        icon={MessageCircle}
+        icon={CommentIcon}
         count={comments}
         label="Comment"
         onClick={onComment}
@@ -55,7 +54,7 @@ export default function PostActions({
 
       {/* Repost */}
       <ActionButton
-        icon={Repeat2}
+        icon={RepostIcon}
         count={reposts}
         label="Repost"
         onClick={onRepost}
@@ -63,7 +62,7 @@ export default function PostActions({
 
       {/* Share */}
       <ActionButton
-        icon={Send}
+        icon={ShareIcon}
         count={shares}
         label="Share"
         onClick={onShare}

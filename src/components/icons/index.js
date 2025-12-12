@@ -20,3 +20,6 @@ export { default as SmileIcon } from "./SmileIcon";
 export { default as AddPollIcon } from "./AddPollIcon";
 export { default as AttachTextIcon } from "./AttachTextIcon";
 export { default as AddLocationIcon } from "./AddLocationIcon";
+export { default as CommentIcon } from "./CommentIcon";
+export { default as RepostIcon } from "./RepostIcon";
+export { default as ShareIcon } from "./ShareIcon";
