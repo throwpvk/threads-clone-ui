@@ -28,7 +28,7 @@ export default function PostActions({
     onLike?.();
   };
   return (
-    <div className="flex items-center gap-6 -ml-2">
+    <div className="flex items-center gap-6">
       {/* Like */}
       <ActionButton
         icon={(props) => (

@@ -5,15 +5,6 @@ import PostContent from "./PostContent";
 import PostReply from "./PostReply";
 import { AvatarConnectingLine } from ".";
 
-/**
- * PostCard - Main orchestrator component
- * Layout với CSS Grid Template Areas (5 rows):
- * Row 1: avatar | header
- * Row 2: avatar | content
- * Row 3: line   | content
- * Row 4: line   | content
- * Row 5: repAvatar | repContent (chỉ khi hasReplies)
- */
 export default function PostCard({
   post,
   showReply = false,
@@ -29,14 +20,13 @@ export default function PostCard({
 
   return (
     <article className={`relative ${!isNested ? "border-b" : ""}`}>
-      {/* Grid Template Areas Layout */}
       <div
         className="px-6 py-3"
         style={{
           display: "grid",
           gridTemplateColumns: "36px 1fr",
           gridTemplateRows: hasReplies
-            ? "21px 24px 1fr 1fr 21px auto"
+            ? "21px 24px 1fr 1fr 22px auto"
             : "21px 24px 1fr 1fr",
           columnGap: "12px",
           rowGap: "0px",
@@ -53,7 +43,6 @@ export default function PostCard({
                ". content"`,
         }}
       >
-        {/* Avatar Area */}
         <div
           style={{ gridArea: "avatar" }}
           className="flex items-center justify-center"
@@ -61,7 +50,6 @@ export default function PostCard({
           <PostAvatar user={user} />
         </div>
 
-        {/* Header Area: Username + Timestamp + More */}
         <div style={{ gridArea: "header" }}>
           <PostHeader
             user={user}
@@ -70,22 +58,19 @@ export default function PostCard({
           />
         </div>
 
-        {/* Connecting Line Area (only when has replies) */}
         {hasReplies && (
           <div
             style={{ gridArea: "line" }}
-            className="flex justify-center my-2"
+            className="flex justify-center mt-3"
           >
             <AvatarConnectingLine />
           </div>
         )}
 
-        {/* Content Area: Text + Media + Actions + Footer */}
         <div style={{ gridArea: "content" }}>
           <PostContent post={post} />
         </div>
 
-        {/* Reply Avatar Area (only when has replies) */}
         {hasReplies && replies[0] && (
           <div
             style={{ gridArea: "repAvatar" }}
@@ -95,9 +80,8 @@ export default function PostCard({
           </div>
         )}
 
-        {/* Reply Header Area: Username + Timestamp (only when has replies) */}
         {hasReplies && replies[0] && (
-          <div style={{ gridArea: "repHeader" }}>
+          <div style={{ gridArea: "repHeader" }} className="mt-3">
             <PostHeader
               user={replies[0].user}
               timestamp={replies[0].timestamp}
@@ -107,9 +91,8 @@ export default function PostCard({
           </div>
         )}
 
-        {/* Reply Content Area: Text + Media (only when has replies) */}
         {hasReplies && (
-          <div style={{ gridArea: "repContent" }}>
+          <div style={{ gridArea: "repContent" }} className="mt-1 mb-3">
             {replies.map((reply, index) => (
               <PostReply
                 key={reply.id}

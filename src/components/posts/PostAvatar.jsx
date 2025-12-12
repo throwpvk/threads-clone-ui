@@ -1,10 +1,6 @@
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-/**
- * PostAvatar - Avatar component
- * Supports 2 sizes: normal (36px) và small (24px) cho replies
- */
 export default function PostAvatar({ user, size = "normal" }) {
   const sizeClasses = {
     normal: "w-9 h-9 ring-2",

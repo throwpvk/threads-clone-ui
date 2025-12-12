@@ -1,9 +1,5 @@
 import React from "react";
 
-/**
- * ActionButton - Reusable button cho post actions
- * Dùng cho: Like, Comment, Repost, Share, Save
- */
 export default function ActionButton({
   icon,
   count,

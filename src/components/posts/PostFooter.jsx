@@ -1,8 +1,5 @@
 import React from "react";
 
-/**
- * PostFooter - Reply count và metadata
- */
 export default function PostFooter({ comments, isNested = false }) {
   if (isNested || !comments || comments === 0) return null;
 

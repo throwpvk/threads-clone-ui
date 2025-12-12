@@ -3,10 +3,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BadgeCheck } from "lucide-react";
 import { PostMediaImage } from "./media";
 
-/**
- * PostQuoted - Hiển thị post được quote bên trong
- * Simplified version của PostCard - không có actions, không recursive
- */
 export default function PostQuoted({ quotedPost }) {
   if (!quotedPost) return null;
 
@@ -29,14 +25,12 @@ export default function PostQuoted({ quotedPost }) {
         <span className="text-muted-foreground text-xs">{timestamp}</span>
       </div>
 
-      {/* Content preview - truncate if too long */}
       {content && (
         <p className="text-sm text-foreground line-clamp-3 whitespace-pre-wrap">
           {content}
         </p>
       )}
 
-      {/* Images preview - max 2 images */}
       {images && images.length > 0 && (
         <div className="mt-2">
           <PostMediaImage images={images.slice(0, 2)} />

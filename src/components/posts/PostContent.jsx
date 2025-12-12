@@ -10,11 +10,6 @@ import {
 import PostQuoted from "./PostQuoted";
 import PostActions from "./PostActions";
 
-/**
- * PostContent - Orchestrator cho post content
- * Bao gồm: text content, media, quoted post, và actions
- * Chiếm row 2-4 cột 2
- */
 export default function PostContent({ post }) {
   const {
     content,
@@ -33,17 +28,14 @@ export default function PostContent({ post }) {
 
   return (
     <div className="space-y-3">
-      {/* Text content */}
       {content && (
         <div className="text-sm text-foreground whitespace-pre-wrap wrap-break-word">
           {content}
         </div>
       )}
 
-      {/* Quoted post - hiển thị trước media */}
       {quotedPost && <PostQuoted quotedPost={quotedPost} />}
 
-      {/* Media - chỉ render 1 loại media */}
       {images && images.length > 0 && <PostMediaImage images={images} />}
       {gif && <PostMediaGIF url={gif.url} thumbnail={gif.thumbnail} />}
       {video && <PostMediaVideo url={video.url} thumbnail={video.thumbnail} />}
@@ -58,7 +50,6 @@ export default function PostContent({ post }) {
       {poll && <PostMediaPoll poll={poll} />}
       {location && <PostMediaLocation location={location} />}
 
-      {/* Actions - luôn nằm trong PostContent */}
       <PostActions
         likes={likes}
         comments={comments}

@@ -13,8 +13,6 @@ export default function PostHeader({ user, timestamp, onMoreClick }) {
         )}
         <span className="text-muted-foreground text-sm">{timestamp}</span>
       </div>
-
-      {/* More button */}
       <button
         onClick={onMoreClick}
         className="p-1 hover:bg-accent rounded-full transition-colors"

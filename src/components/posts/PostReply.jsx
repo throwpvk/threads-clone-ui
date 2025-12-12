@@ -1,9 +1,5 @@
 import React from "react";
 
-/**
- * PostReply - Render nested reply content only
- * Avatar và header đã được render ở grid areas "repAvatar" + "repHeader" trong PostCard
- */
 export default function PostReply({ reply, PostCardComponent, isFirst }) {
   const { content, isPlaceholder } = reply;
 
