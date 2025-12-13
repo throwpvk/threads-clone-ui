@@ -1,7 +1,7 @@
 import React from "react";
 import { ChevronDown, Ellipsis } from "lucide-react";
 
-export default function FeedHeader({
+export default function Header({
   tabs = [{ id: "default", label: "Feed" }],
   activeTab = "default",
   onTabChange,

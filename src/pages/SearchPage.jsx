@@ -1,20 +1,50 @@
-import React from "react";
-import ColumnsManager from "@/components/columns/ColumnsManager";
+import React, { useState } from "react";
+import { ColumnsManager } from "@/components/columns";
+import { getPostsWithUserInfo } from "@/data/mockData";
+import { SearchColumn } from "@/components/search";
 
-export default function SearchPage() {
-  const columns = [
-    { id: "for-you", title: "For You", width: "420px", items: 20 },
-    { id: "search", title: "Search", width: "420px", items: 20 },
-    { id: "trending", title: "Trending", width: "420px", items: 20 },
-    { id: "trending", title: "Setting", width: "420px", items: 20 },
-    { id: "trending", title: "Profile", width: "420px", items: 20 },
-  ];
+const tabs = [{ id: "activity", label: "Activity" }];
+
+export default function ActivityPage() {
+  const [activeTab, setActiveTab] = useState("activity");
+  const [columns, setColumns] = useState([
+    { id: "activity-main", title: "Activity", width: "640px" },
+  ]);
+
+  const posts = getPostsWithUserInfo();
+
+  const handleAddColumn = () => {
+    const newColumn = {
+      id: `column-${Date.now()}`,
+      title: `Feed ${columns.length + 1}`,
+      width: "520px",
+    };
+    setColumns([...columns, newColumn]);
+  };
+
+  const handleCreatePost = () => {
+    console.log("Open create post modal");
+  };
 
   return (
-    <main className="min-h-screen bg-background text-foreground font-sans">
-      <div className="mx-auto p-4">
-        <ColumnsManager columns={columns} hasAddColumnBtn={true} />
-      </div>
-    </main>
+    <ColumnsManager
+      columns={columns.map((col) => ({
+        ...col,
+        content: (
+          <SearchColumn
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            hasCreatePost={true}
+            onCreatePost={handleCreatePost}
+            posts={posts}
+            showReply={true}
+            enableScroll={columns.length > 1}
+          />
+        ),
+      }))}
+      hasAddColumnBtn={false}
+      onAddColumn={handleAddColumn}
+    />
   );
 }

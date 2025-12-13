@@ -1,11 +1,11 @@
 import React from "react";
 import clsx from "clsx";
-import FeedContent from "./FeedContent";
+import SearchContent from "./SearchContent";
 import Header from "../header/Header";
 
 const tabDefault = [{ id: "default", label: "Feed" }];
 
-export default function FeedColumn({
+export default function SearchColumn({
   tabs = tabDefault,
   isMultiColumn = false,
   activeTab = "default",
@@ -34,7 +34,7 @@ export default function FeedColumn({
 
       {renderFilters && renderFilters}
 
-      <FeedContent
+      <SearchContent
         hasCreatePost={hasCreatePost}
         onCreatePost={onCreatePost}
         posts={posts}
