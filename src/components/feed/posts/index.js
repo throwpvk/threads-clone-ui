@@ -1,7 +1,7 @@
 export { default as PostCard } from "./PostCard";
 export { default as PostActions } from "./PostActions";
 export { default as CreatePostInput } from "./CreatePostInput";
-export { default as PostsWrapper } from "./PostsWrapper";
+export { default as PostsWrapper } from "@/components/common/Wrapper";
 
 export { default as PostAvatar } from "./PostAvatar";
 export { default as PostHeader } from "./PostHeader";

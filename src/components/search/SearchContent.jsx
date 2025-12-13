@@ -1,11 +1,8 @@
 import React from "react";
-import {
-  CreatePostInput,
-  PostCard,
-  PostsWrapper,
-} from "@/components/feed/posts";
+import { CreatePostInput, PostCard } from "@/components/feed/posts";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
+import { SearchWrapper } from ".";
 
 export default function SearchContent({
   hasCreatePost = false,
@@ -31,7 +28,7 @@ export default function SearchContent({
         !isMultiColumn && "custom-scrollbar"
       )}
     >
-      <PostsWrapper>
+      <SearchWrapper>
         {!isActivity && hasCreatePost && (
           <CreatePostInput onCreateClick={handleCreatePost} />
         )}
@@ -41,7 +38,7 @@ export default function SearchContent({
             <PostCard key={post.id} post={post} showReply={showReply} />
           ))}
         </div>
-      </PostsWrapper>
+      </SearchWrapper>
     </div>
   );
 }

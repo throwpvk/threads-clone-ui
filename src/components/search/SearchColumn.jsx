@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import SearchContent from "./SearchContent";
-import Header from "../header/Header";
+import Header from "../common/Header";
 
 const tabDefault = [{ id: "default", label: "Feed" }];
 
