@@ -1,5 +1,9 @@
 import React from "react";
-import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
+import {
+  CreatePostInput,
+  PostCard,
+  PostsWrapper,
+} from "@/components/feed/posts";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
 
