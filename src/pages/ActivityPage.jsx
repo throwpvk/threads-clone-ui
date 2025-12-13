@@ -1,5 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { ColumnsManager } from "@/components/columns";
+import { FeedColumn } from "@/components/feed";
+import { getPostsWithUserInfo } from "@/data/mockData";
+
+const tabs = [{ id: "activity", label: "Activity" }];
 
 export default function ActivityPage() {
-  return <h1>ActivityPage</h1>;
+  const [activeTab, setActiveTab] = useState("activity");
+  const [columns, setColumns] = useState([
+    { id: "activity-main", title: "Activity", width: "640px" },
+  ]);
+
+  const posts = getPostsWithUserInfo();
+
+  const handleAddColumn = () => {
+    const newColumn = {
+      id: `column-${Date.now()}`,
+      title: `Feed ${columns.length + 1}`,
+      width: "520px",
+    };
+    setColumns([...columns, newColumn]);
+  };
+
+  const handleCreatePost = () => {
+    console.log("Open create post modal");
+  };
+
+  return (
+    <ColumnsManager
+      columns={columns.map((col) => ({
+        ...col,
+        content: (
+          <FeedColumn
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            hasCreatePost={true}
+            onCreatePost={handleCreatePost}
+            posts={posts}
+            showReply={true}
+            enableScroll={columns.length > 1}
+          />
+        ),
+      }))}
+      hasAddColumnBtn={false}
+      onAddColumn={handleAddColumn}
+    />
+  );
 }

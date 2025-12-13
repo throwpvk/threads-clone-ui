@@ -63,7 +63,7 @@ export default function ColumnsManager({
       <div
         ref={scrollContainerRef}
         className={clsx("flex items-start", {
-          "justify-center": isSingleColumn,
+          "justify-center md:mr-20": isSingleColumn,
           "h-full w-full pl-0 md:pl-24 overflow-x-auto overflow-y-hidden flex-1 scrollbar-custom":
             isMultiColumn,
         })}
@@ -79,7 +79,7 @@ export default function ColumnsManager({
               key={col.id ?? i}
               className={clsx("shrink-0", {
                 "hidden md:block": i > 0,
-                "w-screen md:w-[560px] lg:w-auto lg:max-w-[640px] lg:min-w-[420px]":
+                "w-screen md:w-[560px] lg:w-auto lg:max-w-[656px] lg:min-w-[420px]":
                   isSingleColumn,
                 [getColumnWidthClass()]: isMultiColumn,
               })}
@@ -99,9 +99,9 @@ export default function ColumnsManager({
           {hasAddColumnBtn && (
             <div
               className={clsx("hidden md:block shrink-0", {
-                "fixed top-[50%] -translate-y-1/2 md:left-[calc(50%+280px+50px)] lg:left-[calc(50%+min(50vw-80px,320px)+50px)]":
+                "fixed top-[50%] -translate-y-1/2 md:left-[calc(50%+280px)] lg:left-[calc(50%+min(50vw-80px,328px))]":
                   isSingleColumn,
-                "h-full relative w-20": isMultiColumn,
+                "h-full relative w-20 -ml-4": isMultiColumn,
               })}
             >
               {isMultiColumn ? (

@@ -6,7 +6,7 @@ export default function CreatePostInput({ onCreateClick }) {
   return (
     <div
       onClick={onCreateClick}
-      className="w-full flex items-center gap-3 px-4 py-4 transition-colors cursor-pointer border-b"
+      className="w-full flex items-center gap-3 px-6 pt-6 pb-4 transition-colors cursor-pointer border-b"
     >
       <Avatar className="w-9 h-9 ring-2 ring-background shrink-0">
         <AvatarImage src={mockUser.avatar} alt={mockUser.username} />

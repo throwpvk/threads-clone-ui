@@ -1,6 +1,7 @@
 import React from "react";
 import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
 import clsx from "clsx";
+import { useLocation } from "react-router-dom";
 
 export default function FeedContent({
   hasCreatePost = false,
@@ -9,6 +10,8 @@ export default function FeedContent({
   showReply = true,
   isMultiColumn = false,
 }) {
+  const pageLocation = useLocation();
+  const isActivity = pageLocation.pathname === "/activity";
   const handleCreatePost = () => {
     if (onCreatePost) {
       onCreatePost();
@@ -20,12 +23,14 @@ export default function FeedContent({
   return (
     <div
       className={clsx(
-        "flex flex-col h-full overflow-hidden border border-border border-b-0 drop-shadow-md mx-2 bg-card rounded-t-3xl",
+        "flex flex-col h-full overflow-hidden border border-border border-b-0 drop-shadow-xs mx-2 bg-card rounded-t-3xl",
         !isMultiColumn && "custom-scrollbar"
       )}
     >
       <PostsWrapper>
-        {hasCreatePost && <CreatePostInput onCreateClick={handleCreatePost} />}
+        {!isActivity && hasCreatePost && (
+          <CreatePostInput onCreateClick={handleCreatePost} />
+        )}
 
         <div className="divide-y">
           {posts.map((post) => (

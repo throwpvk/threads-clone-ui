@@ -4,6 +4,7 @@ import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostReply from "./PostReply";
 import { AvatarConnectingLine } from ".";
+import PostReplyHeader from "./PostReplyHeader";
 
 export default function PostCard({
   post,
@@ -82,7 +83,7 @@ export default function PostCard({
 
         {hasReplies && replies[0] && (
           <div style={{ gridArea: "repHeader" }} className="mt-3">
-            <PostHeader
+            <PostReplyHeader
               user={replies[0].user}
               timestamp={replies[0].timestamp}
               onMoreClick={handleMoreClick}
