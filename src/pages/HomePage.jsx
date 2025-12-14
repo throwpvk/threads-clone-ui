@@ -60,7 +60,7 @@ export default function HomePage() {
           <LoginCard
             title="Log in or sign up for Threads"
             disc="See what people are talking about and join the conversation."
-            className="py-5! px-2!"
+            className="py-5! px-4!"
             titleClassName="text-2xl!"
             descClassName="text-base!"
             shadow={false}
