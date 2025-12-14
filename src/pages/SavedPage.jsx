@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ColumnsManager } from "@/components/columns";
 import { FeedColumn } from "@/components/feed";
-import { PostCard, PostsWrapper } from "@/components/feed/posts";
+import { PostCard, PostsWrapper } from "@/components/posts";
 import { getPostsWithUserInfo } from "@/data/mockData";
 import { Bookmark, Grid3x3, List } from "lucide-react";
 
