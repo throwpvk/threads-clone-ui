@@ -1,4 +1,4 @@
-export { default as HomeIcon } from "./HomeIcon";
+﻿export { default as HomeIcon } from "./HomeIcon";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as HeartIcon } from "./HeartIcon";
 export { default as UserIcon } from "./UserIcon";
@@ -25,3 +25,4 @@ export { default as CommentIcon } from "./CommentIcon";
 export { default as RepostIcon } from "./RepostIcon";
 export { default as ShareIcon } from "./ShareIcon";
 export { default as ExpandIcon } from "./ExpandIcon";
+export { default as FilterIcon } from "./FilterIcon";

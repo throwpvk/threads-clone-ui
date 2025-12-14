@@ -3,12 +3,12 @@ import { ColumnsManager } from "@/components/columns";
 import { getPostsWithUserInfo } from "@/data/mockData";
 import { SearchColumn } from "@/components/search";
 
-const tabs = [{ id: "activity", label: "Activity" }];
+const tabs = [{ id: "search", label: "Search" }];
 
-export default function ActivityPage() {
-  const [activeTab, setActiveTab] = useState("activity");
+export default function SearchPage() {
+  const [activeTab, setActiveTab] = useState("search");
   const [columns, setColumns] = useState([
-    { id: "activity-main", title: "Activity", width: "640px" },
+    { id: "search-main", title: "search", width: "640px" },
   ]);
 
   const posts = getPostsWithUserInfo();
@@ -22,8 +22,8 @@ export default function ActivityPage() {
     setColumns([...columns, newColumn]);
   };
 
-  const handleCreatePost = () => {
-    console.log("Open create post modal");
+  const handleSearch = () => {
+    console.log("Open search modal");
   };
 
   return (
@@ -35,8 +35,7 @@ export default function ActivityPage() {
             tabs={tabs}
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            hasCreatePost={true}
-            onCreatePost={handleCreatePost}
+            onSearch={handleSearch}
             posts={posts}
             showReply={true}
             enableScroll={columns.length > 1}

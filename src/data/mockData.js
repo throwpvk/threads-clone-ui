@@ -123,6 +123,83 @@ export const mockPosts = [
 
 export const mockUser = mockUsers[0]; // Current logged in user
 
+// Search mock data
+export const mockTrending = [
+  {
+    id: "t1",
+    name: "Snow Man ミューバン",
+    content: "fluneco あの\n今日誕生日なんです……",
+  },
+  {
+    id: "t2",
+    name: "THE W",
+    content:
+      "nkmr_santa_5011 THE Wの粗品の審査より、今回一番的確だった審査員のコメントは、笑い飯哲夫の『何をやっているのか私にはわからなかった』だったと思う。",
+  },
+  {
+    id: "t3",
+    name: "梨花とタキマキのコラボ",
+    content:
+      "ricecakecampany15 梨花とタキマキのYouTube\n日頃からいろんなことを考えて…",
+  },
+  {
+    id: "t4",
+    name: "50TAのキングリハへの楽曲提供",
+    content: "...",
+  },
+  {
+    id: "t5",
+    name: "体格ブラザーズ大好きです",
+    content:
+      "cha_tomaru22 そろそろ体格ブラザーズに関わ呼ばれへんかな…\nシューイチスタッフさん、もうカタィに気づいてるよね？笑🤡",
+  },
+];
+
+export const mockFollowSuggestions = [
+  {
+    id: "fs1",
+    username: "dasio_reviewer",
+    displayName: "dasio_reviewer",
+    avatar: "https://i.pravatar.cc/150?img=11",
+    description: "다이소 리뷰에해직지끈텍스개",
+    content:
+      "다이소 현직 직원이야 😎😎\n핫템들만 바로 소개해줄게 🎁\n(공식, 객관적소개, 광고x)",
+    followersCount: 20100,
+    isVerified: false,
+  },
+  {
+    id: "fs2",
+    username: "junvu95",
+    displayName: "junvu95",
+    avatar: "https://i.pravatar.cc/150?img=12",
+    description: "JUN VŨ 준부 ㅋㅋㅋ",
+    content: "Jun Vũ nghĩa là mua tháng sau 💬",
+    followersCount: 212000,
+    isVerified: true,
+  },
+  {
+    id: "fs3",
+    username: "buitra.05",
+    displayName: "buitra.05",
+    avatar: "https://i.pravatar.cc/150?img=13",
+    description: "Bùi Trà",
+    content: "hi",
+    followersCount: 8387,
+    isVerified: false,
+  },
+  {
+    id: "fs4",
+    username: "biettheeodlam",
+    displayName: "biettheeodlam",
+    avatar: "https://i.pravatar.cc/150?img=14",
+    description: "Biết thế éo đi làm",
+    content:
+      "Chúng tôi không khuyến khích nghỉ làm, chỉ là góc nhìn hài hước...\nKênh trực thuộc Biết Thế Network - Orange Agency.\nLiên hệ Zalo: 089 989 9797",
+    followersCount: 44400,
+    isVerified: false,
+  },
+];
+
 // Helper function để lấy user info từ userId
 export const getUserById = (userId) => {
   return mockUsers.find((user) => user.id === userId);

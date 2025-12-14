@@ -1,23 +1,17 @@
 import React from "react";
-import { CreatePostInput, PostCard } from "@/components/feed/posts";
 import clsx from "clsx";
-import { useLocation } from "react-router-dom";
 import { SearchWrapper } from ".";
+import SearchInput from "./SearchInput";
+import TrendingNow from "./TrendingNow";
+import FollowSuggestions from "./FollowSuggestions";
+import { mockTrending, mockFollowSuggestions } from "@/data/mockData";
 
-export default function SearchContent({
-  hasCreatePost = false,
-  onCreatePost,
-  posts = [],
-  showReply = true,
-  isMultiColumn = false,
-}) {
-  const pageLocation = useLocation();
-  const isActivity = pageLocation.pathname === "/activity";
-  const handleCreatePost = () => {
-    if (onCreatePost) {
-      onCreatePost();
+export default function SearchContent({ onSearch, isMultiColumn = false }) {
+  const handleSearch = () => {
+    if (onSearch) {
+      onSearch();
     } else {
-      console.log("Open create post modal");
+      console.log("Open Search modal");
     }
   };
 
@@ -29,15 +23,11 @@ export default function SearchContent({
       )}
     >
       <SearchWrapper>
-        {!isActivity && hasCreatePost && (
-          <CreatePostInput onCreateClick={handleCreatePost} />
-        )}
+        <SearchInput onSearchClick={handleSearch} />
 
-        <div className="divide-y">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} showReply={showReply} />
-          ))}
-        </div>
+        <TrendingNow trends={mockTrending} />
+
+        <FollowSuggestions suggestions={mockFollowSuggestions} />
       </SearchWrapper>
     </div>
   );

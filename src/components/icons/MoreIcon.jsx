@@ -1,15 +1,18 @@
-import { CircleEllipsis } from "lucide-react";
+import { CircleEllipsis, Ellipsis } from "lucide-react";
 
 export default function MoreIcon({
   className = "",
   strokeWidth = 2.5,
+  hasCircle = true,
   ...props
 }) {
-  return (
+  return hasCircle ? (
     <CircleEllipsis
       strokeWidth={strokeWidth}
       className={className}
       {...props}
     />
+  ) : (
+    <Ellipsis strokeWidth={strokeWidth} className={className} {...props} />
   );
 }

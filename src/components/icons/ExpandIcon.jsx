@@ -5,7 +5,6 @@ const ExpandIcon = (props) => (
     aria-label="Expand composer"
     role="img"
     viewBox="0 0 24 24"
-    className="x1lliihq x2lah0s x1n2onr6 x19zyb68 x16ye13r x5lhr3w x86x9uj"
     style={{
       "--x-fill": "currentColor",
       "--x-height": "16px",
