@@ -30,3 +30,6 @@ export { default as FollowProfileIcon } from "./FollowProfileIcon";
 export { default as AddPhotoIcon } from "./AddPhotoIcon";
 export { default as AddBioIcon } from "./AddBioIcon";
 export { default as CreateIcon } from "./CreateIcon";
+export { default as InstagramIcon } from "./InstagramIcon";
+export { default as BellIcon } from "./BellIcon";
+export { default as InsightIcon } from "./InsightIcon";

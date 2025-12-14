@@ -40,6 +40,7 @@ export default function ActivityPage() {
             posts={posts}
             showReply={true}
             enableScroll={columns.length > 1}
+            hasOptions={false}
           />
         ),
       }))}

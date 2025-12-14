@@ -19,7 +19,7 @@ export default function ProfileAction({ isOwnProfile = false, userId }) {
       <Button
         variant="outline"
         onClick={handleEditProfile}
-        className="rounded-xl font-semibold"
+        className="w-full rounded-lg font-semibold bg-transparent hover:bg-transparent cursor-pointer active:scale-95"
       >
         Edit profile
       </Button>
@@ -27,18 +27,18 @@ export default function ProfileAction({ isOwnProfile = false, userId }) {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-3 items-center justify-center">
       <Button
-        variant="default"
+        variant="outline"
         onClick={handleFollow}
-        className="rounded-xl font-semibold"
+        className="rounded-lg font-semibold flex-1 bg-transparent hover:bg-transparent cursor-pointer active:scale-95"
       >
         Following
       </Button>
       <Button
         variant="outline"
         onClick={handleMention}
-        className="rounded-xl font-semibold"
+        className="rounded-lg font-semibold flex-1 bg-transparent hover:bg-transparent cursor-pointer active:scale-95"
       >
         Mention
       </Button>

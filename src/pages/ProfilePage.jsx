@@ -15,9 +15,9 @@ export default function ProfilePage() {
 
   const user = mockUsers.find((u) => u.username === username) || mockUsers[0];
 
-  const isOwnProfile = user.username === "pvkhali"; // Mock current user
+  const isOwnProfile = true; // Mock current user
 
-  const isFinish = false; // Simple check
+  const isFinish = true; // Simple check
 
   const allPosts = getPostsWithUserInfo();
   const userPosts = allPosts.filter((post) => post.user.id === user.id);
@@ -46,6 +46,7 @@ export default function ProfilePage() {
             enableScroll={columns.length > 1}
             isOwnProfile={isOwnProfile}
             isFinish={isFinish}
+            hasOptions={false}
           />
         ),
       }))}

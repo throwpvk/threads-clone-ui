@@ -10,7 +10,7 @@ export default function ProfileColumn({
   isMultiColumn = false,
   activeTab = "profile",
   onTabChange,
-  hasOptions = true,
+  hasOptions = false,
   user = null,
   posts = [],
   showReply = true,

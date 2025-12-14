@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PostCard, PostsWrapper } from "@/components/posts";
+import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
 import FinishProfile from "./FinishProfile";
 
 export default function ProfileTabs({
@@ -15,7 +15,9 @@ export default function ProfileTabs({
     (post) => post.images && post.images.length > 0
   );
   const repostPosts = posts.filter((post) => post.isRepost);
-
+  const handleCreatePost = () => {
+    console.log("Open create post modal");
+  };
   return (
     <Tabs defaultValue="threads" className="flex-1 flex flex-col h-full">
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 h-auto">
@@ -52,6 +54,7 @@ export default function ProfileTabs({
         ) : (
           <PostsWrapper>
             <div className="divide-y">
+              <CreatePostInput onCreateClick={handleCreatePost} />
               {threadPosts.length > 0 ? (
                 threadPosts.map((post) => (
                   <PostCard key={post.id} post={post} showReply={showReply} />

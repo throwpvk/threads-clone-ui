@@ -39,6 +39,7 @@ export default function SearchPage() {
             posts={posts}
             showReply={true}
             enableScroll={columns.length > 1}
+            hasOptions={false}
           />
         ),
       }))}

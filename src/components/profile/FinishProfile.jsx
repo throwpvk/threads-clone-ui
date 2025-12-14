@@ -16,6 +16,14 @@ import CreateIcon from "@/components/icons/CreateIcon";
 const finishSteps = [
   {
     id: 1,
+    icon: CreateIcon,
+    title: "Create thread",
+    description: "Say what’s on your mind or share a recent highlight.",
+    actionText: "Create",
+    action: () => console.log("Open create thread dialog"),
+  },
+  {
+    id: 2,
     icon: FollowProfileIcon,
     title: "Follow 10 profiles",
     description: "Fill your feed with threads that interest you.",
@@ -23,7 +31,7 @@ const finishSteps = [
     action: () => console.log("Navigate to follow suggestions"),
   },
   {
-    id: 2,
+    id: 3,
     icon: AddPhotoIcon,
     title: "Add profile photo",
     description: "Make it easier for people to recognize you.",
@@ -31,20 +39,12 @@ const finishSteps = [
     action: () => console.log("Open upload photo dialog"),
   },
   {
-    id: 3,
+    id: 4,
     icon: AddBioIcon,
     title: "Add bio",
-    description: "Introduce yourself and tell people what you're into.",
+    description: "Introduce yourself and tell people what you’re into.",
     actionText: "Add",
     action: () => console.log("Open edit bio dialog"),
-  },
-  {
-    id: 4,
-    icon: CreateIcon,
-    title: "Add links",
-    description: "Share your other social profiles or website.",
-    actionText: "Add",
-    action: () => console.log("Open add links dialog"),
   },
 ];
 
@@ -58,7 +58,7 @@ export default function FinishProfile() {
         </span>
       </div>
 
-      <div className="relative">
+      <div className="relative group">
         <Carousel
           opts={{
             align: "start",
@@ -96,8 +96,8 @@ export default function FinishProfile() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4" />
+          <CarouselPrevious className="size-12 absolute left-8 top-1/2 -translate-y-1/2 -translate-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 border-0 hover:scale-105 bg-card hover:bg-card" />
+          <CarouselNext className="size-12 absolute right-8 top-1/2 -translate-y-1/2 translate-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 border-0 hover:scale-105 bg-card hover:bg-card" />
         </Carousel>
       </div>
     </div>
