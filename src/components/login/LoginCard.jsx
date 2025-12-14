@@ -1,52 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent } from "@/components/ui/card";
-import InstagramIcon from "@/components/icons/InstagramIcon";
-import { ChevronRight } from "lucide-react";
+import { useLoginMutation } from "@/services/api/authApi";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/features/auth/authSlice";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
-export default function LoginCard({ username = "pvkhai", onClose }) {
-  const handleInstagramLogin = () => {
-    // TODO: Implement Instagram OAuth login
-    console.log("Instagram login clicked");
-    onClose?.();
+export default function LoginCard({ onClose }) {
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const result = await login({ identifier, password }).unwrap();
+
+      const token = {
+        access_token: result.access_token || result.data?.access_token,
+        refresh_token: result.refresh_token || result.data?.refresh_token,
+      };
+
+      dispatch(setCredentials({ user: result.user || null, token }));
+      onClose?.();
+    } catch (err) {
+      console.error("Failed to login:", err);
+      setError(
+        err.data?.message || "Login failed. Please check your credentials."
+      );
+    }
   };
 
   return (
     <Card className="w-full bg-white dark:bg-neutral-900 border-none shadow-xl">
       <CardContent className="px-10 py-12">
-        {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-[28px] font-bold text-gray-900 dark:text-white mb-4 leading-tight">
-            Say more with Threads
+            Login to Threads
           </h1>
           <p className="text-[15px] text-gray-500 dark:text-gray-400 leading-relaxed">
-            Join Threads to share thoughts, find out what's going on, follow
-            your people and more.
+            Enter your username, phone, or email and password.
           </p>
         </div>
 
-        {/* Instagram Login Button */}
-        <button
-          onClick={handleInstagramLogin}
-          className="w-full flex items-center gap-3 px-5 py-4 bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-[14px] hover:bg-gray-100 dark:hover:bg-neutral-750 transition-all duration-200 group"
-        >
-          <div className="shrink-0">
-            <InstagramIcon className="w-[42px] h-[42px] fill-current" />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Input
+              type="text"
+              placeholder="Username, phone or email"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              className="bg-gray-50 dark:bg-neutral-800 border-gray-200 dark:border-neutral-700 h-12"
+              required
+            />
           </div>
-          <div className="flex flex-col items-start flex-1 min-w-0">
-            <span className="text-[13px] text-gray-500 dark:text-gray-400">
-              Continue with Instagram
-            </span>
-            <span className="text-[15px] font-semibold text-gray-900 dark:text-white truncate w-full">
-              {username}
-            </span>
+          <div>
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="bg-gray-50 dark:bg-neutral-800 border-gray-200 dark:border-neutral-700 h-12"
+              required
+            />
           </div>
-          <ChevronRight className="w-5 h-5 text-gray-400 shrink-0 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors" />
-        </button>
+
+          {error && (
+            <div className="text-red-500 text-sm text-center">{error}</div>
+          )}
+
+          <Button
+            type="submit"
+            className="w-full h-12 text-[15px] font-semibold rounded-[14px]"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              "Log in"
+            )}
+          </Button>
+        </form>
+
+        <div className="mt-6 text-center">
+          <button
+            type="button"
+            className="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
+            onClick={() => console.log("Forgot password clicked")}
+          >
+            Forgot password?
+          </button>
+        </div>
       </CardContent>
     </Card>
   );
 }
+
+LoginCard.propTypes = {
+  onClose: PropTypes.func,
+};
 
 LoginCard.propTypes = {
   username: PropTypes.string,

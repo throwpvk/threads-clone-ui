@@ -11,7 +11,7 @@ import {
   saveDraftsToStorage,
   sortDrafts,
 } from "../hooks/useDraftSync";
-import { useScrollLock } from "../hooks/useScrollLock";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import { useEscapeKey } from "../hooks/useEscapeKey";
 
 export const CreateThreadProvider = ({

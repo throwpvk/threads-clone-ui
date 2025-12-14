@@ -5,9 +5,12 @@ import {
   DEFAULT_MOTION_CONFIG,
   MOTION_DIRECTIONS,
 } from "@/constants/motionConfig";
-import { LoginCard } from "./LoginCard";
+import LoginCard from "./LoginCard";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 export default function LoginModal({ isOpen, onClose, username = "pvkhai" }) {
+  useScrollLock(isOpen);
+
   if (!isOpen) return null;
 
   const handleOverlayClick = () => {

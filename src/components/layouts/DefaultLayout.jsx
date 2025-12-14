@@ -8,9 +8,18 @@ import {
   CreateButtonFixed,
 } from "./components";
 import { useIsMobile } from "@/hooks/use-mobile";
+import LoginModal from "@/components/login/LoginModal";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectShowLoginModal,
+  closeLoginModal,
+} from "@/features/auth/authSlice";
 
 export default function DefaultLayout() {
   const isMobile = useIsMobile();
+  const showLoginModal = useSelector(selectShowLoginModal);
+  const dispatch = useDispatch();
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
@@ -23,6 +32,10 @@ export default function DefaultLayout() {
         </SidebarInset>
         {!isMobile && <CreateButtonFixed />}
         <MobileBottomNav />
+        <LoginModal
+          isOpen={showLoginModal}
+          onClose={() => dispatch(closeLoginModal())}
+        />
       </div>
     </SidebarProvider>
   );

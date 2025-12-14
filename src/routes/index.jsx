@@ -2,6 +2,7 @@ import React from "react";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 
 // Pages
 import HomePage from "@/pages/HomePage";
@@ -28,17 +29,25 @@ export default function AppRoutes() {
 
         {/* Main App Routes */}
         <Route path="/" element={<DefaultLayout />}>
+          {/* Public Routes */}
           <Route index element={<HomePage />} />
-          <Route path="for-you" element={<ForYouPage />} />
-          <Route path="following" element={<FollowingPage />} />
-          <Route path="ghost" element={<GhostPostsPage />} />
-          <Route path="search" element={<SearchPage />} />
-          <Route path="activity" element={<ActivityPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="profile/:username/insights" element={<InsightsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-          <Route path="saved" element={<SavedPage />} />
           <Route path="post/:id" element={<PostDetailPage />} />
+          <Route path="profile/:username" element={<ProfilePage />} />
+
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="for-you" element={<ForYouPage />} />
+            <Route path="following" element={<FollowingPage />} />
+            <Route path="ghost" element={<GhostPostsPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="activity" element={<ActivityPage />} />
+            <Route
+              path="profile/:username/insights"
+              element={<InsightsPage />}
+            />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="saved" element={<SavedPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
