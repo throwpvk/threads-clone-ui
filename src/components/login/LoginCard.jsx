@@ -91,7 +91,7 @@ export default function LoginCard({
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               className={clsx(
-                "bg-accent text-muted-foreground h-12",
+                "bg-accent text-muted-foreground h-12 selection:bg-gray-500 selection:text-white",
                 contentBgColor
               )}
               required
@@ -104,7 +104,7 @@ export default function LoginCard({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={clsx(
-                "bg-accent text-muted-foreground h-12",
+                "bg-accent text-muted-foreground h-12 selection:bg-gray-500 selection:text-white",
                 contentBgColor
               )}
               required
