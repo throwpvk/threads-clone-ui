@@ -1,5 +1,6 @@
 import React from "react";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
+import AuthLayout from "@/components/layouts/AuthLayout";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 // Pages
@@ -14,11 +15,18 @@ import InsightsPage from "@/pages/InsightsPage";
 import SettingsPage from "@/pages/SettingsPage";
 import SavedPage from "@/pages/SavedPage";
 import PostDetailPage from "@/pages/PostDetailPage";
+import LoginPage from "@/pages/LoginPage";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Auth Routes */}
+        <Route path="/" element={<AuthLayout />}>
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+
+        {/* Main App Routes */}
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
           <Route path="for-you" element={<ForYouPage />} />
