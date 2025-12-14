@@ -26,3 +26,7 @@ export { default as RepostIcon } from "./RepostIcon";
 export { default as ShareIcon } from "./ShareIcon";
 export { default as ExpandIcon } from "./ExpandIcon";
 export { default as FilterIcon } from "./FilterIcon";
+export { default as FollowProfileIcon } from "./FollowProfileIcon";
+export { default as AddPhotoIcon } from "./AddPhotoIcon";
+export { default as AddBioIcon } from "./AddBioIcon";
+export { default as CreateIcon } from "./CreateIcon";
