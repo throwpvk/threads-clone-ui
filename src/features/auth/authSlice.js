@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { storage } from "@/lib/storage";
 
 const initialState = {
-  user: null,
+  user: storage.getUser() || null,
   token: storage.getToken() || null,
   isAuthenticated: !!storage.getToken(),
   showLoginModal: false,
@@ -18,12 +18,14 @@ const authSlice = createSlice({
       state.token = token;
       state.isAuthenticated = true;
       storage.setToken(token);
+      storage.setUser(user);
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       storage.clearToken();
+      storage.clearUser();
     },
     openLoginModal: (state) => {
       state.showLoginModal = true;

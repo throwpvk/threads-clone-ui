@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { storage } from "@/lib/storage";
+import { logout } from "@/features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
@@ -41,11 +42,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         result = await baseQuery(args, api, extraOptions);
       } else {
         storage.clearToken();
-        // Optional: Dispatch logout action
-        // api.dispatch(logout());
+        api.dispatch(logout());
       }
     } else {
       storage.clearToken();
+      api.dispatch(logout());
     }
   }
   return result;

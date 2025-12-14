@@ -21,14 +21,20 @@ export default function LoginCard({ onClose }) {
     setError("");
 
     try {
-      const result = await login({ identifier, password }).unwrap();
+      // API expects 'login' field
+      const result = await login({ login: identifier, password }).unwrap();
 
       const token = {
         access_token: result.access_token || result.data?.access_token,
         refresh_token: result.refresh_token || result.data?.refresh_token,
       };
 
-      dispatch(setCredentials({ user: result.user || null, token }));
+      if (!token.access_token) {
+        throw new Error("Invalid response from server");
+      }
+
+      const user = result.user || result.data?.user || null;
+      dispatch(setCredentials({ user, token }));
       onClose?.();
     } catch (err) {
       console.error("Failed to login:", err);
