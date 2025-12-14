@@ -22,7 +22,7 @@ export default function PostCard({
   return (
     <article className={`relative ${!isNested ? "border-b" : ""}`}>
       <div
-        className="px-6 py-3"
+        className="md:px-6 md:py-3 p-3"
         style={{
           display: "grid",
           gridTemplateColumns: "36px 1fr",

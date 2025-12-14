@@ -4,7 +4,7 @@ import { FilterIcon } from "@/components/icons";
 
 export default function SearchInput({ value, onChange, onFilterClick }) {
   return (
-    <div className="w-full px-6 pt-6">
+    <div className="w-full md:px-6 px-3 pt-6">
       <div className="flex items-center gap-3 rounded-2xl border pl-6 pr-4 py-1 bg-accent/50">
         <Search className="text-muted-foreground size-4" />
         <input

@@ -1,47 +1,14 @@
 import React from "react";
 import { ChevronDown, Ellipsis } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useLocation } from "react-router-dom";
 
-export default function Header({
+export default function MobileHeader({
   tabs = [{ id: "default", label: "Feed" }],
   activeTab = "default",
   onTabChange,
   hasOptions = true,
 }) {
-  const pageLocation = useLocation();
-  const isMobile = useIsMobile();
-  const isHomePage = pageLocation.pathname === "/";
-
-  // Mobile layout for HomePage - simple 2 tabs
-  if (isMobile && isHomePage) {
-    return (
-      <div className="bg-card border-b-0 border-border">
-        <div className="flex items-center justify-center h-13">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => onTabChange?.(tab.id)}
-              className={`flex-1 relative py-3 text-[15px] font-semibold transition-colors ${
-                activeTab === tab.id
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-              }`}
-            >
-              {tab.label}
-              {activeTab === tab.id && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Desktop layout
   return (
-    <div className="sticky top-0 z-10 bg-background border-0 hidden md:block">
+    <div className="sticky top-0 z-10 bg-background border-0 block md:hidden">
       <div className="flex items-center justify-between pl-4 pr-6 h-15">
         <div className="h-10 w-10"></div>
         <div className="flex-1 flex items-center justify-center gap-12">

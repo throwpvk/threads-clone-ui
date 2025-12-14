@@ -18,8 +18,9 @@ export default function ProfileTabs({
   const handleCreatePost = () => {
     console.log("Open create post modal");
   };
+
   return (
-    <Tabs defaultValue="threads" className="flex-1 flex flex-col h-full">
+    <Tabs defaultValue="threads" className="flex flex-col">
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 h-auto">
         <TabsTrigger
           value="threads"
@@ -48,9 +49,12 @@ export default function ProfileTabs({
       </TabsList>
 
       {/* Threads Tab */}
-      <TabsContent value="threads" className="flex-1 overflow-auto m-0">
+      <TabsContent value="threads" className="m-0 min-h-[calc(100vh-351.5px)]">
         {!isFinish ? (
-          <FinishProfile />
+          <>
+            <FinishProfile />
+            <div className="w-200"></div>
+          </>
         ) : (
           <PostsWrapper>
             <div className="divide-y">
@@ -73,7 +77,7 @@ export default function ProfileTabs({
       </TabsContent>
 
       {/* Replies Tab */}
-      <TabsContent value="replies" className="flex-1 overflow-auto m-0">
+      <TabsContent value="replies" className="m-0 min-h-[calc(100vh-351.5px)]">
         <PostsWrapper>
           <div className="divide-y">
             {replyPosts.length > 0 ? (
@@ -93,7 +97,7 @@ export default function ProfileTabs({
       </TabsContent>
 
       {/* Media Tab */}
-      <TabsContent value="media" className="flex-1 overflow-auto m-0">
+      <TabsContent value="media" className="m-0 min-h-[calc(100vh-351.5px)]">
         <PostsWrapper>
           <div className="divide-y">
             {mediaPosts.length > 0 ? (
@@ -113,7 +117,7 @@ export default function ProfileTabs({
       </TabsContent>
 
       {/* Reposts Tab */}
-      <TabsContent value="reposts" className="flex-1 overflow-auto m-0">
+      <TabsContent value="reposts" className="m-0 min-h-[calc(100vh-351.5px)]">
         <PostsWrapper>
           <div className="divide-y">
             {repostPosts.length > 0 ? (

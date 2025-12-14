@@ -39,11 +39,10 @@ export default function ProfileContent({
   return (
     <div
       className={clsx(
-        "flex flex-col h-full overflow-hidden border border-border border-b-0 drop-shadow-xs bg-card rounded-t-3xl",
-        !isMultiColumn && "custom-scrollbar"
+        "flex flex-col border border-border border-b-0 drop-shadow-xs bg-card md:rounded-t-3xl"
       )}
     >
-      <div className="flex flex-col p-6">
+      <div className="flex flex-col md:px-6 px-3 py-6">
         {/* User Info Section */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">

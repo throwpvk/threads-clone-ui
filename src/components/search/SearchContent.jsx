@@ -18,7 +18,7 @@ export default function SearchContent({ onSearch, isMultiColumn = false }) {
   return (
     <div
       className={clsx(
-        "flex flex-col h-full overflow-hidden border border-border border-b-0 drop-shadow-xs mx-2 bg-card rounded-t-3xl",
+        "flex flex-col h-full overflow-hidden border border-border border-b-0 md:drop-shadow-xs md:mx-2 bg-card md:rounded-t-3xl",
         !isMultiColumn && "custom-scrollbar"
       )}
     >
