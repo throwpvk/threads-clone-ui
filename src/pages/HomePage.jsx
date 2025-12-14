@@ -56,11 +56,11 @@ export default function HomePage() {
         onAddColumn={handleAddColumn}
       />
       {!isAuthenticated && (
-        <div className="fixed top-15 z-50 w-80 hidden xl:block md:left-[calc(50%+300px)] lg:left-[calc(50%+348px)]">
+        <div className="fixed top-15 z-50 w-90 hidden xl:block md:left-[calc(50%+290px)] lg:left-[calc(50%+338px)]">
           <LoginCard
             title="Log in or sign up for Threads"
             disc="See what people are talking about and join the conversation."
-            className="p-5!"
+            className="py-5! px-2!"
             titleClassName="text-2xl!"
             descClassName="text-base!"
             shadow={false}
