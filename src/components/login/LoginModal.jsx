@@ -35,7 +35,7 @@ export default function LoginModal({ isOpen, onClose, username = "pvkhai" }) {
         initial={true}
         onClick={handleContentClick}
       >
-        <div className="w-[480px] max-w-[90vw]">
+        <div className="w-100 max-w-[90vw]">
           <LoginCard username={username} onClose={onClose} />
         </div>
       </MotionWrapper>

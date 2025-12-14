@@ -7,8 +7,19 @@ import { setCredentials } from "@/features/auth/authSlice";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import clsx from "clsx";
 
-export default function LoginCard({ onClose }) {
+export default function LoginCard({
+  onClose,
+  title = "Say more with Threads",
+  desc = "Join Threads to share thoughts, find out what's going on, follow your people and more.",
+  className = "",
+  titleClassName = "",
+  descClassName = "",
+  shadow = true,
+  bgColor = "",
+  contentBgColor = "",
+}) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -45,15 +56,30 @@ export default function LoginCard({ onClose }) {
   };
 
   return (
-    <Card className="w-full bg-card border-none shadow-xl">
-      <CardContent className="px-10 py-12">
+    <Card
+      className={clsx(
+        "w-full bg-card border! border-border!",
+        bgColor,
+        shadow && "shadow-xl"
+      )}
+    >
+      <CardContent className={clsx("md:px-10 md:py-12 px-4 py-8", className)}>
         <div className="text-center mb-2">
-          <h1 className="text-[28px] font-bold text-foreground mb-4 leading-tight">
-            Say more with Threads
+          <h1
+            className={clsx(
+              "text-[28px] font-bold text-foreground mb-6 leading-tight",
+              titleClassName
+            )}
+          >
+            {title}
           </h1>
-          <p className="text-[15px] text-muted-foreground leading-relaxed">
-            Join Threads to share thoughts, find out what's going on, follow
-            your people and more.
+          <p
+            className={clsx(
+              "text-[15px] text-muted-foreground leading-relaxed",
+              descClassName
+            )}
+          >
+            {desc}
           </p>
         </div>
 
@@ -64,7 +90,10 @@ export default function LoginCard({ onClose }) {
               placeholder="Username, phone or email"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              className="bg-accent text-muted-foreground h-12"
+              className={clsx(
+                "bg-accent text-muted-foreground h-12",
+                contentBgColor
+              )}
               required
             />
           </div>
@@ -74,7 +103,10 @@ export default function LoginCard({ onClose }) {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-accent text-muted-foreground h-12"
+              className={clsx(
+                "bg-accent text-muted-foreground h-12",
+                contentBgColor
+              )}
               required
             />
           </div>

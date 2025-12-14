@@ -2,6 +2,8 @@ import React from "react";
 import { ChevronDown, Ellipsis } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/features/auth/authSlice";
 
 export default function Header({
   tabs = [{ id: "default", label: "Feed" }],
@@ -9,9 +11,13 @@ export default function Header({
   onTabChange,
   hasOptions = true,
 }) {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const pageLocation = useLocation();
   const isMobile = useIsMobile();
   const isHomePage = pageLocation.pathname === "/";
+
+  // Override hasOptions based on authentication
+  const showOptions = hasOptions && isAuthenticated;
 
   // Mobile layout for HomePage - simple 2 tabs
   if (isMobile && isHomePage) {
@@ -63,9 +69,9 @@ export default function Header({
             ))}
           {/* Single tab */}
           {tabs && tabs.length === 1 && (
-            <div className="flex items-center text-sm font-medium text-foreground relative">
+            <div className="flex items-center font-medium text-foreground relative">
               {tabs[0].label}
-              {hasOptions && (
+              {showOptions && (
                 <div className="absolute top-1/2 left-[calc(100%+16px)] -translate-y-1/2 h-6 w-6 rounded-full border border-border-50 shadow-sm flex items-center justify-center">
                   <ChevronDown className="size-4" />
                 </div>
@@ -74,9 +80,11 @@ export default function Header({
           )}
         </div>
         <div className="h-10 w-10 flex items-center justify-center">
-          <div className="h-6 w-6 rounded-full border border-border-50 bg-card shadow-sm flex items-center justify-center">
-            <Ellipsis className="size-4" />
-          </div>
+          {showOptions && (
+            <div className="h-6 w-6 rounded-full border border-border-50 bg-card shadow-sm flex items-center justify-center">
+              <Ellipsis className="size-4" />
+            </div>
+          )}
         </div>
       </div>
     </div>

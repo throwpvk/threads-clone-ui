@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { ColumnsManager } from "@/components/columns";
 import { FeedColumn } from "@/components/feed";
 import { getPostsWithUserInfo } from "@/data/mockData";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/features/auth/authSlice";
+import LoginCard from "@/components/login/LoginCard";
 
 const tabs = [
   { id: "for-you", label: "For you" },
@@ -10,6 +13,7 @@ const tabs = [
 ];
 
 export default function HomePage() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [activeTab, setActiveTab] = useState("for-you");
   const [columns, setColumns] = useState([
     { id: "for-you-main", title: "For you", width: "640px" },
@@ -31,24 +35,40 @@ export default function HomePage() {
   };
 
   return (
-    <ColumnsManager
-      columns={columns.map((col) => ({
-        ...col,
-        content: (
-          <FeedColumn
-            tabs={tabs}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            hasCreatePost={true}
-            onCreatePost={handleCreatePost}
-            posts={posts}
-            showReply={true}
-            enableScroll={columns.length > 1}
+    <>
+      <ColumnsManager
+        columns={columns.map((col) => ({
+          ...col,
+          content: (
+            <FeedColumn
+              tabs={isAuthenticated ? tabs : [{ id: "home", label: "Home" }]}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              hasCreatePost={isAuthenticated}
+              onCreatePost={handleCreatePost}
+              posts={posts}
+              showReply={true}
+              enableScroll={columns.length > 1}
+            />
+          ),
+        }))}
+        hasAddColumnBtn={isAuthenticated}
+        onAddColumn={handleAddColumn}
+      />
+      {!isAuthenticated && (
+        <div className="fixed top-15 z-50 w-80 hidden xl:block md:left-[calc(50%+300px)] lg:left-[calc(50%+348px)]">
+          <LoginCard
+            title="Log in or sign up for Threads"
+            disc="See what people are talking about and join the conversation."
+            className="p-5!"
+            titleClassName="text-2xl!"
+            descClassName="text-base!"
+            shadow={false}
+            bgColor="bg-accent"
+            contentBgColor="bg-card"
           />
-        ),
-      }))}
-      hasAddColumnBtn={true}
-      onAddColumn={handleAddColumn}
-    />
+        </div>
+      )}
+    </>
   );
 }
