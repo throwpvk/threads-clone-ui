@@ -45,14 +45,15 @@ export default function LoginCard({ onClose }) {
   };
 
   return (
-    <Card className="w-full bg-white dark:bg-neutral-900 border-none shadow-xl">
+    <Card className="w-full bg-card border-none shadow-xl">
       <CardContent className="px-10 py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-[28px] font-bold text-gray-900 dark:text-white mb-4 leading-tight">
-            Login to Threads
+        <div className="text-center mb-2">
+          <h1 className="text-[28px] font-bold text-foreground mb-4 leading-tight">
+            Say more with Threads
           </h1>
-          <p className="text-[15px] text-gray-500 dark:text-gray-400 leading-relaxed">
-            Enter your username, phone, or email and password.
+          <p className="text-[15px] text-muted-foreground leading-relaxed">
+            Join Threads to share thoughts, find out what's going on, follow
+            your people and more.
           </p>
         </div>
 
@@ -63,7 +64,7 @@ export default function LoginCard({ onClose }) {
               placeholder="Username, phone or email"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              className="bg-gray-50 dark:bg-neutral-800 border-gray-200 dark:border-neutral-700 h-12"
+              className="bg-accent text-muted-foreground h-12"
               required
             />
           </div>
@@ -73,7 +74,7 @@ export default function LoginCard({ onClose }) {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-gray-50 dark:bg-neutral-800 border-gray-200 dark:border-neutral-700 h-12"
+              className="bg-accent text-muted-foreground h-12"
               required
             />
           </div>
@@ -84,7 +85,7 @@ export default function LoginCard({ onClose }) {
 
           <Button
             type="submit"
-            className="w-full h-12 text-[15px] font-semibold rounded-[14px]"
+            className="w-full h-12 text-[15px] font-semibold rounded-[14px] cursor-pointer"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -98,7 +99,7 @@ export default function LoginCard({ onClose }) {
         <div className="mt-6 text-center">
           <button
             type="button"
-            className="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
+            className="text-sm text-muted-foreground hover:underline cursor-pointer"
             onClick={() => console.log("Forgot password clicked")}
           >
             Forgot password?
