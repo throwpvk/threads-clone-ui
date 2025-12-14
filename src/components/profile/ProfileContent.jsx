@@ -37,7 +37,7 @@ export default function ProfileContent({
         !isMultiColumn && "custom-scrollbar"
       )}
     >
-      <div className="flex flex-col p-6 border-b">
+      <div className="flex flex-col p-6">
         {/* User Info Section */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
