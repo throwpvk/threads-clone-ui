@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ColumnsManager } from "@/components/columns";
 import { FeedColumn } from "@/components/feed";
-import { getPostsWithUserInfo } from "@/data/mockData";
+import { useGetFeedQuery } from "@/services/api/postsApi";
 
 const tabs = [{ id: "activity", label: "Activity" }];
 
@@ -10,8 +10,46 @@ export default function ActivityPage() {
   const [columns, setColumns] = useState([
     { id: "activity-main", title: "Activity", width: "640px" },
   ]);
+  const [page, setPage] = useState(1);
 
-  const posts = getPostsWithUserInfo();
+  const {
+    data: activityData,
+    isFetching,
+    error,
+  } = useGetFeedQuery({
+    type: "for_you",
+    page,
+    per_page: 15,
+  });
+
+  // Debug logging for Activity
+  useEffect(() => {
+    const likedPosts = (activityData?.data || []).filter(
+      (post) => post.is_liked_by_auth
+    );
+    console.log("[ActivityPage] Debug:", {
+      rawDataCount: activityData?.data?.length || 0,
+      likedPostsCount: likedPosts.length,
+      error,
+      isFetching,
+      sampleLikedPost: likedPosts[0],
+    });
+  }, [activityData, error, isFetching]);
+
+  // Filter posts that are liked by auth user
+  const posts = useMemo(() => {
+    return (activityData?.data || []).filter((post) => post.is_liked_by_auth);
+  }, [activityData]);
+
+  const hasMore = activityData?.pagination
+    ? activityData.pagination.current_page < activityData.pagination.last_page
+    : false;
+
+  const handleLoadMore = useCallback(() => {
+    if (!isFetching && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  }, [isFetching, hasMore]);
 
   const handleAddColumn = () => {
     const newColumn = {
@@ -35,12 +73,16 @@ export default function ActivityPage() {
             tabs={tabs}
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            hasCreatePost={true}
+            hasCreatePost={false}
             onCreatePost={handleCreatePost}
             posts={posts}
             showReply={true}
             enableScroll={columns.length > 1}
             hasOptions={false}
+            onLoadMore={handleLoadMore}
+            hasMore={hasMore}
+            emptyLabel="activity"
+            isSingle={columns.length === 1}
           />
         ),
       }))}

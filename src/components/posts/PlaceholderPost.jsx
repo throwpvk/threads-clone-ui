@@ -4,7 +4,7 @@ import React from "react";
 export default function PlaceholderPost({ label = "posts", columnCount = 1 }) {
   return (
     <div
-      className={clsx("flex items-center justify-center p-10", {
+      className={clsx("flex items-center justify-center p-10 border-0", {
         "min-w-[654px]": columnCount === 1,
         "min-w-[514px] max-w-[640px]": columnCount === 2,
         "min-w-[420px]": columnCount === 3,
