@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ColumnsManager } from "@/components/columns";
 import { FeedColumn } from "@/components/feed";
 import { getPostsWithUserInfo } from "@/data/mockData";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";
 import LoginCard from "@/components/login/LoginCard";
+import { useGetFeedQuery } from "@/services/api/postsApi";
 
 const tabs = [
   { id: "for-you", label: "For you" },
@@ -18,8 +19,37 @@ export default function HomePage() {
   const [columns, setColumns] = useState([
     { id: "for-you-main", title: "For you", width: "640px" },
   ]);
+  const [page, setPage] = useState(1);
 
-  const posts = getPostsWithUserInfo();
+  const { data: feedData, isFetching } = useGetFeedQuery(
+    {
+      type: activeTab === "for-you" ? "for_you" : "following",
+      page,
+      per_page: 15,
+    },
+    {
+      skip: activeTab !== "for-you" && activeTab !== "following",
+    }
+  );
+
+  useEffect(() => {
+    setPage(1);
+  }, [activeTab]);
+
+  const posts =
+    activeTab === "for-you" || activeTab === "following"
+      ? feedData?.data || []
+      : getPostsWithUserInfo();
+
+  const hasMore = feedData?.pagination
+    ? feedData.pagination.current_page < feedData.pagination.last_page
+    : false;
+
+  const handleLoadMore = () => {
+    if (!isFetching && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  };
 
   const handleAddColumn = () => {
     const newColumn = {
@@ -49,6 +79,8 @@ export default function HomePage() {
               posts={posts}
               showReply={true}
               enableScroll={columns.length > 1}
+              onLoadMore={handleLoadMore}
+              hasMore={hasMore}
             />
           ),
         }))}

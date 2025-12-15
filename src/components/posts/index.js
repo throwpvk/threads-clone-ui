@@ -10,5 +10,6 @@ export { default as PostReply } from "./PostReply";
 export { default as PostQuoted } from "./PostQuoted";
 export { default as AvatarConnectingLine } from "./AvatarConnectingLine";
 export { default as ActionButton } from "./ActionButton";
+export { default as PlaceholderPost } from "./PlaceholderPost";
 
 export * from "./media";

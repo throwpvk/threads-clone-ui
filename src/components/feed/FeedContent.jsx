@@ -1,7 +1,13 @@
-import React from "react";
-import { CreatePostInput, PostCard, PostsWrapper } from "@/components/posts";
+import React, { useEffect } from "react";
+import {
+  CreatePostInput,
+  PostCard,
+  PostsWrapper,
+  PlaceholderPost,
+} from "@/components/posts";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 export default function FeedContent({
   hasCreatePost = false,
@@ -9,9 +15,22 @@ export default function FeedContent({
   posts = [],
   showReply = true,
   isMultiColumn = false,
+  onLoadMore,
+  hasMore = false,
 }) {
   const pageLocation = useLocation();
   const isActivity = pageLocation.pathname === "/activity";
+  const { ref, inView } = useInView({
+    threshold: 0,
+    rootMargin: "400px",
+  });
+
+  useEffect(() => {
+    if (inView && hasMore && onLoadMore) {
+      onLoadMore();
+    }
+  }, [inView, hasMore, onLoadMore]);
+
   const handleCreatePost = () => {
     if (onCreatePost) {
       onCreatePost();
@@ -33,9 +52,11 @@ export default function FeedContent({
         )}
 
         <div className="divide-y">
+          {posts.length === 0 && <PlaceholderPost />}
           {posts.map((post) => (
             <PostCard key={post.id} post={post} showReply={showReply} />
           ))}
+          {hasMore && <div ref={ref} className="h-4 w-full" />}
         </div>
       </PostsWrapper>
     </div>

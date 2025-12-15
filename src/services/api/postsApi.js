@@ -7,6 +7,20 @@ export const postsApi = apiSlice.injectEndpoints({
         url: "/api/posts/feed",
         params,
       }),
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        const { page, ...rest } = queryArgs;
+        return `${endpointName}(${JSON.stringify(rest)})`;
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.page === 1) {
+          return newItems;
+        }
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.page !== previousArg?.page;
+      },
       providesTags: ["Post"],
     }),
     getPost: builder.query({

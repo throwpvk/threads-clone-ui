@@ -17,6 +17,8 @@ export default function FeedColumn({
   showReply = true,
   renderFilters,
   enableScroll = false,
+  onLoadMore,
+  hasMore,
 }) {
   return (
     <section
@@ -40,6 +42,8 @@ export default function FeedColumn({
         posts={posts}
         showReply={showReply}
         isMultiColumn={isMultiColumn}
+        onLoadMore={onLoadMore}
+        hasMore={hasMore}
       />
     </section>
   );
