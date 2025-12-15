@@ -39,8 +39,6 @@ export default function Header({
   const isSwitchable =
     currentType && SWITCHABLE_COLUMN_TYPES.includes(currentType);
 
-  console.log(isHomePage, isSwitchable, currentType);
-
   // Mobile layout for HomePage - simple 2 tabs
   if (isMobile && isHomePage) {
     return (

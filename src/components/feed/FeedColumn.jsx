@@ -7,7 +7,7 @@ const tabDefault = [{ id: "default", label: "Feed" }];
 
 export default function FeedColumn({
   tabs = tabDefault,
-  isMultiColumn = false,
+  columnCount = 1,
   activeTab = "default",
   onTabChange,
   hasOptions = true,
@@ -23,6 +23,7 @@ export default function FeedColumn({
   currentType,
   columnIndex = 0,
   onRemoveColumn,
+  emptyLabel = "posts",
 }) {
   return (
     <section
@@ -49,9 +50,10 @@ export default function FeedColumn({
         onCreatePost={onCreatePost}
         posts={posts}
         showReply={showReply}
-        isMultiColumn={isMultiColumn}
+        columnCount={columnCount}
         onLoadMore={onLoadMore}
         hasMore={hasMore}
+        emptyLabel={emptyLabel}
       />
     </section>
   );

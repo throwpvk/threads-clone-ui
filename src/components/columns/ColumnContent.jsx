@@ -19,6 +19,7 @@ export default function ColumnContent({
   onChangeType,
   columnIndex = 0,
   onRemoveColumn,
+  columnCount = 1,
 }) {
   const [page, setPage] = useState(1);
   const currentUser = useSelector(selectCurrentUser);
@@ -251,6 +252,7 @@ export default function ColumnContent({
     <FeedColumn
       tabs={[{ id: type, label: config.label }]}
       activeTab={type}
+      columnCount={columnCount}
       onTabChange={() => {}}
       hasCreatePost={type === COLUMN_TYPES.FOR_YOU}
       onCreatePost={handleCreatePost}
@@ -263,6 +265,7 @@ export default function ColumnContent({
       currentType={type}
       columnIndex={columnIndex}
       onRemoveColumn={onRemoveColumn}
+      emptyLabel={config.label.toLowerCase()}
     />
   );
 }

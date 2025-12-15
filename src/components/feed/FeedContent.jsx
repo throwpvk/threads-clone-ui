@@ -17,6 +17,8 @@ export default function FeedContent({
   isMultiColumn = false,
   onLoadMore,
   hasMore = false,
+  emptyLabel = "posts",
+  columnCount = 1,
 }) {
   const pageLocation = useLocation();
   const isActivity = pageLocation.pathname === "/activity";
@@ -52,7 +54,9 @@ export default function FeedContent({
         )}
 
         <div className="divide-y">
-          {posts.length === 0 && <PlaceholderPost />}
+          {posts.length === 0 && (
+            <PlaceholderPost label={emptyLabel} columnCount={columnCount} />
+          )}
           {posts.map((post) => (
             <PostCard key={post.id} post={post} showReply={showReply} />
           ))}

@@ -1,32 +1,20 @@
+import clsx from "clsx";
 import React from "react";
 
-export default function PlaceholderPost() {
+export default function PlaceholderPost({ label = "posts", columnCount = 1 }) {
   return (
-    <article
-      className="relative border-b opacity-0 pointer-events-none select-none"
-      aria-hidden="true"
+    <div
+      className={clsx("flex items-center justify-center p-10", {
+        "min-w-[654px]": columnCount === 1,
+        "min-w-[514px] max-w-[640px]": columnCount === 2,
+        "min-w-[420px]": columnCount === 3,
+        "w-[420px]": columnCount === 4,
+      })}
+      style={{ height: "calc(100vh - 60px)" }}
     >
-      <div
-        className="md:px-6 md:py-3 p-3"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "36px 1fr",
-          columnGap: "12px",
-          rowGap: "0px",
-          gridTemplateAreas: `"avatar header" "avatar content"`,
-        }}
-      >
-        <div style={{ gridArea: "avatar" }} className="w-9 h-9">
-          Avatar
-        </div>
-        <div style={{ gridArea: "header" }} className="h-5 w-40">
-          Placeholder Name
-        </div>
-        <div style={{ gridArea: "content" }} className="mt-1 w-full">
-          Placeholder content to keep the width correct. This text ensures the
-          layout does not collapse when there are no posts.
-        </div>
+      <div className="text-muted-foreground">
+        <p className="text-sm font-medium">No {label} yet</p>
       </div>
-    </article>
+    </div>
   );
 }

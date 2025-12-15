@@ -61,6 +61,7 @@ export default function HomePage() {
               }
               columnIndex={index}
               onRemoveColumn={() => handleRemoveColumn(col.id)}
+              columnCount={columns.length}
             />
           ),
         }))}

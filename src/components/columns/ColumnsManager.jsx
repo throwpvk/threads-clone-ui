@@ -6,7 +6,6 @@ import AddColumnButton from "./AddColumnButton";
 export default function ColumnsManager({
   columns = [],
   hasAddColumnBtn = false,
-  onAddColumn,
   onSelectColumnType,
 }) {
   const isSingleColumn = columns.length === 1;
@@ -40,19 +39,6 @@ export default function ColumnsManager({
       document.body.style.top = "";
     };
   }, [isMultiColumn]);
-
-  const handleAddColumn = () => {
-    onAddColumn?.();
-    // Scroll sang phải sau khi add column
-    setTimeout(() => {
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTo({
-          left: scrollContainerRef.current.scrollWidth,
-          behavior: "smooth",
-        });
-      }
-    }, 100);
-  };
 
   return (
     <div
