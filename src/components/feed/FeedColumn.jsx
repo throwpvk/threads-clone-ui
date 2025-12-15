@@ -19,6 +19,8 @@ export default function FeedColumn({
   enableScroll = false,
   onLoadMore,
   hasMore,
+  onChangeType,
+  currentType,
 }) {
   return (
     <section
@@ -32,6 +34,8 @@ export default function FeedColumn({
         activeTab={activeTab}
         onTabChange={onTabChange}
         hasOptions={hasOptions}
+        onChangeType={onChangeType}
+        currentType={currentType}
       />
 
       {renderFilters && renderFilters}

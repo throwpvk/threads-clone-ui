@@ -7,6 +7,7 @@ export default function ColumnsManager({
   columns = [],
   hasAddColumnBtn = false,
   onAddColumn,
+  onSelectColumnType,
 }) {
   const isSingleColumn = columns.length === 1;
   const isMultiColumn = columns.length >= 2;
@@ -106,10 +107,10 @@ export default function ColumnsManager({
             >
               {isMultiColumn ? (
                 <div className="sticky top-1/2 -translate-y-1/2">
-                  <AddColumnButton handleAddColumn={handleAddColumn} />
+                  <AddColumnButton onSelectColumnType={onSelectColumnType} />
                 </div>
               ) : (
-                <AddColumnButton handleAddColumn={handleAddColumn} />
+                <AddColumnButton onSelectColumnType={onSelectColumnType} />
               )}
             </div>
           )}

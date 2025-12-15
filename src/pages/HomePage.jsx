@@ -1,67 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { ColumnsManager } from "@/components/columns";
-import { FeedColumn } from "@/components/feed";
-import { getPostsWithUserInfo } from "@/data/mockData";
+import React, { useState } from "react";
+import { ColumnsManager, ColumnContent } from "@/components/columns";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";
 import LoginCard from "@/components/login/LoginCard";
-import { useGetFeedQuery } from "@/services/api/postsApi";
-
-const tabs = [
-  { id: "for-you", label: "For you" },
-  { id: "following", label: "Following" },
-  { id: "ghost-posts", label: "Ghost posts" },
-];
+import { COLUMN_TYPES, COLUMN_CONFIG } from "@/constants/columnTypes";
 
 export default function HomePage() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const [activeTab, setActiveTab] = useState("for-you");
   const [columns, setColumns] = useState([
-    { id: "for-you-main", title: "For you", width: "640px" },
-  ]);
-  const [page, setPage] = useState(1);
-
-  const { data: feedData, isFetching } = useGetFeedQuery(
     {
-      type: activeTab === "for-you" ? "for_you" : "following",
-      page,
-      per_page: 15,
+      id: "for-you-main",
+      type: COLUMN_TYPES.FOR_YOU,
+      title: COLUMN_CONFIG[COLUMN_TYPES.FOR_YOU].label,
+      width: "640px",
     },
-    {
-      skip: activeTab !== "for-you" && activeTab !== "following",
-    }
-  );
+  ]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [activeTab]);
-
-  const posts =
-    activeTab === "for-you" || activeTab === "following"
-      ? feedData?.data || []
-      : getPostsWithUserInfo();
-
-  const hasMore = feedData?.pagination
-    ? feedData.pagination.current_page < feedData.pagination.last_page
-    : false;
-
-  const handleLoadMore = () => {
-    if (!isFetching && hasMore) {
-      setPage((prev) => prev + 1);
-    }
-  };
-
-  const handleAddColumn = () => {
+  const handleSelectColumnType = (type) => {
+    const config = COLUMN_CONFIG[type];
     const newColumn = {
-      id: `column-${Date.now()}`,
-      title: `Feed ${columns.length + 1}`,
+      id: `${type}-${Date.now()}`,
+      type,
+      title: config.label,
       width: "520px",
     };
     setColumns([...columns, newColumn]);
   };
 
-  const handleCreatePost = () => {
-    console.log("Open create post modal");
+  const handleChangeColumnType = (columnId, newType) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) =>
+        col.id === columnId
+          ? {
+              ...col,
+              type: newType,
+              title: COLUMN_CONFIG[newType].label,
+            }
+          : col
+      )
+    );
   };
 
   return (
@@ -70,22 +47,17 @@ export default function HomePage() {
         columns={columns.map((col) => ({
           ...col,
           content: (
-            <FeedColumn
-              tabs={isAuthenticated ? tabs : [{ id: "home", label: "Home" }]}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              hasCreatePost={isAuthenticated}
-              onCreatePost={handleCreatePost}
-              posts={posts}
-              showReply={true}
+            <ColumnContent
+              type={col.type}
               enableScroll={columns.length > 1}
-              onLoadMore={handleLoadMore}
-              hasMore={hasMore}
+              onChangeType={(newType) =>
+                handleChangeColumnType(col.id, newType)
+              }
             />
           ),
         }))}
         hasAddColumnBtn={isAuthenticated}
-        onAddColumn={handleAddColumn}
+        onSelectColumnType={handleSelectColumnType}
       />
       {!isAuthenticated && (
         <div className="fixed top-15 z-50 w-90 hidden xl:block md:left-[calc(50%+290px)] lg:left-[calc(50%+338px)]">

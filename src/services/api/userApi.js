@@ -66,6 +66,28 @@ export const userApi = apiSlice.injectEndpoints({
         params,
       }),
     }),
+    getUserFollowings: builder.query({
+      query: ({ id, params }) => ({
+        url: `/api/users/${id}/followings`,
+        params,
+      }),
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        const { params, ...rest } = queryArgs;
+        const { page, ...restParams } = params || {};
+        return `${endpointName}(${JSON.stringify({ ...rest, ...restParams })})`;
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.params?.page === 1) {
+          return newItems;
+        }
+        currentCache.data.push(...newItems.data);
+        currentCache.pagination = newItems.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.params?.page !== previousArg?.params?.page;
+      },
+      providesTags: (result, error, { id }) => [{ type: "User", id }],
+    }),
   }),
 });
 
@@ -78,4 +100,5 @@ export const {
   useBlockUserMutation,
   useUnblockUserMutation,
   useGetFollowSuggestionsQuery,
+  useGetUserFollowingsQuery,
 } = userApi;

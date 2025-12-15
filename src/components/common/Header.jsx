@@ -1,15 +1,29 @@
 import React from "react";
-import { ChevronDown, Ellipsis } from "lucide-react";
+import { ChevronDown, Ellipsis, Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "@/features/auth/authSlice";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu";
+import {
+  COLUMN_TYPES,
+  COLUMN_CONFIG,
+  SWITCHABLE_COLUMN_TYPES,
+} from "@/constants/columnTypes";
 
 export default function Header({
   tabs = [{ id: "default", label: "Feed" }],
   activeTab = "default",
   onTabChange,
   hasOptions = true,
+  onChangeType,
+  currentType,
 }) {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const pageLocation = useLocation();
@@ -18,6 +32,10 @@ export default function Header({
 
   // Override hasOptions based on authentication
   const showOptions = hasOptions && isAuthenticated;
+
+  // Check if current type is switchable (for dropdown menu)
+  const isSwitchable =
+    currentType && SWITCHABLE_COLUMN_TYPES.includes(currentType);
 
   // Mobile layout for HomePage - simple 2 tabs
   if (isMobile && isHomePage) {
@@ -80,10 +98,41 @@ export default function Header({
           )}
         </div>
         <div className="h-10 w-10 flex items-center justify-center">
-          {showOptions && (
-            <div className="h-6 w-6 rounded-full border border-border-50 bg-card shadow-sm flex items-center justify-center">
-              <Ellipsis className="size-4" />
-            </div>
+          {showOptions && isSwitchable && (
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="h-6 w-6 rounded-full border border-border-50 bg-card shadow-sm flex items-center justify-center hover:bg-accent transition-colors"
+                  aria-label="Switch column type"
+                >
+                  <Ellipsis className="size-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="bottom"
+                align="end"
+                className="w-56 p-1 rounded-2xl bg-popover border border-border shadow-lg"
+              >
+                {SWITCHABLE_COLUMN_TYPES.map((type) => {
+                  const config = COLUMN_CONFIG[type];
+                  const isActive = currentType === type;
+                  return (
+                    <DropdownMenuItem
+                      key={type}
+                      onSelect={() => onChangeType?.(type)}
+                      className="flex items-center justify-between cursor-pointer px-3 py-2.5 text-sm rounded-xl hover:bg-accent focus:bg-accent"
+                    >
+                      <span className="font-semibold">{config.label}</span>
+                      {isActive && (
+                        <DropdownMenuShortcut>
+                          <Check className="size-4" />
+                        </DropdownMenuShortcut>
+                      )}
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>
