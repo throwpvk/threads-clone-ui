@@ -41,10 +41,16 @@ export default function HomePage() {
     );
   };
 
+  const handleRemoveColumn = (columnId) => {
+    setColumns((prevColumns) =>
+      prevColumns.filter((col) => col.id !== columnId)
+    );
+  };
+
   return (
     <>
       <ColumnsManager
-        columns={columns.map((col) => ({
+        columns={columns.map((col, index) => ({
           ...col,
           content: (
             <ColumnContent
@@ -53,6 +59,8 @@ export default function HomePage() {
               onChangeType={(newType) =>
                 handleChangeColumnType(col.id, newType)
               }
+              columnIndex={index}
+              onRemoveColumn={() => handleRemoveColumn(col.id)}
             />
           ),
         }))}

@@ -21,6 +21,8 @@ export default function FeedColumn({
   hasMore,
   onChangeType,
   currentType,
+  columnIndex = 0,
+  onRemoveColumn,
 }) {
   return (
     <section
@@ -36,6 +38,8 @@ export default function FeedColumn({
         hasOptions={hasOptions}
         onChangeType={onChangeType}
         currentType={currentType}
+        columnIndex={columnIndex}
+        onRemoveColumn={onRemoveColumn}
       />
 
       {renderFilters && renderFilters}

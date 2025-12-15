@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown, Ellipsis, Check } from "lucide-react";
+import { ChevronDown, Ellipsis, Check, ToggleLeft } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -24,6 +24,8 @@ export default function Header({
   hasOptions = true,
   onChangeType,
   currentType,
+  columnIndex = 0,
+  onRemoveColumn,
 }) {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const pageLocation = useLocation();
@@ -36,6 +38,8 @@ export default function Header({
   // Check if current type is switchable (for dropdown menu)
   const isSwitchable =
     currentType && SWITCHABLE_COLUMN_TYPES.includes(currentType);
+
+  console.log(isHomePage, isSwitchable, currentType);
 
   // Mobile layout for HomePage - simple 2 tabs
   if (isMobile && isHomePage) {
@@ -85,25 +89,57 @@ export default function Header({
                 {tab.label}
               </button>
             ))}
+
           {/* Single tab */}
           {tabs && tabs.length === 1 && (
             <div className="flex items-center font-medium text-foreground relative">
               {tabs[0].label}
-              {showOptions && (
-                <div className="absolute top-1/2 left-[calc(100%+16px)] -translate-y-1/2 h-6 w-6 rounded-full border border-border-50 shadow-sm flex items-center justify-center">
-                  <ChevronDown className="size-4" />
-                </div>
+              {showOptions && isSwitchable && (
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className="absolute top-1/2 left-[calc(100%+16px)] -translate-y-1/2 h-6 w-6 rounded-full border border-border-50 shadow-sm flex items-center justify-center hover:bg-accent transition-colors"
+                      aria-label="Switch column type"
+                    >
+                      <ChevronDown className="size-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side="bottom"
+                    align="center"
+                    className="w-56 p-1 rounded-2xl bg-popover border border-border shadow-lg"
+                  >
+                    {SWITCHABLE_COLUMN_TYPES.map((type) => {
+                      const config = COLUMN_CONFIG[type];
+                      const isActive = currentType === type;
+                      return (
+                        <DropdownMenuItem
+                          key={type}
+                          onSelect={() => onChangeType?.(type)}
+                          className="flex items-center justify-between cursor-pointer px-3 py-2.5 text-sm rounded-xl hover:bg-accent focus:bg-accent"
+                        >
+                          <span className="font-semibold">{config.label}</span>
+                          {isActive && (
+                            <DropdownMenuShortcut>
+                              <Check className="size-4" />
+                            </DropdownMenuShortcut>
+                          )}
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
           )}
         </div>
         <div className="h-10 w-10 flex items-center justify-center">
-          {showOptions && isSwitchable && (
+          {showOptions && columnIndex > 0 && (
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <button
                   className="h-6 w-6 rounded-full border border-border-50 bg-card shadow-sm flex items-center justify-center hover:bg-accent transition-colors"
-                  aria-label="Switch column type"
+                  aria-label="Column options"
                 >
                   <Ellipsis className="size-4" />
                 </button>
@@ -113,24 +149,23 @@ export default function Header({
                 align="end"
                 className="w-56 p-1 rounded-2xl bg-popover border border-border shadow-lg"
               >
-                {SWITCHABLE_COLUMN_TYPES.map((type) => {
-                  const config = COLUMN_CONFIG[type];
-                  const isActive = currentType === type;
-                  return (
-                    <DropdownMenuItem
-                      key={type}
-                      onSelect={() => onChangeType?.(type)}
-                      className="flex items-center justify-between cursor-pointer px-3 py-2.5 text-sm rounded-xl hover:bg-accent focus:bg-accent"
-                    >
-                      <span className="font-semibold">{config.label}</span>
-                      {isActive && (
-                        <DropdownMenuShortcut>
-                          <Check className="size-4" />
-                        </DropdownMenuShortcut>
-                      )}
-                    </DropdownMenuItem>
-                  );
-                })}
+                <DropdownMenuItem
+                  onSelect={() => console.log("Toggle auto update")}
+                  className="flex items-center justify-between cursor-pointer px-3 py-2.5 text-sm rounded-xl hover:bg-accent focus:bg-accent"
+                >
+                  <span className="font-semibold">Auto Update</span>
+                  <DropdownMenuShortcut>
+                    <ToggleLeft className="size-4" />
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+                {columnIndex > 0 && (
+                  <DropdownMenuItem
+                    onSelect={() => onRemoveColumn?.()}
+                    className="flex items-center justify-between cursor-pointer px-3 py-2.5 text-sm rounded-xl hover:bg-accent focus:bg-accent text-destructive"
+                  >
+                    <span className="font-semibold">Remove Column</span>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           )}

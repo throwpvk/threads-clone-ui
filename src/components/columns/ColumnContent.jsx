@@ -17,6 +17,8 @@ export default function ColumnContent({
   type,
   enableScroll = false,
   onChangeType,
+  columnIndex = 0,
+  onRemoveColumn,
 }) {
   const [page, setPage] = useState(1);
   const currentUser = useSelector(selectCurrentUser);
@@ -259,6 +261,8 @@ export default function ColumnContent({
       hasMore={hasMore}
       onChangeType={onChangeType}
       currentType={type}
+      columnIndex={columnIndex}
+      onRemoveColumn={onRemoveColumn}
     />
   );
 }
